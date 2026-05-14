@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Online</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background:#f5f5f5;
+            margin:0;
+            padding:20px;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .container{
+            display:flex;
+            flex-wrap:wrap;
+            gap:20px;
+            justify-content:center;
+        }
+
+        .card{
+            width:300px;
+            background:white;
+            border-radius:15px;
+            overflow:hidden;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:scale(1.03);
+        }
+
+        .card img{
+            width:100%;
+            height:250px;
+            object-fit:cover;
+        }
+
+        .info{
+            padding:15px;
+        }
+
+        .preco{
+            color:green;
+            font-size:22px;
+            font-weight:bold;
+        }
+
+        .btn{
+            display:block;
+            text-align:center;
+            background:#25D366;
+            color:white;
+            padding:12px;
+            border-radius:8px;
+            text-decoration:none;
+            margin-top:15px;
+            font-weight:bold;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<h1>🛍️ Catálogo de Produtos</h1>
+
+<div class="container">
+
+    {% for produto in produtos %}
+
+    <div class="card">
+
+        <img src="{{ produto.imagem }}">
+
+        <div class="info">
+
+            <h2>{{ produto.nome }}</h2>
+
+            <p>{{ produto.descricao }}</p>
+
+            <p class="preco">{{ produto.preco }}</p>
+
+            <a class="btn"
+               target="_blank"
+               href="https://wa.me/5521999884039?text=Olá,%20tenho%20interesse%20em%20{{ produto.nome }}">
+               Comprar no WhatsApp
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>
