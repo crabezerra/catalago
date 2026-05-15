@@ -292,6 +292,7 @@ header{
 <header>
 <div class="topbar">
     <div class="logo">🛒 Catálogo</div>
+
     <div class="search">
         <input type="text" placeholder="Buscar produtos..." onkeyup="filtrar()" id="busca">
     </div>
@@ -305,16 +306,24 @@ header{
     <button class="cat-btn" onclick="filtrarCategoria('TODOS')">TODOS</button>
 
     {% for c in categorias[:6] %}
-    <button class="cat-btn" onclick="filtrarCategoria('{{ c }}')">{{ c }}</button>
+    <button class="cat-btn" onclick="filtrarCategoria('{{ c }}')">
+        {{ c }}</button>
     {% endfor %}
 
-    <button class="cat-btn" onclick="toggleMenu(this)">MAIS ▾</button>
+    <button class="cat-btn" onclick="toggleMenu(this)">
+        MAIS CATEGORIAS ▾
+    </button>
 
 </div>
 </div>
 
 <!-- DROPDOWN -->
 <div class="dropdown-content" id="dropdown">
+
+    <div class="dropdown-title">
+        TODAS AS CATEGORIAS
+    </div>
+
     {% for c in categorias %}
     <button onclick="filtrarCategoria('{{ c }}'); toggleMenu();">
         {{ c }}
@@ -406,6 +415,15 @@ function toggleMenu(btn){
     let rect = btn.getBoundingClientRect();
     d.style.top = rect.bottom + "px";
     d.style.left = rect.left + "px";
+}
+
+window.onclick = function(e){
+
+    let d = document.getElementById("dropdown");
+
+    if(!e.target.closest('.cat-btn') && !e.target.closest('#dropdown')){
+        if(d) d.style.display = "none";
+    }
 }
 
 /* CARRINHO */
