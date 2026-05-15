@@ -1,46 +1,38 @@
 from flask import Flask, render_template
-import mysql.connector
+import csv
+import os
 
 app = Flask(__name__)
 
-def db():
-    return mysql.connector.connect(
-        host="SERVIDOR",
-        user="root",
-        password="123456",
-        database="sysloja"
-    )
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CSV_PATH = os.path.join(BASE_DIR, "catalogo.csv")
 
 @app.route("/")
 def home():
-    conn = db()
-    cur = conn.cursor(dictionary=True)
-
-    cur.execute("""
-        SELECT 
-            p.CodPro,
-            p.DesPro,
-            p.PcoVen,
-            c.ordem
-        FROM catalogo c
-        JOIN produtos p ON p.CodPro = c.produto_id
-        WHERE c.ativo = 1
-        ORDER BY c.ordem
-    """)
-
-    dados = cur.fetchall()
 
     produtos = []
 
-    for p in dados:
-        produtos.append({
-            "nome": p["DesPro"],
-            "preco": f"R$ {p['PcoVen']:.2f}" if p["PcoVen"] else "R$ 0,00",
-            "descricao": "",
-            "imagem": f"/static/imagens/{p['CodPro']}.jpg"
-        })
+    if not os.path.exists(CSV_PATH):
+        return "catalogo.csv nao encontrado"
+
+    with open(CSV_PATH, newline="", encoding="utf-8-sig") as file:
+
+        reader = csv.DictReader(file, delimiter=';')
+
+        for row in reader:
+
+            if row.get("ativo", "").strip() == "1":
+
+                preco = row["PcoVen"].replace(",", ".")
+
+                produtos.append({
+                    "nome": row["DesPro"],
+                    "preco": f"R$ {float(preco):.2f}".replace(".", ","),
+                    "descricao": "",
+                    "imagem": f"/static/imagens/{row['produto_id']}.jpg"
+                })
 
     return render_template("index.html", produtos=produtos)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

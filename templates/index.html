@@ -1,106 +1,329 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Online</title>
 
-    <style>
-        body{
-            font-family: Arial;
-            background:#f5f5f5;
-            margin:0;
-            padding:20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        h1{
-            text-align:center;
-            margin-bottom:30px;
-        }
+<title>Catálogo Online</title>
 
-        .container{
-            display:flex;
-            flex-wrap:wrap;
-            gap:20px;
-            justify-content:center;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        .card{
-            width:300px;
-            background:white;
-            border-radius:15px;
-            overflow:hidden;
-            box-shadow:0 4px 10px rgba(0,0,0,0.1);
-            transition:0.3s;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-        .card:hover{
-            transform:scale(1.03);
-        }
+<style>
 
-        .card img{
-            width:100%;
-            height:250px;
-            object-fit:cover;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .info{
-            padding:15px;
-        }
+body{
+    font-family:'Montserrat',sans-serif;
+    background:#f3f4f6;
+    color:#111;
+}
 
-        .preco{
-            color:green;
-            font-size:22px;
-            font-weight:bold;
-        }
+header{
+    background:white;
+    padding:18px 30px;
+    border-bottom:1px solid #e5e7eb;
+}
 
-        .btn{
-            display:block;
-            text-align:center;
-            background:#25D366;
-            color:white;
-            padding:12px;
-            border-radius:8px;
-            text-decoration:none;
-            margin-top:15px;
-            font-weight:bold;
-        }
-    </style>
+.topo{
+    max-width:1400px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:800;
+    color:#16a34a;
+}
+
+.busca{
+    flex:1;
+}
+
+.busca input{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    background:#f3f4f6;
+}
+
+.banner{
+    max-width:1400px;
+    margin:30px auto;
+    height:300px;
+    border-radius:24px;
+    overflow:hidden;
+    position:relative;
+    background:url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop') center/cover;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.4);
+}
+
+.banner-texto{
+    position:absolute;
+    z-index:2;
+    color:white;
+    left:50px;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+.banner-texto h1{
+    font-size:52px;
+    font-weight:800;
+}
+
+.banner-texto p{
+    font-size:20px;
+    margin-top:10px;
+}
+
+.secao{
+    max-width:1400px;
+    margin:auto;
+    padding:20px;
+}
+
+.titulo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.titulo h2{
+    font-size:34px;
+}
+
+.produtos{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:22px;
+}
+
+.card{
+    background:white;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 4px 18px rgba(0,0,0,0.08);
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.imagem{
+    height:260px;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    position:relative;
+}
+
+.imagem img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+}
+
+.selo{
+    position:absolute;
+    top:14px;
+    left:14px;
+    background:#ef4444;
+    color:white;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.info{
+    padding:22px;
+}
+
+.nome{
+    font-size:17px;
+    font-weight:700;
+    min-height:60px;
+}
+
+.preco{
+    color:#16a34a;
+    font-size:38px;
+    font-weight:800;
+    margin:20px 0;
+}
+
+.btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    background:#16a34a;
+    color:white;
+    padding:16px;
+    border-radius:16px;
+    text-decoration:none;
+    font-weight:700;
+}
+
+.whats{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#25D366;
+    color:white;
+    text-decoration:none;
+    padding:18px 24px;
+    border-radius:999px;
+    font-weight:800;
+}
+
+footer{
+    margin-top:60px;
+    background:#111827;
+    color:white;
+    text-align:center;
+    padding:40px;
+}
+
+@media(max-width:768px){
+
+    .topo{
+        flex-direction:column;
+    }
+
+    .banner{
+        height:220px;
+    }
+
+    .banner-texto h1{
+        font-size:34px;
+    }
+
+}
+
+</style>
 
 </head>
+
 <body>
 
-<h1>🛍️ Catálogo de Produtos</h1>
+<header>
 
-<div class="container">
+<div class="topo">
 
-    {% for produto in produtos %}
+<div class="logo">
+🛒 Super Ofertas
+</div>
 
-    <div class="card">
-
-        <img src="{{ produto.imagem }}">
-
-        <div class="info">
-
-            <h2>{{ produto.nome }}</h2>
-
-            <p>{{ produto.descricao }}</p>
-
-            <p class="preco">{{ produto.preco }}</p>
-
-            <a class="btn"
-               target="_blank"
-               href="https://wa.me/5521999884039?text=Olá,%20tenho%20interesse%20em%20{{ produto.nome }}">
-               Comprar no WhatsApp
-            </a>
-
-        </div>
-
-    </div>
-
-    {% endfor %}
+<div class="busca">
+<input type="text" placeholder="Pesquisar produtos">
+</div>
 
 </div>
+
+</header>
+
+<div class="banner">
+
+<div class="overlay"></div>
+
+<div class="banner-texto">
+
+<h1>OFERTAS IMPERDÍVEIS</h1>
+
+<p>Produtos atualizados diariamente</p>
+
+</div>
+
+</div>
+
+<section class="secao">
+
+<div class="titulo">
+
+<h2>Destaques do Dia</h2>
+
+</div>
+
+<div class="produtos">
+
+{% for produto in produtos %}
+
+<div class="card">
+
+<div class="imagem">
+
+<div class="selo">
+OFERTA
+</div>
+
+<img src="{{ produto.imagem }}">
+
+</div>
+
+<div class="info">
+
+<div class="nome">
+{{ produto.nome }}
+</div>
+
+<div class="preco">
+{{ produto.preco }}
+</div>
+
+<a class="btn"
+target="_blank"
+href="https://wa.me/5521999884039?text=Olá,%20tenho%20interesse%20em%20{{ produto.nome }}">
+
+Comprar no WhatsApp
+
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+<a class="whats"
+target="_blank"
+href="https://wa.me/5521999884039">
+
+WhatsApp
+
+</a>
+
+<footer>
+
+<h3>Super Ofertas Online</h3>
+
+<p>Catálogo atualizado automaticamente</p>
+
+</footer>
 
 </body>
 </html>
