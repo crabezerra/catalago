@@ -66,13 +66,11 @@ header{
 .menu-inner{
     width:100%;
     max-width:1200px;
-    position:relative; /* <<< ESSENCIAL PARA ANCORAR O DROPDOWN */
     display:flex;
     justify-content:center;
-    align-items:center;
     gap:10px;
-
     padding:10px 15px;
+    position:relative;
 }
 
 /* BOTÕES */
@@ -80,43 +78,24 @@ header{
     border:none;
     background:#f3f4f6;
     padding:10px 14px;
-    border-radius:8px;
+    border-radius:20px;
     cursor:pointer;
     font-weight:500;
     white-space:nowrap;
-    transition:0.2s;
 }
 
-.cat-btn:hover{
-    background:#16a34a;
-    color:white;
-}
-
-/* ===== DROPDOWN PROFISSIONAL (CORRIGIDO) ===== */
+/* ===== DROPDOWN ===== */
 .dropdown-content{
     display:none;
-    position:fixed; /* <<< chave para não ficar atrás */
-
-    width:300px;
-    max-height:360px;
+    position:fixed;
+    width:280px;
+    max-height:350px;
     overflow:auto;
-
     background:white;
     border-radius:12px;
     box-shadow:0 20px 60px rgba(0,0,0,0.25);
-
     padding:10px;
-
     z-index:999999;
-}
-
-.dropdown-title{
-    font-size:12px;
-    font-weight:700;
-    color:#666;
-    padding:10px;
-    border-bottom:1px solid #eee;
-    margin-bottom:8px;
 }
 
 .dropdown-content button{
@@ -126,7 +105,6 @@ header{
     border:none;
     background:none;
     cursor:pointer;
-    border-radius:8px;
 }
 
 .dropdown-content button:hover{
@@ -172,69 +150,69 @@ header{
 .name{
     font-size:14px;
     font-weight:600;
-    min-height:40px;
 }
 
 .price{
     color:#16a34a;
-    font-size:20px;
+    font-size:18px;
     font-weight:700;
     margin:10px 0;
 }
 
-.btn{
-    display:block;
-    text-align:center;
-    background:#16a34a;
-    color:white;
-    padding:10px;
-    border-radius:8px;
-    text-decoration:none;
-    font-weight:600;
+/* ===== BOTÕES ===== */
+.actions{
+    display:flex;
+    gap:8px;
 }
 
-@media (max-width: 768px){
+.buy, .cart{
+    flex:1;
+    padding:10px;
+    border-radius:8px;
+    font-weight:600;
+    text-align:center;
+    cursor:pointer;
+    border:none;
+}
 
-    /* ===== MENU MOBILE PROFISSIONAL ===== */
-    .menu-inner{
-        flex-wrap: nowrap;          /* <<< não quebra mais */
-        justify-content: flex-start;
-        overflow-x: auto;           /* <<< vira scroll horizontal */
-        -webkit-overflow-scrolling: touch;
-        gap:10px;
-        padding:10px;
-    }
+.buy{
+    background:#16a34a;
+    color:white;
+}
 
-    .cat-btn{
-        font-size:13px;
-        padding:8px 14px;
-        border-radius:20px;
-        flex: 0 0 auto; /* impede esticar */
-    }
+.cart{
+    background:#111;
+    color:white;
+}
 
-    /* destaca "mais" como botão fixo */
-    .menu-inner button:last-child{
-        background:#111;
-        color:white;
-    }
+/* ===== CARRINHO ===== */
+.cart-float{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#111;
+    color:white;
+    padding:14px 18px;
+    border-radius:999px;
+    z-index:9999;
+    cursor:pointer;
+}
 
-    /* ===== PRODUTOS ===== */
-    .grid{
-        grid-template-columns:repeat(2, 1fr);
-        gap:10px;
-    }
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    z-index:99999;
+}
 
-    .img{
-        height:140px;
-    }
-
-    .name{
-        font-size:12px;
-    }
-
-    .price{
-        font-size:16px;
-    }
+.modal-content{
+    background:white;
+    width:90%;
+    max-width:420px;
+    margin:60px auto;
+    padding:20px;
+    border-radius:12px;
 }
 
 </style>
@@ -242,11 +220,9 @@ header{
 
 <body>
 
-<!-- HEADER -->
 <header>
 <div class="topbar">
     <div class="logo">🛒 Catálogo</div>
-
     <div class="search">
         <input type="text" placeholder="Buscar produtos..." onkeyup="filtrar()" id="busca">
     </div>
@@ -260,31 +236,21 @@ header{
     <button class="cat-btn" onclick="filtrarCategoria('TODOS')">TODOS</button>
 
     {% for c in categorias[:6] %}
-    <button class="cat-btn" onclick="filtrarCategoria('{{ c }}')">
-        {{ c }}
-    </button>
+    <button class="cat-btn" onclick="filtrarCategoria('{{ c }}')">{{ c }}</button>
     {% endfor %}
 
-    <button class="cat-btn" onclick="toggleMenu(this)">
-        MAIS CATEGORIAS ▾
-    </button>
+    <button class="cat-btn" onclick="toggleMenu(this)">MAIS ▾</button>
 
 </div>
 </div>
 
-<!-- DROPDOWN FORA DO FLUXO -->
+<!-- DROPDOWN -->
 <div class="dropdown-content" id="dropdown">
-
-    <div class="dropdown-title">
-        TODAS AS CATEGORIAS
-    </div>
-
     {% for c in categorias %}
     <button onclick="filtrarCategoria('{{ c }}'); toggleMenu();">
         {{ c }}
     </button>
     {% endfor %}
-
 </div>
 
 <!-- PRODUTOS -->
@@ -292,7 +258,6 @@ header{
 <div class="grid">
 
 {% for p in produtos %}
-
 <div class="card produto" data-cat="{{ p.categoria }}">
 
     <div class="img">
@@ -303,23 +268,47 @@ header{
         <div class="name">{{ p.nome }}</div>
         <div class="price">{{ p.preco }}</div>
 
-        <a class="btn"
-        target="_blank"
-        href="https://wa.me/5521999884039?text=Tenho%20interesse%20em%20{{ p.nome }}">
-            Comprar
-        </a>
+        <div class="actions">
+
+            <button class="buy"
+            onclick="window.open('https://wa.me/5521999884039?text=Tenho interesse em {{ p.nome }}')">
+                Comprar
+            </button>
+
+            <button class="cart"
+                onclick="addCarrinho('{{ p.nome }}','{{ p.preco }}')">
+                Carrinho
+            </button>
+
+        </div>
     </div>
+</div>
+{% endfor %}
 
 </div>
+</div>
 
-{% endfor %}
+<!-- CARRINHO -->
+<div class="cart-float" onclick="abrirCarrinho()">
+🛒 (<span id="qtdCart">0</span>)
+</div>
+
+<div class="modal" id="modal">
+<div class="modal-content">
+
+<h3>Carrinho</h3>
+<div id="lista"></div>
+
+<br>
+<button onclick="enviarWhats()" class="buy">Enviar WhatsApp</button>
+<button onclick="fecharCarrinho()" class="cart">Fechar</button>
 
 </div>
 </div>
 
 <script>
 
-/* BUSCA */
+/* FILTRO FUNCIONANDO */
 function filtrar(){
     let v = document.getElementById("busca").value.toLowerCase();
     let itens = document.getElementsByClassName("produto");
@@ -330,48 +319,94 @@ function filtrar(){
     }
 }
 
-/* CATEGORIA */
 function filtrarCategoria(cat){
     let itens = document.getElementsByClassName("produto");
 
     for(let i=0;i<itens.length;i++){
         let c = itens[i].dataset.cat;
-
         itens[i].style.display =
         (cat === "TODOS" || c === cat) ? "" : "none";
     }
 }
 
-/* DROPDOWN PROFISSIONAL */
+/* DROPDOWN */
 function toggleMenu(btn){
-
     let d = document.getElementById("dropdown");
-
-    if(d.style.display === "block"){
-        d.style.display = "none";
-        return;
-    }
+    d.style.display = d.style.display === "block" ? "none" : "block";
 
     let rect = btn.getBoundingClientRect();
-
-    d.style.display = "block";
-
-    // agora baseado no container (não na tela inteira)
-    let menuRect = document.querySelector(".menu-inner").getBoundingClientRect();
-
-    d.style.top = (rect.bottom + 10) + "px";
+    d.style.top = rect.bottom + "px";
     d.style.left = rect.left + "px";
 }
 
-/* fechar fora */
-window.onclick = function(e){
+/* CARRINHO */
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
-    let d = document.getElementById("dropdown");
-
-    if(!e.target.closest('.cat-btn') && !e.target.closest('#dropdown')){
-        if(d) d.style.display = "none";
-    }
+function salvar(){
+    localStorage.setItem("carrinho", JSON.stringify(carrinho));
 }
+
+function addCarrinho(nome, preco){
+
+    let item = carrinho.find(p => p.nome === nome);
+
+    if(item) item.qtd++;
+    else carrinho.push({nome, preco, qtd:1});
+
+    salvar();
+    atualizar();
+}
+
+function atualizar(){
+    document.getElementById("qtdCart").innerText =
+    carrinho.reduce((t,i)=>t+i.qtd,0);
+}
+
+function abrirCarrinho(){
+    document.getElementById("modal").style.display="block";
+
+    let box = document.getElementById("lista");
+    box.innerHTML = "";
+
+    carrinho.forEach((i,idx)=>{
+        box.innerHTML += `
+        <div>
+            <b>${i.nome}</b> (${i.qtd})<br><br>
+            <button onclick="add(${idx},-1)">-</button>
+            <button onclick="add(${idx},1)">+</button>
+            <button onclick="del(${idx})">Excluir</button>
+        </div><hr>`;
+    });
+}
+
+function add(i,v){
+    carrinho[i].qtd += v;
+    if(carrinho[i].qtd<=0) carrinho.splice(i,1);
+    salvar();
+    atualizar();
+    abrirCarrinho();
+}
+
+function del(i){
+    carrinho.splice(i,1);
+    salvar();
+    atualizar();
+    abrirCarrinho();
+}
+
+function fecharCarrinho(){
+    document.getElementById("modal").style.display="none";
+}
+
+function enviarWhats(){
+    let msg="🛒 Carrinho:%0A";
+    carrinho.forEach(i=>{
+        msg += `${i.nome} - ${i.qtd}x%0A`;
+    });
+    window.open("https://wa.me/5521999884039?text="+msg);
+}
+
+atualizar();
 
 </script>
 
