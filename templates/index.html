@@ -193,6 +193,50 @@ header{
     font-weight:600;
 }
 
+@media (max-width: 768px){
+
+    /* ===== MENU MOBILE PROFISSIONAL ===== */
+    .menu-inner{
+        flex-wrap: nowrap;          /* <<< não quebra mais */
+        justify-content: flex-start;
+        overflow-x: auto;           /* <<< vira scroll horizontal */
+        -webkit-overflow-scrolling: touch;
+        gap:10px;
+        padding:10px;
+    }
+
+    .cat-btn{
+        font-size:13px;
+        padding:8px 14px;
+        border-radius:20px;
+        flex: 0 0 auto; /* impede esticar */
+    }
+
+    /* destaca "mais" como botão fixo */
+    .menu-inner button:last-child{
+        background:#111;
+        color:white;
+    }
+
+    /* ===== PRODUTOS ===== */
+    .grid{
+        grid-template-columns:repeat(2, 1fr);
+        gap:10px;
+    }
+
+    .img{
+        height:140px;
+    }
+
+    .name{
+        font-size:12px;
+    }
+
+    .price{
+        font-size:16px;
+    }
+}
+
 </style>
 </head>
 
@@ -315,8 +359,8 @@ function toggleMenu(btn){
     // agora baseado no container (não na tela inteira)
     let menuRect = document.querySelector(".menu-inner").getBoundingClientRect();
 
-    d.style.top = (rect.bottom - menuRect.top + 10) + "px";
-    d.style.left = (rect.left - menuRect.left) + "px";
+    d.style.top = (rect.bottom + 10) + "px";
+    d.style.left = rect.left + "px";
 }
 
 /* fechar fora */
