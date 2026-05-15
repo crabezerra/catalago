@@ -4,19 +4,19 @@ import os
 
 app = Flask(__name__)
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CSV_PATH = os.path.join(BASE_DIR, "catalogo.csv")
+CSV_PATH = os.path.join(os.path.dirname(__file__), "catalogo.csv")
+
 
 @app.route("/")
 def home():
 
     produtos = []
+    categorias_set = set()
 
     if not os.path.exists(CSV_PATH):
         return "catalogo.csv nao encontrado"
 
     with open(CSV_PATH, newline="", encoding="utf-8-sig") as file:
-
         reader = csv.DictReader(file, delimiter=';')
 
         for row in reader:
@@ -24,15 +24,25 @@ def home():
             if row.get("ativo", "").strip() == "1":
 
                 preco = row["PcoVen"].replace(",", ".")
+                categoria = row["DesGru"]
 
                 produtos.append({
                     "nome": row["DesPro"],
+                    "categoria": categoria,
                     "preco": f"R$ {float(preco):.2f}".replace(".", ","),
-                    "descricao": "",
                     "imagem": f"/static/imagens/{row['produto_id']}.jpg"
                 })
 
-    return render_template("index.html", produtos=produtos)
+                categorias_set.add(categoria)
+
+    categorias = sorted(list(categorias_set))
+
+    return render_template(
+        "index.html",
+        produtos=produtos,
+        categorias=categorias
+    )
+
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

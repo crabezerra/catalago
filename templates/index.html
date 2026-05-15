@@ -1,39 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo</title>
 
-<title>Catálogo Online</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
+/* ===== BASE ===== */
 body{
-    font-family:'Montserrat',sans-serif;
-    background:#f3f4f6;
+    margin:0;
+    font-family:Inter, sans-serif;
+    background:#f5f6f8;
     color:#111;
 }
 
+/* ===== HEADER ===== */
 header{
     background:white;
     padding:18px 30px;
-    border-bottom:1px solid #e5e7eb;
+    border-bottom:1px solid #eaeaea;
+    position:sticky;
+    top:0;
+    z-index:1000;
 }
 
-.topo{
-    max-width:1400px;
+.topbar{
+    max-width:1200px;
     margin:auto;
     display:flex;
     align-items:center;
@@ -41,289 +36,297 @@ header{
 }
 
 .logo{
-    font-size:28px;
     font-weight:800;
+    font-size:22px;
     color:#16a34a;
 }
 
-.busca{
+.search{
     flex:1;
 }
 
-.busca input{
+.search input{
     width:100%;
-    padding:16px;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #ddd;
+}
+
+/* ===== MENU ===== */
+.menu{
+    background:white;
+    border-bottom:1px solid #eaeaea;
+    position:sticky;
+    top:70px;
+    z-index:999;
+    display:flex;
+    justify-content:center;
+}
+
+.menu-inner{
+    width:100%;
+    max-width:1200px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+
+    padding:10px 15px;
+}
+
+/* BOTÕES */
+.cat-btn{
     border:none;
-    border-radius:14px;
+    background:#f3f4f6;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:500;
+    white-space:nowrap;
+    transition:0.2s;
+}
+
+.cat-btn:hover{
+    background:#16a34a;
+    color:white;
+}
+
+/* ===== DROPDOWN PROFISSIONAL (CORRIGIDO) ===== */
+.dropdown-content{
+    display:none;
+    position:fixed; /* <<< chave para não ficar atrás */
+
+    width:300px;
+    max-height:360px;
+    overflow:auto;
+
+    background:white;
+    border-radius:12px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.25);
+
+    padding:10px;
+
+    z-index:999999;
+}
+
+.dropdown-title{
+    font-size:12px;
+    font-weight:700;
+    color:#666;
+    padding:10px;
+    border-bottom:1px solid #eee;
+    margin-bottom:8px;
+}
+
+.dropdown-content button{
+    width:100%;
+    text-align:left;
+    padding:10px;
+    border:none;
+    background:none;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.dropdown-content button:hover{
     background:#f3f4f6;
 }
 
-.banner{
-    max-width:1400px;
+/* ===== PRODUTOS ===== */
+.container{
+    max-width:1200px;
     margin:30px auto;
-    height:300px;
-    border-radius:24px;
-    overflow:hidden;
-    position:relative;
-    background:url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop') center/cover;
+    padding:0 20px;
 }
 
-.overlay{
-    position:absolute;
-    inset:0;
-    background:rgba(0,0,0,0.4);
-}
-
-.banner-texto{
-    position:absolute;
-    z-index:2;
-    color:white;
-    left:50px;
-    top:50%;
-    transform:translateY(-50%);
-}
-
-.banner-texto h1{
-    font-size:52px;
-    font-weight:800;
-}
-
-.banner-texto p{
-    font-size:20px;
-    margin-top:10px;
-}
-
-.secao{
-    max-width:1400px;
-    margin:auto;
-    padding:20px;
-}
-
-.titulo{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.titulo h2{
-    font-size:34px;
-}
-
-.produtos{
+.grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-    gap:22px;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:20px;
 }
 
 .card{
     background:white;
-    border-radius:24px;
+    border-radius:14px;
     overflow:hidden;
-    box-shadow:0 4px 18px rgba(0,0,0,0.08);
-    transition:0.2s;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
-.card:hover{
-    transform:translateY(-4px);
-}
-
-.imagem{
-    height:260px;
-    background:white;
+.img{
+    height:200px;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:20px;
-    position:relative;
 }
 
-.imagem img{
+.img img{
     max-width:100%;
     max-height:100%;
-    object-fit:contain;
-}
-
-.selo{
-    position:absolute;
-    top:14px;
-    left:14px;
-    background:#ef4444;
-    color:white;
-    padding:8px 12px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:700;
 }
 
 .info{
-    padding:22px;
+    padding:15px;
 }
 
-.nome{
-    font-size:17px;
-    font-weight:700;
-    min-height:60px;
+.name{
+    font-size:14px;
+    font-weight:600;
+    min-height:40px;
 }
 
-.preco{
+.price{
     color:#16a34a;
-    font-size:38px;
-    font-weight:800;
-    margin:20px 0;
+    font-size:20px;
+    font-weight:700;
+    margin:10px 0;
 }
 
 .btn{
     display:block;
-    width:100%;
     text-align:center;
     background:#16a34a;
     color:white;
-    padding:16px;
-    border-radius:16px;
+    padding:10px;
+    border-radius:8px;
     text-decoration:none;
-    font-weight:700;
-}
-
-.whats{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    background:#25D366;
-    color:white;
-    text-decoration:none;
-    padding:18px 24px;
-    border-radius:999px;
-    font-weight:800;
-}
-
-footer{
-    margin-top:60px;
-    background:#111827;
-    color:white;
-    text-align:center;
-    padding:40px;
-}
-
-@media(max-width:768px){
-
-    .topo{
-        flex-direction:column;
-    }
-
-    .banner{
-        height:220px;
-    }
-
-    .banner-texto h1{
-        font-size:34px;
-    }
-
+    font-weight:600;
 }
 
 </style>
-
 </head>
 
 <body>
 
+<!-- HEADER -->
 <header>
+<div class="topbar">
+    <div class="logo">🛒 Catálogo</div>
 
-<div class="topo">
-
-<div class="logo">
-🛒 Super Ofertas
+    <div class="search">
+        <input type="text" placeholder="Buscar produtos..." onkeyup="filtrar()" id="busca">
+    </div>
 </div>
-
-<div class="busca">
-<input type="text" placeholder="Pesquisar produtos">
-</div>
-
-</div>
-
 </header>
 
-<div class="banner">
+<!-- MENU -->
+<div class="menu">
+<div class="menu-inner">
 
-<div class="overlay"></div>
+    <button class="cat-btn" onclick="filtrarCategoria('TODOS')">TODOS</button>
 
-<div class="banner-texto">
+    {% for c in categorias[:6] %}
+    <button class="cat-btn" onclick="filtrarCategoria('{{ c }}')">
+        {{ c }}
+    </button>
+    {% endfor %}
 
-<h1>OFERTAS IMPERDÍVEIS</h1>
+    <button class="cat-btn" onclick="toggleMenu(this)">
+        MAIS CATEGORIAS ▾
+    </button>
 
-<p>Produtos atualizados diariamente</p>
+</div>
+</div>
+
+<!-- DROPDOWN FORA DO FLUXO -->
+<div class="dropdown-content" id="dropdown">
+
+    <div class="dropdown-title">
+        TODAS AS CATEGORIAS
+    </div>
+
+    {% for c in categorias %}
+    <button onclick="filtrarCategoria('{{ c }}'); toggleMenu();">
+        {{ c }}
+    </button>
+    {% endfor %}
 
 </div>
 
-</div>
+<!-- PRODUTOS -->
+<div class="container">
+<div class="grid">
 
-<section class="secao">
+{% for p in produtos %}
 
-<div class="titulo">
+<div class="card produto" data-cat="{{ p.categoria }}">
 
-<h2>Destaques do Dia</h2>
+    <div class="img">
+        <img src="{{ p.imagem }}">
+    </div>
 
-</div>
+    <div class="info">
+        <div class="name">{{ p.nome }}</div>
+        <div class="price">{{ p.preco }}</div>
 
-<div class="produtos">
-
-{% for produto in produtos %}
-
-<div class="card">
-
-<div class="imagem">
-
-<div class="selo">
-OFERTA
-</div>
-
-<img src="{{ produto.imagem }}">
-
-</div>
-
-<div class="info">
-
-<div class="nome">
-{{ produto.nome }}
-</div>
-
-<div class="preco">
-{{ produto.preco }}
-</div>
-
-<a class="btn"
-target="_blank"
-href="https://wa.me/5521999884039?text=Olá,%20tenho%20interesse%20em%20{{ produto.nome }}">
-
-Comprar no WhatsApp
-
-</a>
-
-</div>
+        <a class="btn"
+        target="_blank"
+        href="https://wa.me/5521999884039?text=Tenho%20interesse%20em%20{{ p.nome }}">
+            Comprar
+        </a>
+    </div>
 
 </div>
 
 {% endfor %}
 
 </div>
+</div>
 
-</section>
+<script>
 
-<a class="whats"
-target="_blank"
-href="https://wa.me/5521999884039">
+/* BUSCA */
+function filtrar(){
+    let v = document.getElementById("busca").value.toLowerCase();
+    let itens = document.getElementsByClassName("produto");
 
-WhatsApp
+    for(let i=0;i<itens.length;i++){
+        itens[i].style.display =
+        itens[i].innerText.toLowerCase().includes(v) ? "" : "none";
+    }
+}
 
-</a>
+/* CATEGORIA */
+function filtrarCategoria(cat){
+    let itens = document.getElementsByClassName("produto");
 
-<footer>
+    for(let i=0;i<itens.length;i++){
+        let c = itens[i].dataset.cat;
 
-<h3>Super Ofertas Online</h3>
+        itens[i].style.display =
+        (cat === "TODOS" || c === cat) ? "" : "none";
+    }
+}
 
-<p>Catálogo atualizado automaticamente</p>
+/* DROPDOWN PROFISSIONAL */
+function toggleMenu(btn){
 
-</footer>
+    let d = document.getElementById("dropdown");
+
+    if(d.style.display === "block"){
+        d.style.display = "none";
+        return;
+    }
+
+    let rect = btn.getBoundingClientRect();
+
+    d.style.display = "block";
+
+    d.style.top = (rect.bottom + 10) + "px";
+    d.style.left = rect.left + "px";
+}
+
+/* fechar fora */
+window.onclick = function(e){
+
+    let d = document.getElementById("dropdown");
+
+    if(!e.target.closest('.cat-btn') && !e.target.closest('#dropdown')){
+        if(d) d.style.display = "none";
+    }
+}
+
+</script>
 
 </body>
 </html>
