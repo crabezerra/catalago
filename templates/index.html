@@ -89,6 +89,11 @@ header{
     color:white;
 }
 
+.cart-btn{
+    background:#111;
+    color:white;
+}
+
 /* ===== DROPDOWN ===== */
 .dropdown-content{
     display:none;
@@ -234,6 +239,25 @@ header{
     gap:8px;
 }
 
+.actions-bar{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+.actions-bar button{
+    flex:1;
+    height:44px;
+    border-radius:10px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.danger{
+    background:#dc2626;
+    color:white;
+}
+
 .buy, .cart{
     flex:1;
     padding:10px;
@@ -279,9 +303,23 @@ header{
     background:white;
     width:90%;
     max-width:420px;
+    height:80vh;              /* limita altura */
     margin:60px auto;
     padding:20px;
     border-radius:12px;
+    display:flex;
+    flex-direction:column;
+}
+
+.total-box{
+    margin:15px 0;
+    padding:14px;
+    background:#f3f4f6;
+    border-radius:12px;
+    text-align:center;
+    font-size:22px;
+    font-weight:800;
+    color:#111;
 }
 
 </style>
@@ -312,6 +350,11 @@ header{
 
     <button class="cat-btn" onclick="toggleMenu(this)">
         MAIS CATEGORIAS ▾
+    </button>
+
+    <!-- 🔥 CARRINHO -->
+    <button class="cat-btn cart-btn" onclick="abrirCarrinho()">
+        🛒 (<span id="qtdCart">0</span>)
     </button>
 
 </div>
@@ -372,16 +415,33 @@ header{
 </div>
 
 <div class="modal" id="modal">
+
 <div class="modal-content">
 
 <h3>Carrinho</h3>
-<div id="lista"></div>
 
-<br>
-<button onclick="enviarWhats()" class="buy">Enviar WhatsApp</button>
-<button onclick="fecharCarrinho()" class="cart">Fechar</button>
+<div id="lista" style="flex:1; overflow-y:auto;"></div>
+
+<div class="total-box">
+    <div id="total"></div>
+</div>
+
+<div class="actions-bar">
+
+    <button onclick="enviarWhats()" class="buy" id="btnWhats">
+        WhatsApp
+    </button>
+
+    <button onclick="limparCarrinho()" class="cart danger">
+        Limpar
+    </button>
+
+    <button onclick="fecharCarrinho()" class="cart">
+        Fechar
+    </button>
 
 </div>
+
 </div>
 
 <script>
@@ -412,6 +472,8 @@ function toggleMenu(btn){
     let d = document.getElementById("dropdown");
     d.style.display = d.style.display === "block" ? "none" : "block";
 
+    if (!btn) return;
+
     let rect = btn.getBoundingClientRect();
     d.style.top = rect.bottom + "px";
     d.style.left = rect.left + "px";
@@ -433,6 +495,15 @@ function salvar(){
     localStorage.setItem("carrinho", JSON.stringify(carrinho));
 }
 
+function limparCarrinho(){
+    if(confirm("Deseja realmente limpar o carrinho?")){
+        carrinho = [];
+        salvar();
+        atualizar();
+        abrirCarrinho();
+    }
+}
+
 function addCarrinho(nome, preco){
 
     let item = carrinho.find(p => p.nome === nome);
@@ -444,31 +515,84 @@ function addCarrinho(nome, preco){
     atualizar();
 }
 
+function temItensValidos(){
+    return carrinho.some(i => i.qtd > 0);
+}
+
 function atualizar(){
     document.getElementById("qtdCart").innerText =
     carrinho.reduce((t,i)=>t+i.qtd,0);
+
+    let btnWhats = document.getElementById("btnWhats");
+
+    if(btnWhats){
+        btnWhats.style.display = temItensValidos() ? "block" : "none";
+    }
 }
 
 function abrirCarrinho(){
+    document.body.style.overflow = "hidden";
     document.getElementById("modal").style.display="block";
 
     let box = document.getElementById("lista");
     box.innerHTML = "";
 
     carrinho.forEach((i,idx)=>{
+
+        let subtotal = parsePreco(i.preco) * i.qtd;
+
         box.innerHTML += `
-        <div>
-            <b>${i.nome}</b> (${i.qtd})<br><br>
-            <button onclick="add(${idx},-1)">-</button>
-            <button onclick="add(${idx},1)">+</button>
-            <button onclick="del(${idx})">Excluir</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px;">
+            
+            <div style="flex:1;">
+                <b>${i.nome}</b><br>
+                <small>R$ ${parsePreco(i.preco).toFixed(2)}</small><br>
+                <small><b>Subtotal:</b> R$ ${subtotal.toFixed(2)}</small>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px;">
+                <button onclick="add(${idx},-1)">-</button>
+
+                <span style="min-width:20px; text-align:center;">
+                    ${i.qtd}
+                </span>
+
+                <button onclick="add(${idx},1)">+</button>
+            </div>
+
+            <button onclick="del(${idx})">🗑</button>
         </div><hr>`;
     });
+
+    // 🔥 TOTAL FORA DA LISTA (CORRETO)
+    let total = calcularTotal();
+
+    document.getElementById("total").innerHTML =
+        `Total: R$ ${total.toFixed(2)}`;
+
+    // botão WhatsApp
+    document.getElementById("btnWhats").style.display =
+        temItensValidos() ? "block" : "none";
+}
+
+function parsePreco(p){
+    return Number(String(p).replace("R$","").replace(".","").replace(",",".").trim());
+}
+
+function calcularTotal(){
+    return carrinho.reduce((total, item) => {
+        return total + (parsePreco(item.preco) * item.qtd);
+    }, 0);
 }
 
 function add(i,v){
     carrinho[i].qtd += v;
-    if(carrinho[i].qtd<=0) carrinho.splice(i,1);
+
+    // não remove mais o item
+    if(carrinho[i].qtd < 0){
+        carrinho[i].qtd = 0;
+    }
+
     salvar();
     atualizar();
     abrirCarrinho();
@@ -482,15 +606,31 @@ function del(i){
 }
 
 function fecharCarrinho(){
+    document.body.style.overflow = "auto";
     document.getElementById("modal").style.display="none";
 }
 
 function enviarWhats(){
-    let msg="🛒 Carrinho:%0A";
-    carrinho.forEach(i=>{
-        msg += `${i.nome} - ${i.qtd}x%0A`;
+
+    let linhas = [];
+
+    linhas.push("🛒 Carrinho");
+    linhas.push("----------------------");
+
+    carrinho.forEach(i => {
+        if(i.qtd > 0){
+            linhas.push(`${i.nome} | ${i.qtd}x`);
+        }
     });
-    window.open("https://wa.me/5521999884039?text="+msg);
+
+    linhas.push("----------------------");
+    linhas.push(`TOTAL: R$ ${calcularTotal().toFixed(2)}`);
+
+    let msg = linhas.join("\n");
+
+    window.open(
+        "https://wa.me/5521999884039?text=" + encodeURIComponent(msg)
+    );
 }
 
 atualizar();
