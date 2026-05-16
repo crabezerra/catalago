@@ -201,6 +201,11 @@ header{
         padding:10px;
     }
 
+    .modal-content{
+        width:95%;
+        height:72vh;
+    }
+
     .cat-btn{
         font-size:13px;
         padding:8px 14px;
@@ -242,13 +247,15 @@ header{
 .actions-bar{
     display:flex;
     gap:10px;
-    padding:10px;
-    background:white;
-    border-top:1px solid #eee;
 
-    /* 🔥 FIX MOBILE */
-    position:sticky;
-    bottom:0;
+    margin-top:10px;
+
+    padding-top:10px;
+
+    background:white;
+
+    /* 👇 afasta do rodapé do smartphone */
+    margin-bottom:10px;
 }
 
 .actions-bar button{
@@ -309,12 +316,25 @@ header{
     background:white;
     width:90%;
     max-width:420px;
-    height:80vh;
-    margin:60px auto;
-    border-radius:12px;
+
+    /* 👇 sobe o modal */
+    height:75vh;
+
+    /* 👇 distância do topo e bottom */
+    margin:30px auto;
+
+    border-radius:16px;
+
     display:flex;
     flex-direction:column;
+
     overflow:hidden;
+
+    /* 👇 espaço interno seguro */
+    padding:15px;
+
+    /* 👇 evita ficar atrás do rodapé do celular */
+    padding-bottom:calc(20px + env(safe-area-inset-bottom));
 }
 
 .total-box{
@@ -714,16 +734,23 @@ function enviarWhats(){
 
     let linhas = [];
 
-    linhas.push("🛒 Carrinho");
-    linhas.push("----------------------");
+    linhas.push("PEDIDO");
+    linhas.push("======================");
+
+    let contador = 1;
 
     carrinho.forEach(i => {
+
         if(i.qtd > 0){
-            linhas.push(`${i.nome} | ${i.qtd}x`);
+
+            linhas.push(`${contador}. ${i.nome}`);
+            linhas.push(`Quantidade: ${i.qtd}x`);
+            linhas.push("----------------------");
+
+            contador++;
         }
     });
 
-    linhas.push("----------------------");
     linhas.push(`TOTAL: R$ ${calcularTotal().toFixed(2)}`);
 
     let msg = linhas.join("\n");
