@@ -303,12 +303,13 @@ header{
     background:white;
     width:90%;
     max-width:420px;
-    height:80vh;              /* limita altura */
+    height:80vh;
     margin:60px auto;
     padding:20px;
     border-radius:12px;
     display:flex;
     flex-direction:column;
+    overflow:hidden;
 }
 
 .total-box{
@@ -320,6 +321,17 @@ header{
     font-size:22px;
     font-weight:800;
     color:#111;
+}
+
+.footer-cart{
+    flex-shrink:0;
+    padding-top:10px;
+    background:white;
+}
+
+#lista{
+    flex:1;
+    overflow-y:auto;
 }
 
 </style>
@@ -420,9 +432,10 @@ header{
 
 <h3>Carrinho</h3>
 
-<div id="lista" style="flex:1; overflow-y:auto;"></div>
+<div id="lista"></div>
 
 <div class="total-box">
+    <div class="total-box">      
     <div id="total"></div>
 </div>
 
