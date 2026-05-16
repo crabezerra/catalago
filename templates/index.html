@@ -454,6 +454,9 @@ header{
     flex-direction:column;
 
     box-shadow:0 0 30px rgba(0,0,0,0.2);
+
+    /* 🔥 trava scroll da página */
+    overscroll-behavior: contain;
 }
 
 /* MENU ABERTO */
@@ -516,9 +519,16 @@ header{
 /* CATEGORIAS */
 .mobile-categorias{
     flex:1;
+
     overflow-y:auto;
 
-    padding:0 15px 20px;
+    padding:0 15px 80px;
+
+    /* 🔥 impede scroll elástico */
+    overscroll-behavior: contain;
+
+    /* 🔥 scroll suave mobile */
+    -webkit-overflow-scrolling: touch;
 }
 
 .mobile-categorias button{
@@ -536,6 +546,10 @@ header{
     cursor:pointer;
 
     font-size:15px;
+}
+
+.mobile-categorias button:last-child{
+    margin-bottom:40px;
 }
 
 </style>
