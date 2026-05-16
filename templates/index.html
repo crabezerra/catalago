@@ -341,6 +341,36 @@ header{
     -webkit-overflow-scrolling: touch;
 }
 
+/* ÍCONE */
+.search-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f3f4f6;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:20px;
+}
+
+/* BARRA OCULTA */
+.search-bar{
+    display:none;
+    background:white;
+    padding:12px 20px;
+    border-bottom:1px solid #eee;
+}
+
+/* INPUT */
+.search-bar input{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    font-size:16px;
+}
+
 </style>
 </head>
 
@@ -350,11 +380,19 @@ header{
 <div class="topbar">
     <div class="logo">🛒 Catálogo</div>
 
-    <div class="search">
-        <input type="text" placeholder="Buscar produtos..." onkeyup="filtrar()" id="busca">
-    </div>
+    <div class="search-icon" onclick="toggleBusca()">
+    🔍
+</div>
 </div>
 </header>
+    <div class="search-bar" id="searchBar">
+
+        <input
+            type="text"
+            placeholder="Pesquisar produtos..."
+            onkeyup="filtrar()"
+            id="busca">
+    </div>
 
 <!-- MENU -->
 <div class="menu">
@@ -654,6 +692,22 @@ function enviarWhats(){
     window.open(
         "https://wa.me/5521999884039?text=" + encodeURIComponent(msg)
     );
+}
+
+function toggleBusca(){
+
+    let bar = document.getElementById("searchBar");
+
+    if(bar.style.display === "block"){
+        bar.style.display = "none";
+    }else{
+        bar.style.display = "block";
+
+        // foco automático
+        setTimeout(()=>{
+            document.getElementById("busca").focus();
+        },100);
+    }
 }
 
 atualizar();
