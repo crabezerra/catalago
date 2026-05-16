@@ -139,8 +139,11 @@ header{
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-    gap:10px;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(185px,1fr));
+
+    gap:12px;
 }
 
 .card{
@@ -257,25 +260,41 @@ header{
 
     html{
     -webkit-text-size-adjust:100%;
+    }
+
+    .actions button{
+        font-size:12px;
+        padding:8px 4px;
+    }
+
+    .actions{
+        gap:4px;
+    }
+
+    .actions button{
+        font-size:11px;
+        padding:8px 2px;
+    }
 }
-}
+
 
 /* ===== BOTÕES ===== */
 .actions{
     display:flex;
-    gap:6px;
+    gap:8px;
 }
 
 .actions button{
     flex:1;
 
-    min-width:0;
-
     white-space:nowrap;
 
-    overflow:hidden;
+    font-size:12px;
 
-    text-overflow:ellipsis;
+    padding:10px 6px;
+
+    border:none;
+    border-radius:8px;
 }
 
 .actions-bar{
