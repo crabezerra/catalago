@@ -529,6 +529,8 @@ header{
 
     /* 🔥 scroll suave mobile */
     -webkit-overflow-scrolling: touch;
+
+    touch-action:pan-y;
 }
 
 .mobile-categorias button{
@@ -550,6 +552,39 @@ header{
 
 .mobile-categorias button:last-child{
     margin-bottom:40px;
+}
+
+.whatsapp-float{
+    position:fixed;
+
+    bottom:90px;
+    right:20px;
+
+    width:60px;
+    height:60px;
+
+    border-radius:999px;
+
+    background:#25d366;
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+
+    text-decoration:none;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+
+    z-index:99999;
+
+    transition:0.2s;
+}
+
+.whatsapp-float:hover{
+    transform:scale(1.08);
 }
 
 </style>
@@ -708,6 +743,14 @@ header{
 <!--div class="cart-float" onclick="abrirCarrinho()">
 🛒 (<span id="qtdCart">0</span>)
 </div>-->
+
+<!-- WHATSAPP FLUTUANTE -->
+<a
+    href="https://wa.me/5521999884039"
+    class="whatsapp-float"
+    target="_blank">
+    💬
+</a>
 
 <div class="modal" id="modal">
 
@@ -956,17 +999,24 @@ function toggleBusca(){
 }
 
 function abrirMenuMobile(){
+
     document.getElementById("mobileMenu")
     .classList.add("active");
 
+    // trava body REAL no mobile
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.width = "100%";
 }
 
 function fecharMenuMobile(){
+
     document.getElementById("mobileMenu")
     .classList.remove("active");
 
     document.body.style.overflow = "auto";
+    document.body.style.position = "";
+    document.body.style.width = "";
 }
 
 atualizar();
