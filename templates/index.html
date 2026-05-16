@@ -242,7 +242,13 @@ header{
 .actions-bar{
     display:flex;
     gap:10px;
-    margin-top:10px;
+    padding:10px;
+    background:white;
+    border-top:1px solid #eee;
+
+    /* 🔥 FIX MOBILE */
+    position:sticky;
+    bottom:0;
 }
 
 .actions-bar button{
@@ -305,7 +311,6 @@ header{
     max-width:420px;
     height:80vh;
     margin:60px auto;
-    padding:20px;
     border-radius:12px;
     display:flex;
     flex-direction:column;
@@ -332,6 +337,8 @@ header{
 #lista{
     flex:1;
     overflow-y:auto;
+    padding-right:5px;
+    -webkit-overflow-scrolling: touch;
 }
 
 </style>
