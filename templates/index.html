@@ -424,6 +424,120 @@ header{
     padding:0 4px;
 }
 
+/* BOTÃO MENU */
+.menu-mobile-btn{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f3f4f6;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:22px;
+}
+
+/* MENU LATERAL */
+.mobile-menu{
+    position:fixed;
+    top:0;
+    left:-100%;
+    width:85%;
+    max-width:340px;
+    height:100vh;
+    background:white;
+    z-index:999999;
+
+    transition:0.3s;
+
+    display:flex;
+    flex-direction:column;
+
+    box-shadow:0 0 30px rgba(0,0,0,0.2);
+}
+
+/* MENU ABERTO */
+.mobile-menu.active{
+    left:0;
+}
+
+/* TOPO */
+.mobile-menu-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:20px;
+
+    border-bottom:1px solid #eee;
+}
+
+/* TITULO */
+.mobile-menu-title{
+    font-size:22px;
+    font-weight:700;
+}
+
+/* FECHAR */
+.close-menu{
+    border:none;
+    background:none;
+    font-size:24px;
+    cursor:pointer;
+}
+
+/* LINKS */
+.mobile-links{
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.mobile-links button{
+    border:none;
+    background:#f3f4f6;
+    padding:14px;
+    border-radius:10px;
+    text-align:left;
+    font-size:15px;
+    cursor:pointer;
+}
+
+/* DIVISOR */
+.menu-divider{
+    padding:20px 15px 10px;
+    font-size:13px;
+    font-weight:700;
+    color:#16a34a;
+    text-transform:uppercase;
+}
+
+/* CATEGORIAS */
+.mobile-categorias{
+    flex:1;
+    overflow-y:auto;
+
+    padding:0 15px 20px;
+}
+
+.mobile-categorias button{
+    width:100%;
+
+    border:none;
+    background:white;
+
+    padding:14px 10px;
+
+    border-bottom:1px solid #eee;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    font-size:15px;
+}
+
 </style>
 </head>
 
@@ -433,10 +547,17 @@ header{
 <div class="topbar">
     <div class="logo">🛒 Catálogo</div>
 
+    <!-- MENU -->
+    <div class="menu-mobile-btn" onclick="abrirMenuMobile()">
+        ☰
+    </div>
+
+    <!-- BUSCA -->
     <div class="search-icon" onclick="toggleBusca()">
         🔍
     </div>
 
+    <!-- CARRINHO -->
     <div class="cart-header" onclick="abrirCarrinho()">
         🛒
         <span id="qtdCart">0</span>
@@ -451,6 +572,50 @@ header{
             placeholder="Pesquisar produtos..."
             onkeyup="filtrar()"
             id="busca">
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <!-- TOPO -->
+        <div class="mobile-menu-top">
+
+            <div class="mobile-menu-title">
+                Menu
+            </div>
+
+            <button class="close-menu" onclick="fecharMenuMobile()">
+                ✕
+            </button>
+
+        </div>
+
+        <!-- LINKS SUPERIORES -->
+         <div class="mobile-links">
+
+            <button>Fale conosco</button>
+            <button>Favoritos</button>
+            <button>Meus pedidos</button>
+            <button>Cadastro</button>
+
+        </div>
+
+        <!-- DIVISOR -->
+         <div class="menu-divider">
+            Navegue pela loja
+        </div>
+
+        <!-- CATEGORIAS -->
+        <div class="mobile-categorias">
+            <button onclick="filtrarCategoria('TODOS'); fecharMenuMobile();">
+                TODOS
+            </button>
+
+            {% for c in categorias %}
+            <button onclick="filtrarCategoria('{{ c }}'); fecharMenuMobile();">
+                {{ c }}
+            </button>
+            {% endfor %}
+        </div>
     </div>
 
 <!-- MENU -->
@@ -774,6 +939,20 @@ function toggleBusca(){
             document.getElementById("busca").focus();
         },100);
     }
+}
+
+function abrirMenuMobile(){
+    document.getElementById("mobileMenu")
+    .classList.add("active");
+
+    document.body.style.overflow = "hidden";
+}
+
+function fecharMenuMobile(){
+    document.getElementById("mobileMenu")
+    .classList.remove("active");
+
+    document.body.style.overflow = "auto";
 }
 
 atualizar();
