@@ -59,8 +59,6 @@ header{
     position:sticky;
     top:70px;
     z-index:999;
-    display:flex;
-    justify-content:center;
 }
 
 .menu-inner{
@@ -453,8 +451,9 @@ header{
 .search-bar{
     display:none;
     background:white;
-    padding:12px 20px;
-    border-bottom:1px solid #eee;
+    padding:12px 15px;
+    border-top:1px solid #eee;
+
 }
 
 /* INPUT */
@@ -686,7 +685,11 @@ header{
     </div>
 
     <!-- BUSCA -->
-    <div class="search-icon" onclick="toggleBusca()">
+    <div
+        class="search-icon"
+        onclick="toggleBusca()"
+        id="searchBtn">
+
         🔍
     </div>
 
@@ -698,15 +701,7 @@ header{
 
 </div>
 </header>
-    <div class="search-bar" id="searchBar">
-
-        <input
-            type="text"
-            placeholder="Pesquisar produtos..."
-            onkeyup="filtrar()"
-            id="busca">
-    </div>
-
+    
     <div class="mobile-menu" id="mobileMenu">
 
         <!-- TOPO -->
@@ -753,25 +748,34 @@ header{
 
 <!-- MENU -->
 <div class="menu">
-<div class="menu-inner">
+    <div class="menu-inner">
+        <button class="cat-btn" onclick="filtrarCategoria('TODOS')">TODOS</button>
 
-    <button class="cat-btn" onclick="filtrarCategoria('TODOS')">TODOS</button>
+        {% for c in categorias[:6] %}
+        <button class="cat-btn" onclick="filtrarCategoria('{{ c }}')">
+            {{ c }}
+        </button>
 
-    {% for c in categorias[:6] %}
-    <button class="cat-btn" onclick="filtrarCategoria('{{ c }}')">
-        {{ c }}</button>
-    {% endfor %}
-
-    <button class="cat-btn" onclick="toggleMenu(this)">
-        MAIS CATEGORIAS ▾
-    </button>
+        {% endfor %}
+        <button class="cat-btn" onclick="toggleMenu(this)">
+            MAIS CATEGORIAS ▾
+        </button>
+        
 
     <!-- 🔥 CARRINHO -->
     <!-- <button class="cat-btn cart-btn" onclick="abrirCarrinho()">
         🛒 (<span id="qtdCart">0</span>)
     </button> -->   
+    </div>
 
-</div>
+    <div class="search-bar" id="searchBar">
+        <input
+            type="text"
+            placeholder="Pesquisar produtos..."
+            onkeyup="filtrar()"
+            id="busca">
+    </div>
+
 </div>
 
 <!-- DROPDOWN -->
@@ -913,6 +917,24 @@ window.onclick = function(e){
         if(d) d.style.display = "none";
     }
 }
+
+document.addEventListener("click", function(e){
+
+    let busca = document.getElementById("searchBar");
+    let botao = document.getElementById("searchBtn");
+
+    // busca fechada
+    if(busca.style.display !== "block") return;
+
+    // clicou dentro da busca
+    if(busca.contains(e.target)) return;
+
+    // clicou na própria lupa
+    if(botao.contains(e.target)) return;
+
+    // fecha
+    fecharBusca();
+});
 
 /* CARRINHO */
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
@@ -1069,17 +1091,34 @@ function enviarWhats(){
 function toggleBusca(){
 
     let bar = document.getElementById("searchBar");
+    let btn = document.getElementById("searchBtn");
 
     if(bar.style.display === "block"){
-        bar.style.display = "none";
+
+        fecharBusca();
+
     }else{
+
         bar.style.display = "block";
 
-        // foco automático
+        btn.innerHTML = "✕";
+
         setTimeout(()=>{
-            document.getElementById("busca").focus();
+            document
+            .getElementById("busca")
+            .focus();
         },100);
     }
+}
+
+function fecharBusca(){
+
+    let bar = document.getElementById("searchBar");
+    let btn = document.getElementById("searchBtn");
+
+    bar.style.display = "none";
+
+    btn.innerHTML = "🔍";
 }
 
 function abrirMenuMobile(){
