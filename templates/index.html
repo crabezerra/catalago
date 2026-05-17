@@ -9,6 +9,7 @@
 
 <style>
 
+/* ===== CSS ===== */
 /* ===== BASE ===== */
 body{
     margin:0;
@@ -94,6 +95,74 @@ header{
 .cart-btn{
     background:#111;
     color:white;
+}
+
+/* CONTROLE CARRINHO */
+.cart-control{
+    width:100%;
+}
+
+.cart-add{
+    width:100%;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#16a34a;
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+/* QUANTIDADE */
+.qty-box{
+
+    width:100%;
+
+    height:42px;
+
+    border:1px solid #111;
+
+    border-radius:10px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    background:white;
+
+    overflow:hidden;
+}
+
+.qty-box button{
+
+    width:42px;
+    height:42px;
+
+    border:none;
+
+    background:white;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+.qty-number{
+
+    flex:1;
+
+    text-align:center;
+
+    font-weight:700;
 }
 
 /* ===== DROPDOWN ===== */
@@ -738,6 +807,10 @@ header{
                 TODOS
             </button>
 
+            <button onclick="filtrarCategoria('PROMOÇÕES'); fecharMenuMobile();">
+                PROMOÇÕES
+            </button>
+
             {% for c in categorias %}
             <button onclick="filtrarCategoria('{{ c }}'); fecharMenuMobile();">
                 {{ c }}
@@ -750,6 +823,8 @@ header{
 <div class="menu">
     <div class="menu-inner">
         <button class="cat-btn" onclick="filtrarCategoria('TODOS')">TODOS</button>
+
+        <button class="cat-btn" onclick="filtrarCategoria('PROMOÇÕES')">PROMOÇÕES</button>
 
         {% for c in categorias[:6] %}
         <button class="cat-btn" onclick="filtrarCategoria('{{ c }}')">
@@ -807,7 +882,7 @@ header{
         <div class="name">{{ p.nome }}</div>
         <div class="price">{{ p.preco }}</div>
 
-        <div class="actions">
+        <!--<div class="actions">
 
             <button class="buy"
             onclick="window.open('https://wa.me/5521999884039?text=Tenho interesse em {{ p.nome }}')">
@@ -819,7 +894,26 @@ header{
                 Carrinho
             </button>
 
+        </div> -->
+
+        <div class="actions">
+
+            <div
+                class="cart-control"
+                id="cart-{{ loop.index }}"
+
+                data-nome="{{ p.nome }}"
+                data-preco="{{ p.preco }}">
+
+                <button
+                    class="cart-add"
+                    onclick="iniciarCarrinho({{ loop.index }})">
+
+                    Carrinho
+                </button>
+            </div>
         </div>
+
     </div>
 </div>
 {% endfor %}
@@ -944,10 +1038,14 @@ function salvar(){
 }
 
 function limparCarrinho(){
+
     if(confirm("Deseja realmente limpar o carrinho?")){
+
         carrinho = [];
+
         salvar();
         atualizar();
+        atualizarBotoesCards();
         abrirCarrinho();
     }
 }
@@ -961,10 +1059,12 @@ function addCarrinho(nome, preco){
 
     salvar();
     atualizar();
+    atualizarBotoesCards();
+    /*abrirCarrinho();*/
     }
 
 function temItensValidos(){
-    return carrinho.some(i => i.qtd > 0);
+return carrinho.some(item => item.qtd >= 1);
 }
 
 function atualizar(){
@@ -978,49 +1078,113 @@ function atualizar(){
     }
 }
 
-function abrirCarrinho(){
-    document.body.style.overflow = "hidden";
-    document.getElementById("modal").style.display="block";
+function renderModalCarrinho(){
 
     let box = document.getElementById("lista");
+
+    if(!box) return;
+
     box.innerHTML = "";
+
+    // CARRINHO VAZIO
+    if(carrinho.length === 0){
+
+        box.innerHTML = `
+            <div style="
+                text-align:center;
+                padding:40px 20px;
+                color:#666;
+            ">
+                Seu carrinho está vazio
+            </div>
+        `;
+
+        document.getElementById("total").innerHTML =
+            `Total: R$ 0.00`;
+
+        return;
+    }
 
     carrinho.forEach((i,idx)=>{
 
-        let subtotal = parsePreco(i.preco) * i.qtd;
+        let subtotal =
+            parsePreco(i.preco) * i.qtd;
 
         box.innerHTML += `
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px;">
-            
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            margin-bottom:10px;
+        ">
+
             <div style="flex:1;">
+
                 <b>${i.nome}</b><br>
-                <small>R$ ${parsePreco(i.preco).toFixed(2)}</small><br>
-                <small><b>Subtotal:</b> R$ ${subtotal.toFixed(2)}</small>
+
+                <small>
+                    R$ ${parsePreco(i.preco).toFixed(2)}
+                </small><br>
+
+                <small>
+                    <b>Subtotal:</b>
+                    R$ ${subtotal.toFixed(2)}
+                </small>
+
             </div>
 
-            <div style="display:flex; align-items:center; gap:8px;">
-                <button onclick="add(${idx},-1)">-</button>
+            <div style="
+                display:flex;
+                align-items:center;
+                gap:8px;
+            ">
 
-                <span style="min-width:20px; text-align:center;">
+                <button onclick="add(${idx},-1)">
+                    -
+                </button>
+
+                <span style="
+                    min-width:20px;
+                    text-align:center;
+                ">
                     ${i.qtd}
                 </span>
 
-                <button onclick="add(${idx},1)">+</button>
+                <button onclick="add(${idx},1)">
+                    +
+                </button>
+
             </div>
 
-            <button onclick="del(${idx})">🗑</button>
-        </div><hr>`;
+            <button onclick="del(${idx})">
+                🗑
+            </button>
+
+        </div>
+
+        <hr>
+        `;
     });
 
-    // 🔥 TOTAL FORA DA LISTA (CORRETO)
     let total = calcularTotal();
 
     document.getElementById("total").innerHTML =
         `Total: R$ ${total.toFixed(2)}`;
 
-    // botão WhatsApp
     document.getElementById("btnWhats").style.display =
         temItensValidos() ? "block" : "none";
+}
+
+function abrirCarrinho(){
+
+    document.body.style.overflow = "hidden";
+
+    document.getElementById("modal")
+    .style.display = "block";
+
+    renderModalCarrinho();
 }
 
 function parsePreco(p){
@@ -1028,28 +1192,41 @@ function parsePreco(p){
 }
 
 function calcularTotal(){
+
     return carrinho.reduce((total, item) => {
-        return total + (parsePreco(item.preco) * item.qtd);
+
+        if(item.qtd <= 0) return total;
+
+        return total +
+        (parsePreco(item.preco) * item.qtd);
+
     }, 0);
 }
 
 function add(i,v){
+
     carrinho[i].qtd += v;
 
-    // não remove mais o item
+    // NÃO PERMITE NEGATIVO
     if(carrinho[i].qtd < 0){
+
         carrinho[i].qtd = 0;
     }
 
     salvar();
+
     atualizar();
-    abrirCarrinho();
+
+    atualizarBotoesCards();
+
+    renderModalCarrinho();
 }
 
 function del(i){
     carrinho.splice(i,1);
     salvar();
     atualizar();
+    atualizarBotoesCards();
     abrirCarrinho();
 }
 
@@ -1072,20 +1249,35 @@ function enviarWhats(){
         if(i.qtd > 0){
 
             linhas.push(`${contador}. ${i.nome}`);
+
             linhas.push(`Quantidade: ${i.qtd}x`);
+
             linhas.push("----------------------");
 
             contador++;
         }
     });
 
-    linhas.push(`TOTAL: R$ ${calcularTotal().toFixed(2)}`);
+    linhas.push(
+        `TOTAL: R$ ${calcularTotal().toFixed(2)}`
+    );
 
     let msg = linhas.join("\n");
 
+    // ABRE WHATSAPP
     window.open(
-        "https://wa.me/5521999884039?text=" + encodeURIComponent(msg)
+        "https://wa.me/5521999884039?text=" +
+        encodeURIComponent(msg),
+        "_blank"
     );
+
+    // LIMPA CARRINHO
+    carrinho = [];
+
+    salvar();
+    atualizar();
+    atualizarBotoesCards();
+    fecharCarrinho();
 }
 
 function toggleBusca(){
@@ -1141,6 +1333,140 @@ function fecharMenuMobile(){
     document.body.style.position = "";
     document.body.style.width = "";
 }
+
+function iniciarCarrinho(id){
+
+    let box = document.getElementById(`cart-${id}`);
+
+    let nome = box.dataset.nome;
+    let preco = box.dataset.preco;
+
+    addCarrinho(nome, preco);
+
+    renderCarrinhoBotao(id);
+}
+
+function alterarQtd(id, valor){
+
+    let box = document.getElementById(`cart-${id}`);
+
+    let nome = box.dataset.nome;
+
+    let item = carrinho.find(p => p.nome === nome);
+
+    if(!item) return;
+
+    item.qtd += valor;
+
+    if(item.qtd <= 0){
+
+        carrinho = carrinho.filter(p => p.nome !== nome);
+
+        salvar();
+        atualizar();
+
+        resetCarrinhoBotao(id);
+
+        return;
+    }
+
+    salvar();
+    atualizar();
+
+    renderCarrinhoBotao(id);
+}
+
+function renderCarrinhoBotao(id){
+
+    let box = document.getElementById(`cart-${id}`);
+
+    let nome = box.dataset.nome;
+
+    let item = carrinho.find(p => p.nome === nome);
+
+    if(!item){
+
+        resetCarrinhoBotao(id);
+
+        return;
+    }
+
+    box.innerHTML = `
+
+        <div class="qty-box">
+
+            <button onclick="alterarQtd(${id},-1)">
+                −
+            </button>
+
+            <div class="qty-number">
+                ${item.qtd}
+            </div>
+
+            <button onclick="alterarQtd(${id},1)">
+                +
+            </button>
+
+        </div>
+    `;
+}
+
+function atualizarBotoesCards(){
+
+    document
+    .querySelectorAll(".cart-control")
+    .forEach((box,idx)=>{
+
+        let nome = box.dataset.nome;
+
+        let item = carrinho.find(
+            p => p.nome === nome
+        );
+
+        // ITEM COM QUANTIDADE
+        if(item && item.qtd > 0){
+
+            renderCarrinhoBotao(idx + 1);
+
+        }else{
+
+            // VOLTA BOTÃO VERDE
+            resetCarrinhoBotao(idx + 1);
+        }
+    });
+}
+
+function resetCarrinhoBotao(id){
+
+    let box = document.getElementById(`cart-${id}`);
+
+    box.innerHTML = `
+
+        <button
+            class="cart-add"
+            onclick="iniciarCarrinho(${id})">
+
+            Carrinho
+
+        </button>
+    `;
+}
+
+window.addEventListener("load", ()=>{
+
+    document
+    .querySelectorAll(".cart-control")
+    .forEach((box,idx)=>{
+
+        let nome = box.dataset.nome;
+
+        let item = carrinho.find(p => p.nome === nome);
+
+        if(item){
+            renderCarrinhoBotao(idx + 1);
+        }
+    });
+});
 
 atualizar();
 
