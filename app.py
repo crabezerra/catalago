@@ -1,12 +1,53 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 import csv
 import os
 
 app = Flask(__name__)
 
-CSV_PATH = os.path.join(os.path.dirname(__file__), "catalogo.csv")
+CSV_PATH = os.path.join(
+    os.path.dirname(__file__),
+    "catalogo.csv"
+)
 
+# =========================
+# VALIDAR CEP
+# =========================
+@app.route("/validar_cep")
+def validar_cep():
 
+    cep = request.args.get("cep", "")
+
+    # remove caracteres
+    cep = cep.replace("-", "").strip()
+
+    permitido = False
+
+    with open(
+        r"D:\Projetos\Whats\catalago\CEP.txt",
+        encoding="utf-8"
+    ) as f:
+
+        for linha in f:
+
+            prefixo = linha.strip()
+
+            # IGNORA LINHAS VAZIAS
+            if not prefixo:
+                continue
+
+            # VALIDA PREFIXO
+            if cep.startswith(prefixo):
+
+                permitido = True
+                break
+
+    return jsonify({
+        "ok": permitido
+    })
+
+# =========================
+# HOME
+# =========================
 @app.route("/")
 def home():
 
@@ -16,8 +57,16 @@ def home():
     if not os.path.exists(CSV_PATH):
         return "catalogo.csv nao encontrado"
 
-    with open(CSV_PATH, newline="", encoding="utf-8-sig") as file:
-        reader = csv.DictReader(file, delimiter=';')
+    with open(
+        CSV_PATH,
+        newline="",
+        encoding="utf-8-sig"
+    ) as file:
+
+        reader = csv.DictReader(
+            file,
+            delimiter=';'
+        )
 
         for row in reader:
 
@@ -27,10 +76,17 @@ def home():
                 categoria = row["DesGru"]
 
                 produtos.append({
+
                     "nome": row["DesPro"],
+
                     "categoria": categoria,
-                    "preco": f"R$ {float(preco):.2f}".replace(".", ","),
-                    "imagem": f"/static/imagens/{row['produto_id']}.jpg"
+
+                    "preco":
+                    f"R$ {float(preco):.2f}"
+                    .replace(".", ","),
+
+                    "imagem":
+                    f"/static/imagens/{row['produto_id']}.jpg"
                 })
 
                 categorias_set.add(categoria)
@@ -43,6 +99,9 @@ def home():
         categorias=categorias
     )
 
-
+# =========================
+# START
+# =========================
 if __name__ == "__main__":
+
     app.run(debug=True)

@@ -9,191 +9,323 @@
 
 <style>
 
-/* ===== CSS ===== */
-/* ===== BASE ===== */
-body{
+/* CSS COMPLETO AQUI */
+ 
+/* =========================================================
+   BASE
+========================================================= */
+
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    -webkit-text-size-adjust:100%;
+}
+
+body{
     font-family:Inter, sans-serif;
     background:#f5f6f8;
     color:#111;
 }
 
-/* ===== HEADER ===== */
+/* =========================================================
+   HEADER
+========================================================= */
+
 header{
-    background:white;
-    padding:18px 30px;
-    border-bottom:1px solid #eaeaea;
     position:sticky;
     top:0;
     z-index:1000;
+
+    background:#fff;
+    padding:18px 30px;
+
+    border-bottom:1px solid #eaeaea;
 }
 
 .topbar{
     max-width:1200px;
     margin:auto;
+
     display:flex;
     align-items:center;
     gap:20px;
 }
 
 .logo{
-    font-weight:800;
     font-size:22px;
+    font-weight:800;
     color:#16a34a;
 }
 
-.search{
-    flex:1;
-}
+/* =========================================================
+   BOTÕES HEADER
+========================================================= */
 
-.search input{
-    width:100%;
-    padding:14px;
+.search-icon,
+.cart-header,
+.menu-mobile-btn{
+    width:44px;
+    height:44px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
     border-radius:10px;
-    border:1px solid #ddd;
+
+    cursor:pointer;
 }
 
-/* ===== MENU ===== */
+.search-icon,
+.menu-mobile-btn{
+    background:#f3f4f6;
+}
+
+.search-icon{
+    font-size:20px;
+}
+
+.menu-mobile-btn{
+    font-size:22px;
+}
+
+.cart-header{
+    position:relative;
+
+    background:#111;
+    color:#fff;
+
+    font-size:20px;
+
+    margin-left:8px;
+}
+
+/* BOLINHA CARRINHO */
+
+.cart-header span{
+    position:absolute;
+    top:-6px;
+    right:-6px;
+
+    min-width:20px;
+    height:20px;
+    padding:0 4px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:999px;
+
+    background:#16a34a;
+    color:#fff;
+
+    font-size:11px;
+    font-weight:700;
+
+    animation:pop .2s;
+}
+
+@keyframes pop{
+    0%{
+        transform:scale(.7);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+/* =========================================================
+   MENU
+========================================================= */
+
 .menu{
-    background:white;
-    border-bottom:1px solid #eaeaea;
     position:sticky;
     top:70px;
     z-index:999;
+
+    background:#fff;
+
+    border-bottom:1px solid #eaeaea;
 }
 
 .menu-inner{
+    position:relative;
+
     width:100%;
     max-width:1200px;
+
+    margin:auto;
+    padding:10px 15px;
+
     display:flex;
     justify-content:center;
     gap:10px;
-    padding:10px 15px;
-    position:relative;
 }
 
 .menu-inner::-webkit-scrollbar{
     display:none;
 }
 
-/* BOTÕES */
-.cat-btn{
+/* =========================================================
+   BOTÕES
+========================================================= */
+
+.cat-btn,
+.buy,
+.cart,
+.cart-add{
     border:none;
-    background:#f3f4f6;
-    padding:10px 14px;
-    border-radius:20px;
     cursor:pointer;
-    font-weight:500;
+    font-weight:600;
+}
+
+.cat-btn{
+    padding:10px 14px;
+
+    background:#f3f4f6;
+
+    border-radius:20px;
+
     white-space:nowrap;
+
+    font-weight:500;
 }
 
 .cat-btn:hover{
     background:#16a34a;
-    color:white;
+    color:#fff;
 }
 
-.cart-btn{
-    background:#111;
-    color:white;
-}
-
-/* CONTROLE CARRINHO */
-.cart-control{
+.checkout-box input{
     width:100%;
+}
+
+.cart-btn,
+.cart{
+    background:#111;
+    color:#fff;
+}
+
+.buy,
+.cart{
+    flex:1;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    text-align:center;
+}
+
+.buy,
+.cart-add{
+    background:#16a34a;
+    color:#fff;
 }
 
 .cart-add{
     width:100%;
-
     height:42px;
-
-    border:none;
 
     border-radius:10px;
-
-    background:#16a34a;
-
-    color:white;
-
-    font-weight:600;
-
-    cursor:pointer;
 }
 
-/* QUANTIDADE */
-.qty-box{
-
-    width:100%;
-
-    height:42px;
-
-    border:1px solid #111;
-
-    border-radius:10px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    background:white;
-
-    overflow:hidden;
+.danger{
+    background:#dc2626;
+    color:#fff;
 }
 
-.qty-box button{
+/* =========================================================
+   SEARCH
+========================================================= */
 
-    width:42px;
-    height:42px;
-
-    border:none;
-
-    background:white;
-
-    font-size:20px;
-
-    cursor:pointer;
-}
-
-.qty-number{
-
+.search{
     flex:1;
-
-    text-align:center;
-
-    font-weight:700;
 }
 
-/* ===== DROPDOWN ===== */
+.search input,
+.search-bar input,
+.modal-content input{
+    width:100%;
+    height:42px;
+
+    padding:0 14px;
+
+    border:1px solid #ddd;
+    border-radius:10px;
+
+    font-size:14px;
+
+    outline:none;
+}
+
+.search-bar{
+    display:none;
+
+    padding:12px 15px;
+
+    background:#fff;
+
+    border-top:1px solid #eee;
+}
+
+.search-bar input{
+    font-size:16px;
+}
+
+/* =========================================================
+   DROPDOWN
+========================================================= */
+
 .dropdown-content{
     display:none;
+
     position:fixed;
+
     width:280px;
     max-height:350px;
+
     overflow:auto;
-    background:white;
-    border-radius:12px;
-    box-shadow:0 20px 60px rgba(0,0,0,0.25);
+
     padding:10px;
+
+    background:#fff;
+
+    border-radius:12px;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+
     z-index:999999;
 }
 
 .dropdown-title{
+    margin-bottom:8px;
+    padding:10px;
+
+    border-bottom:1px solid #eee;
+
     font-size:12px;
     font-weight:700;
     color:#666;
-    padding:10px;
-    border-bottom:1px solid #eee;
-    margin-bottom:8px;
 }
 
 .dropdown-content button{
     width:100%;
-    text-align:left;
+
     padding:10px;
+
     border:none;
+
     background:none;
+
+    text-align:left;
+
     cursor:pointer;
 }
 
@@ -201,9 +333,13 @@ header{
     background:#f3f4f6;
 }
 
-/* ===== PRODUTOS ===== */
+/* =========================================================
+   PRODUTOS
+========================================================= */
+
 .container{
     max-width:1200px;
+
     margin:30px auto;
     padding:0 20px;
 }
@@ -215,27 +351,35 @@ header{
     repeat(auto-fill,minmax(185px,1fr));
 
     gap:12px;
+
     justify-items:start;
 }
 
 .card{
     width:100%;
     max-width:220px;
-    background:white;
-    border-radius:14px;
-    border:1px solid #eee;
+
     overflow:hidden;
-    box-shadow:0 2px 10px rgba(0,0,0,0.05);
-    transition:0.2s;
+
+    background:#fff;
+
+    border:1px solid #eee;
+    border-radius:14px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+
+    transition:.2s;
 }
 
 .card:hover{
     transform:translateY(-3px);
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
 .img{
     height:200px;
+
     display:flex;
     align-items:center;
     justify-content:center;
@@ -244,6 +388,7 @@ header{
 .img img{
     width:100%;
     height:100%;
+
     object-fit:contain;
 }
 
@@ -252,118 +397,39 @@ header{
 }
 
 .name{
-    font-size:12px;
-    font-weight:600;
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    line-clamp:2;
-
-    -webkit-box-orient:vertical;
+    min-height:34px;
 
     overflow:hidden;
 
-    min-height:34px;
+    display:-webkit-box;
+
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+
+    line-clamp:2;
+
+    font-size:12px;
+    font-weight:600;
 }
 
 .price{
-    color:#16a34a;
-    font-size:16px;
-    font-weight:700;
     margin:10px 0;
 
     overflow:hidden;
+
     text-overflow:ellipsis;
     white-space:nowrap;
+
+    font-size:16px;
+    font-weight:700;
+
+    color:#16a34a;
 }
 
-.btn{
-    display:block;
-    text-align:center;
-    background:#16a34a;
-    color:white;
-    padding:10px;
-    border-radius:8px;
-    text-decoration:none;
-    font-weight:600;
-}
+/* =========================================================
+   AÇÕES
+========================================================= */
 
-@media (max-width: 768px){
-
-    /* ===== MENU MOBILE PROFISSIONAL ===== */
-    .menu-inner{
-        flex-wrap: nowrap;          /* <<< não quebra mais */
-        justify-content: flex-start;
-        overflow-x: auto;           /* <<< vira scroll horizontal */
-        -webkit-overflow-scrolling: touch;
-        gap:10px;
-        padding:10px;
-    }
-
-    .modal-content{
-        width:95%;
-        height:72vh;
-    }
-
-    .cat-btn{
-        font-size:13px;
-        padding:8px 14px;
-        border-radius:20px;
-        flex: 0 0 auto; /* impede esticar */
-    }
-
-    /* destaca "mais" como botão fixo */
-    .menu-inner button:last-child{
-        background:#111;
-        color:white;
-    }
-
-    /* ===== PRODUTOS ===== */
-    .grid{
-        grid-template-columns:repeat(2, 1fr);
-        gap:10px;
-    }
-
-    .card{
-        max-width:none;
-    }
-
-    .img{
-        height:100px;
-    }
-
-    .name{
-        font-size:12px;
-    }
-
-    .price{
-        font-size:16px;
-    }
-
-    .mobile-menu{
-        width:88%;
-    }
-
-    html{
-    -webkit-text-size-adjust:100%;
-    }
-
-    .actions button{
-        font-size:12px;
-        padding:8px 4px;
-    }
-
-    .actions{
-        gap:4px;
-    }
-
-    .actions button{
-        font-size:11px;
-        padding:8px 2px;
-    }
-}
-
-
-/* ===== BOTÕES ===== */
 .actions{
     display:flex;
     gap:6px;
@@ -371,252 +437,495 @@ header{
 
 .actions button{
     flex:1;
-
     min-width:0;
 
-    font-size:12px;
-
     padding:8px 4px;
+
+    border:none;
+    border-radius:8px;
 
     text-align:center;
 
     white-space:nowrap;
 
-    border:none;
-    border-radius:8px;
+    font-size:12px;
 }
 
-.actions-bar{
+/* =========================================================
+   CONTROLE QUANTIDADE
+========================================================= */
+
+.cart-control{
+    width:100%;
+}
+
+.qty-box{
+    width:100%;
+    height:42px;
+
+    overflow:hidden;
+
     display:flex;
-    gap:10px;
+    align-items:center;
+    justify-content:space-between;
 
-    margin-top:10px;
+    background:#fff;
 
-    padding-top:10px;
-
-    background:white;
-
-    /* 👇 afasta do rodapé do smartphone */
-    margin-bottom:10px;
-}
-
-.actions-bar button{
-    flex:1;
-    height:44px;
+    border:1px solid #111;
     border-radius:10px;
-    font-weight:600;
-    cursor:pointer;
 }
 
-.danger{
-    background:#dc2626;
-    color:white;
-}
+.qty-box button{
+    width:42px;
+    height:42px;
 
-.buy, .cart{
-    flex:1;
-    padding:10px;
-    border-radius:8px;
-    font-weight:600;
-    text-align:center;
-    cursor:pointer;
     border:none;
-}
 
-.buy{
-    background:#16a34a;
-    color:white;
-}
+    background:#fff;
 
-.cart{
-    background:#111;
-    color:white;
-}
+    font-size:20px;
 
-/* ===== CARRINHO ===== */
-.cart-float{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:#111;
-    color:white;
-    padding:14px 18px;
-    border-radius:999px;
-    z-index:9999;
     cursor:pointer;
 }
+
+.qty-number{
+    flex:1;
+
+    text-align:center;
+
+    font-weight:700;
+}
+
+/* =========================================================
+   MODAIS MODERNAS
+========================================================= */
 
 .modal{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.5);
+    background:rgba(15,23,42,.55);
+    backdrop-filter:blur(4px);
     z-index:99999;
+    animation:fade .18s ease;
+}
+
+@keyframes fade{
+    from{opacity:0}
+    to{opacity:1}
 }
 
 .modal-content{
-    background:white;
-    width:90%;
-    max-width:420px;
-
-    /* 👇 sobe o modal */
-    height:75vh;
-
-    /* 👇 distância do topo e bottom */
-    margin:30px auto;
-
-    border-radius:16px;
+    position:relative;
+    width:94%;
+    max-width:430px;
+    height:auto;
+    max-height:88vh;
+    margin:25px auto;
 
     display:flex;
     flex-direction:column;
 
+    background:#fff;
+
+    border-radius:24px;
+
     overflow:hidden;
 
-    /* 👇 espaço interno seguro */
-    padding:15px;
+    box-shadow:
+    0 10px 40px rgba(0,0,0,.18);
 
-    /* 👇 evita ficar atrás do rodapé do celular */
-    padding-bottom:calc(20px + env(safe-area-inset-bottom));
+    animation:modalUp .22s ease;
 }
 
-.total-box{
-    margin:15px 0;
-    padding:14px;
-    background:#f3f4f6;
-    border-radius:12px;
-    text-align:center;
-    font-size:22px;
-    font-weight:800;
-    color:#111;
+@keyframes modalUp{
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.98);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
 }
 
-.footer-cart{
-    flex-shrink:0;
-    padding-top:10px;
-    background:white;
+.modal-content h3{
+    padding:22px 22px 16px;
+    margin:0;
+
+    font-size:18px;
+    font-weight:700;
+
+    border-bottom:1px solid #f1f5f9;
 }
 
+.modal-scroll,
 #lista{
     flex:1;
     overflow-y:auto;
-    padding-right:5px;
-    -webkit-overflow-scrolling: touch;
+    padding:18px;
 }
 
-/* ÍCONE */
-.search-icon{
-    width:44px;
-    height:44px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#f3f4f6;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:20px;
-}
+/* ITEM CARRINHO */
 
-/* BARRA OCULTA */
-.search-bar{
-    display:none;
-    background:white;
-    padding:12px 15px;
-    border-top:1px solid #eee;
+.cart-item{
+    background:#fff;
 
-}
+    border:1px solid #e5e7eb;
 
-/* INPUT */
-.search-bar input{
-    width:100%;
+    border-radius:18px;
+
     padding:14px;
-    border-radius:10px;
-    border:1px solid #ddd;
-    font-size:16px;
+
+    margin-bottom:12px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.03);
 }
 
-.cart-header{
-    position:relative;
-    width:44px;
-    height:44px;
+/* HEADER ITEM */
+
+.cart-product{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.cart-product-name{
+    font-size:14px;
+    font-weight:600;
+    line-height:1.4;
+    color:#111827;
+}
+
+.cart-product-price{
+    margin-top:4px;
+
+    font-size:13px;
+    color:#6b7280;
+}
+
+/* CONTROLES */
+
+.cart-actions{
+    margin-top:14px;
+
     display:flex;
     align-items:center;
-    justify-content:center;
-    background:#111;
-    color:white;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:20px;
-    margin-left:8px;
+    justify-content:space-between;
 }
 
-/* BOLINHA */
-.cart-header span{
-    position:absolute;
-    top:-6px;
-    right:-6px;
-    background:#16a34a;
-    color:white;
-    min-width:20px;
-    height:20px;
+.qty-control{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.qty-btn{
+    width:30px;
+    height:30px;
+
+    border:none;
+
     border-radius:999px;
+
+    background:#f3f4f6;
+
+    font-size:16px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.qty-btn:hover{
+    background:#16a34a;
+    color:#fff;
+}
+
+.qty-value{
+    min-width:18px;
+
+    text-align:center;
+
+    font-size:14px;
+    font-weight:700;
+}
+
+.remove-btn{
+    border:none;
+    background:#fee2e2;
+    color:#dc2626;
+
+    width:34px;
+    height:34px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}
+
+/* TOTAL */
+
+.total-box{
+    margin:0 18px 16px;
+
+    padding:16px;
+
+    background:#f8fafc;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:16px;
+
+    text-align:center;
+}
+
+.total-box div{
+    font-size:20px;
+    font-weight:800;
+    color:#111827;
+}
+
+/* ACTIONS */
+
+.actions-bar{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+
+    padding:18px;
+
+    border-top:1px solid #f1f5f9;
+
+    background:#fff;
+}
+
+.actions-bar button{
+    width:100%;
+    height:46px;
+
+    border:none;
+    border-radius:14px;
+
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.buy{
+    background:#16a34a;
+    color:#fff;
+}
+
+.buy:hover{
+    filter:brightness(.95);
+}
+
+.cart{
+    background:#111827;
+    color:#fff;
+}
+
+.danger{
+    background:#ef4444;
+}
+
+/* CHECKOUT */
+
+.checkout-box{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+
+    padding:18px;
+    margin-top:10px;
+
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.checkout-box input{
+    width:100%;
+    height:44px;
+
+    border:1px solid #dbe2ea;
+
+    border-radius:12px;
+
+    padding:0 14px;
+
+    font-size:14px;
+
+    transition:.2s;
+
+    background:#fff;
+}
+
+.checkout-box input:focus{
+    border-color:#16a34a;
+    box-shadow:0 0 0 4px rgba(22,163,74,.08);
+}
+
+/* LABELS */
+
+.checkout-label{
+    font-size:12px;
+    font-weight:600;
+    color:#64748b;
+    margin-bottom:-4px;
+}
+
+/* CHECKBOX MODERNO */
+
+.check-modern{
     display:flex;
     align-items:center;
-    justify-content:center;
+    gap:10px;
+
+    font-size:13px;
+    color:#374151;
+
+    margin-top:4px;
+}
+
+.check-modern input{
+    width:18px;
+    height:18px;
+
+    accent-color:#16a34a;
+}
+
+/* ENDEREÇOS */
+
+.address-card{
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+
+    padding:14px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    background:#fff;
+}
+
+#cep{
+    margin:0 18px 14px;
+}
+
+.address-card:hover{
+    border-color:#16a34a;
+    background:#f0fdf4;
+}
+
+.address-top{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.address-top input{
+    width:18px;
+    height:18px;
+    accent-color:#16a34a;
+    margin-top:2px;
+}
+
+.address-name{
+    font-size:14px;
+    font-weight:600;
+}
+
+.address-sub{
+    margin-top:4px;
+
+    font-size:12px;
+    color:#6b7280;
+}
+
+/* DIVISOR */
+
+.section-divider{
+    margin:4px 18px;
+
     font-size:11px;
     font-weight:700;
-    padding:0 4px;
-    animation: pop 0.2s;
+
+    color:#94a3b8;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
 }
 
-@keyframes pop{
-    0%{transform:scale(0.7);}
-    100%{transform:scale(1);}
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .modal-content{
+        width:100%;
+        max-width:none;
+
+        height:100vh;
+        max-height:100vh;
+
+        margin:0;
+
+        border-radius:24px 24px 0 0;
+
+        position:fixed;
+        bottom:0;
+    }
+
+    .modal-content h3{
+        font-size:17px;
+    }
+
+    .actions-bar{
+        padding-bottom:calc(18px + env(safe-area-inset-bottom));
+    }
 }
 
-/* BOTÃO MENU */
-.menu-mobile-btn{
-    width:44px;
-    height:44px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#f3f4f6;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:22px;
-}
+/* =========================================================
+   MENU MOBILE
+========================================================= */
 
-/* MENU LATERAL */
 .mobile-menu{
     position:fixed;
     top:0;
     left:-100%;
+
     width:85%;
     max-width:340px;
-    height:calc(100vh - env(safe-area-inset-bottom));
-    background:white;
-    z-index:999999;
 
-    transition:0.3s;
+    height:calc(100vh - env(safe-area-inset-bottom));
 
     display:flex;
     flex-direction:column;
 
-    box-shadow:0 0 30px rgba(0,0,0,0.2);
+    background:#fff;
 
-    /* 🔥 trava scroll da página */
-    overscroll-behavior: contain;
+    box-shadow:0 0 30px rgba(0,0,0,.2);
 
-     /* 🔥 espaço inferior */
+    transition:.3s;
+
+    z-index:999999;
+
+    overscroll-behavior:contain;
+
     padding-bottom:90px;
 }
 
-/* MENU ABERTO */
 .mobile-menu.active{
     left:0;
 }
 
-/* TOPO */
 .mobile-menu-top{
     display:flex;
     align-items:center;
@@ -627,48 +936,55 @@ header{
     border-bottom:1px solid #eee;
 }
 
-/* TITULO */
 .mobile-menu-title{
     font-size:22px;
     font-weight:700;
 }
 
-/* FECHAR */
 .close-menu{
     border:none;
+
     background:none;
+
     font-size:24px;
+
     cursor:pointer;
 }
 
-/* LINKS */
 .mobile-links{
-    padding:15px;
     display:flex;
     flex-direction:column;
     gap:10px;
+
+    padding:15px;
 }
 
 .mobile-links button{
-    border:none;
-    background:#f3f4f6;
     padding:14px;
+
+    border:none;
     border-radius:10px;
+
+    background:#f3f4f6;
+
     text-align:left;
+
     font-size:15px;
+
     cursor:pointer;
 }
 
-/* DIVISOR */
 .menu-divider{
     padding:20px 15px 10px;
+
     font-size:13px;
     font-weight:700;
+
     color:#16a34a;
+
     text-transform:uppercase;
 }
 
-/* CATEGORIAS */
 .mobile-categorias{
     flex:1;
 
@@ -676,11 +992,9 @@ header{
 
     padding:0 15px 140px;
 
-    /* 🔥 impede scroll elástico */
-    overscroll-behavior: none;
+    overscroll-behavior:none;
 
-    /* 🔥 scroll suave mobile */
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling:touch;
 
     touch-action:pan-y;
 }
@@ -688,56 +1002,136 @@ header{
 .mobile-categorias button{
     width:100%;
 
-    border:none;
-    background:white;
-
     padding:14px 10px;
 
+    border:none;
     border-bottom:1px solid #eee;
+
+    background:#fff;
 
     text-align:left;
 
-    cursor:pointer;
-
     font-size:15px;
+
+    cursor:pointer;
 }
 
 .mobile-categorias button:last-child{
     margin-bottom:40px;
 }
 
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
 .whatsapp-float{
     position:fixed;
-
-    bottom:90px;
     right:20px;
+    bottom:90px;
 
     width:60px;
     height:60px;
-
-    border-radius:999px;
-
-    background:#25d366;
-    color:white;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
+    background:#25d366;
+    color:#fff;
+
+    border-radius:999px;
+
     font-size:30px;
 
     text-decoration:none;
 
-    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
 
     z-index:99999;
 
-    transition:0.2s;
+    transition:.2s;
 }
 
 .whatsapp-float:hover{
     transform:scale(1.08);
 }
+
+button,
+input{
+    font-family:Inter,sans-serif;
+}
+
+input::placeholder{
+    color:#94a3b8;
+}
+
+button{
+    transition:.2s;
+}
+
+button:active{
+    transform:scale(.98);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width:768px){
+
+    .menu-inner{
+        justify-content:flex-start;
+
+        overflow-x:auto;
+
+        flex-wrap:nowrap;
+
+        padding:10px;
+
+        -webkit-overflow-scrolling:touch;
+    }
+
+    .menu-inner button:last-child{
+        background:#111;
+        color:#fff;
+    }
+
+    .cat-btn{
+        flex:0 0 auto;
+
+        padding:8px 14px;
+
+        font-size:13px;
+    }
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+
+    .card{
+        max-width:none;
+    }
+
+    .img{
+        height:120px;
+    }
+
+    .mobile-menu{
+        width:88%;
+    }
+
+    .actions{
+        gap:4px;
+    }
+
+    .actions button{
+        padding:8px 2px;
+        font-size:11px;
+    }
+}
+
+/* FINAL DO CSS */
 
 </style>
 </head>
@@ -934,6 +1328,118 @@ header{
     💬
 </a>
 
+<div class="modal" id="cepModal">
+
+    <div class="modal-content">
+
+        <h3>Endereço de entrega</h3>
+
+        <!-- ENDEREÇOS SALVOS -->
+        <div class="checkout-box" id="enderecosSalvos"></div>
+
+        <!-- DIVISOR -->
+        <div class="section-divider">
+
+            Informar novo CEP
+        </div>
+
+        <!-- CEP -->
+        <input
+            type="text"
+            id="cep"
+            placeholder="Digite seu CEP">
+
+        <!-- MENSAGEM -->
+        <div
+            id="cepMsg"
+            style="
+                margin-top:12px;
+                color:#dc2626;
+                font-size:14px;
+            ">
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="actions-bar">
+
+            <button
+                class="buy"
+                onclick="validarCEP()">
+
+                Continuar
+
+            </button>
+
+            <button
+                class="cart"
+                onclick="fecharCEP()">
+
+                Voltar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal" id="checkoutModal">
+
+    <div class="modal-content">
+
+        <h3>Finalizar Pedido</h3>
+
+        <div class="modal-scroll">
+            <div class="checkout-box">
+
+                <div class="checkout-label">Nome</div>
+                <input id="nome" placeholder="Seu nome" />
+
+                <div class="checkout-label">Endereço</div>
+                <input id="endereco" placeholder="Rua / Avenida" />
+
+                <div class="checkout-label">Número</div>
+                <input id="numero" placeholder="Número" />
+
+                <div class="checkout-label">Bairro</div>
+                <input id="bairro" placeholder="Bairro" />
+
+                <div class="checkout-label">Cidade</div>
+                <input id="cidade" placeholder="Cidade" />
+
+                <div class="checkout-label">UF</div>
+                <input id="uf" placeholder="UF" />
+
+                <label class="check-modern">
+                    <input type="checkbox" id="salvarEndereco">
+                    Salvar este endereço
+                </label>
+
+                <div class="checkout-label">Complemento</div>
+                <input id="complemento" placeholder="Apartamento, bloco..." />
+
+                <div class="checkout-label">Referência</div>
+                <input id="referencia" placeholder="Ponto de referência" />
+            </div>
+        </div>
+
+        <div class="actions-bar">
+
+            <button class="buy" onclick="enviarPedidoWhats()">
+                Enviar pedido (WhatsApp)
+            </button>
+
+            <button class="cart" onclick="fecharCheckout()">
+                Voltar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 <div class="modal" id="modal">
 
 <div class="modal-content">
@@ -950,16 +1456,16 @@ header{
 <!-- BOTÕES -->
 <div class="actions-bar">
 
-    <button onclick="enviarWhats()" class="buy" id="btnWhats">
-        WhatsApp
+    <button onclick="abrirCEP()" class="buy" id="btnWhats">
+        Finalizar Pedido
     </button>
 
     <button onclick="limparCarrinho()" class="cart danger">
-        Limpar
+        Limpar Carrinho
     </button>
 
     <button onclick="fecharCarrinho()" class="cart">
-        Fechar
+        Continuar Comprando
     </button>
 
 </div>
@@ -1042,11 +1548,12 @@ function limparCarrinho(){
     if(confirm("Deseja realmente limpar o carrinho?")){
 
         carrinho = [];
-
         salvar();
         atualizar();
         atualizarBotoesCards();
+        renderModalCarrinho();
         abrirCarrinho();
+        fecharCarrinho();
     }
 }
 
@@ -1084,26 +1591,49 @@ function renderModalCarrinho(){
 
     if(!box) return;
 
-    box.innerHTML = "";
-
     // CARRINHO VAZIO
     if(carrinho.length === 0){
 
         box.innerHTML = `
+
+        <div class="cart-item" style="
+            text-align:center;
+            padding:40px 20px;
+        ">
+
             <div style="
-                text-align:center;
-                padding:40px 20px;
-                color:#666;
+                font-size:40px;
+                margin-bottom:10px;
+            ">
+                🛒
+            </div>
+
+            <div style="
+                font-size:15px;
+                font-weight:600;
+                color:#111827;
             ">
                 Seu carrinho está vazio
             </div>
+
+            <div style="
+                font-size:13px;
+                color:#6b7280;
+                margin-top:6px;
+            ">
+                Adicione produtos para continuar
+            </div>
+
+        </div>
         `;
 
         document.getElementById("total").innerHTML =
-            `Total: R$ 0.00`;
+            `R$ 0,00`;
 
         return;
     }
+
+    box.innerHTML = "";
 
     carrinho.forEach((i,idx)=>{
 
@@ -1112,66 +1642,72 @@ function renderModalCarrinho(){
 
         box.innerHTML += `
 
-        <div style="
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:10px;
-            margin-bottom:10px;
-        ">
+        <div class="cart-item">
 
-            <div style="flex:1;">
+            <div class="cart-product">
 
-                <b>${i.nome}</b><br>
+                <div>
 
-                <small>
-                    R$ ${parsePreco(i.preco).toFixed(2)}
-                </small><br>
+                    <div class="cart-product-name">
+                        ${i.nome}
+                    </div>
 
-                <small>
-                    <b>Subtotal:</b>
-                    R$ ${subtotal.toFixed(2)}
-                </small>
+                    <div class="cart-product-price">
+                        Unitário: R$ ${parsePreco(i.preco).toFixed(2)}
+                    </div>
 
-            </div>
+                </div>
 
-            <div style="
-                display:flex;
-                align-items:center;
-                gap:8px;
-            ">
-
-                <button onclick="add(${idx},-1)">
-                    -
-                </button>
-
-                <span style="
-                    min-width:20px;
-                    text-align:center;
-                ">
-                    ${i.qtd}
-                </span>
-
-                <button onclick="add(${idx},1)">
-                    +
-                </button>
+                <div class="cart-product-price">
+                    ${moeda(subtotal)}
+                </div>
 
             </div>
 
-            <button onclick="del(${idx})">
-                🗑
-            </button>
+            <div class="cart-actions">
+
+                <div class="qty-control">
+
+                    <button
+                        class="qty-btn"
+                        onclick="add(${idx},-1)">
+
+                        −
+
+                    </button>
+
+                    <div class="qty-value">
+                        ${i.qtd}
+                    </div>
+
+                    <button
+                        class="qty-btn"
+                        onclick="add(${idx},1)">
+
+                        +
+
+                    </button>
+
+                </div>
+
+                <button
+                    class="remove-btn"
+                    onclick="del(${idx})">
+
+                    🗑
+
+                </button>
+
+            </div>
 
         </div>
-
-        <hr>
         `;
     });
 
     let total = calcularTotal();
 
     document.getElementById("total").innerHTML =
-        `Total: R$ ${total.toFixed(2)}`;
+        `${moeda(total)}`;
 
     document.getElementById("btnWhats").style.display =
         temItensValidos() ? "block" : "none";
@@ -1184,7 +1720,11 @@ function abrirCarrinho(){
     document.getElementById("modal")
     .style.display = "block";
 
+    document.getElementById("lista").scrollTop = 0;
+
     renderModalCarrinho();
+
+
 }
 
 function parsePreco(p){
@@ -1235,28 +1775,60 @@ function fecharCarrinho(){
     document.getElementById("modal").style.display="none";
 }
 
-function enviarWhats(){
+function enviarPedidoWhats(){
+
+    let dadosCliente = {
+        nome: document.getElementById("nome").value,
+        endereco: document.getElementById("endereco").value,
+        numero: document.getElementById("numero").value,
+        bairro: document.getElementById("bairro").value,
+        cidade: document.getElementById("cidade").value,
+        uf: document.getElementById("uf").value,
+        complemento: document.getElementById("complemento").value,
+        referencia: document.getElementById("referencia").value
+    };
+
+    localStorage.setItem(
+        "cliente",
+        JSON.stringify(dadosCliente)
+    );
+
+
+    let nome = document.getElementById("nome").value;
+    let endereco = document.getElementById("endereco").value;
+    let numero = document.getElementById("numero").value;
+    let bairro = document.getElementById("bairro").value;
+    let cidade = document.getElementById("cidade").value;
+    let uf = document.getElementById("uf").value;
+    let complemento = document.getElementById("complemento").value;
+    let referencia = document.getElementById("referencia").value;
 
     let linhas = [];
 
-    linhas.push("PEDIDO");
+    linhas.push("🛒 NOVO PEDIDO");
     linhas.push("======================");
 
-    let contador = 1;
+    linhas.push(`Nome: ${nome}`);
+    linhas.push(`Endereço: ${endereco}, ${numero}`);
+    linhas.push(`Bairro: ${bairro}`);
+    linhas.push(`Cidade: ${cidade}`);
+    linhas.push(`UF: ${uf}`);   
+    linhas.push(`Complemento: ${complemento}`);
+    linhas.push(`Referência: ${referencia}`);
 
-    carrinho.forEach(i => {
+    linhas.push("======================");
+
+    carrinho.forEach((i,idx)=>{
 
         if(i.qtd > 0){
 
-            linhas.push(`${contador}. ${i.nome}`);
-
-            linhas.push(`Quantidade: ${i.qtd}x`);
-
-            linhas.push("----------------------");
-
-            contador++;
+            linhas.push(
+                `${idx+1}. ${i.nome} - ${i.qtd}x`
+            );
         }
     });
+
+    linhas.push("======================");
 
     linhas.push(
         `TOTAL: R$ ${calcularTotal().toFixed(2)}`
@@ -1264,20 +1836,41 @@ function enviarWhats(){
 
     let msg = linhas.join("\n");
 
-    // ABRE WHATSAPP
     window.open(
         "https://wa.me/5521999884039?text=" +
         encodeURIComponent(msg),
         "_blank"
     );
 
-    // LIMPA CARRINHO
+    // LIMPA TUDO
     carrinho = [];
-
     salvar();
     atualizar();
     atualizarBotoesCards();
-    fecharCarrinho();
+    salvarEndereco();
+
+    document.getElementById("checkoutModal")
+    .style.display = "none";
+
+    document.body.style.overflow = "auto";
+}
+
+function carregarCliente(){
+
+    let dados = localStorage.getItem("cliente");
+
+    if(!dados) return;
+
+    dados = JSON.parse(dados);
+
+    document.getElementById("nome").value = dados.nome || "";
+    document.getElementById("endereco").value = dados.endereco || "";
+    document.getElementById("numero").value = dados.numero || "";
+    document.getElementById("bairro").value = dados.bairro || "";
+    document.getElementById("cidade").value = dados.cidade || "";
+    document.getElementById("uf").value = dados.uf || "";
+    document.getElementById("complemento").value = dados.complemento || "";
+    document.getElementById("referencia").value = dados.referencia || "";
 }
 
 function toggleBusca(){
@@ -1295,11 +1888,14 @@ function toggleBusca(){
 
         btn.innerHTML = "✕";
 
-        setTimeout(()=>{
-            document
-            .getElementById("busca")
-            .focus();
-        },100);
+        setTimeout(() => {
+            let input = document.getElementById("busca");
+            input.focus({ preventScroll: true });
+            
+            // reforço para mobile (iOS/Android)
+            input.click();
+
+        }, 150);
     }
 }
 
@@ -1344,6 +1940,13 @@ function iniciarCarrinho(id){
     addCarrinho(nome, preco);
 
     renderCarrinhoBotao(id);
+}
+
+function moeda(v){
+    return v.toLocaleString('pt-BR',{
+        style:'currency',
+        currency:'BRL'
+    });
 }
 
 function alterarQtd(id, valor){
@@ -1466,7 +2069,294 @@ window.addEventListener("load", ()=>{
             renderCarrinhoBotao(idx + 1);
         }
     });
+    document
+    .querySelectorAll(".modal")
+    .forEach(modal=>{
+        modal.addEventListener("click", e=>{
+            if(e.target === modal){
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        });
+    });
+
+
 });
+
+function abrirCEP(){
+
+    document.getElementById("cepModal")
+    .style.display = "block";
+
+    document.getElementById("modal")
+    .style.display = "none";
+
+    carregarEnderecos();
+}
+
+function fecharCEP(){
+
+    document.getElementById("cepModal")
+    .style.display = "none";
+
+    document.getElementById("modal")
+    .style.display = "block";
+}
+
+async function validarCEP(){
+
+    let cep = document
+    .getElementById("cep")
+    .value
+    .replace(/\D/g,'');
+
+    let msg =
+    document.getElementById("cepMsg");
+
+    msg.innerHTML = "";
+
+    // VALIDA REGIÃO
+    let req = await fetch(
+        `/validar_cep?cep=${cep}`
+    );
+
+    let validacao = await req.json();
+
+    // NÃO ATENDE
+    if(!validacao.ok){
+
+        msg.innerHTML =
+        "No momento não atendemos na sua região, obrigado pela preferência.";
+
+        return;
+    }
+
+    // CONSULTA VIACEP
+    let via = await fetch(
+        `https://viacep.com.br/ws/${cep}/json/`
+    );
+
+    let dados = await via.json();
+
+    // FECHA MODAL CEP
+    document.getElementById("cepModal")
+    .style.display = "none";
+
+    // ABRE CHECKOUT PRIMEIRO
+    abrirCheckout();
+
+    // PEQUENO DELAY
+    setTimeout(() => {
+
+        // SOMENTE ESTES
+        document.getElementById("endereco").value =
+        dados.logradouro || "";
+
+        document.getElementById("bairro").value =
+        dados.bairro || "";
+
+        document.getElementById("cidade").value =
+        dados.localidade || "";
+
+        document.getElementById("uf").value =
+        dados.uf || "";
+
+        // LIMPA ESTES
+        document.getElementById("numero").value = "";
+        document.getElementById("complemento").value = "";
+        document.getElementById("referencia").value = "";
+
+    },100);
+}
+
+function abrirCheckout(){
+
+    document.getElementById("checkoutModal")
+    .style.display = "block";
+
+    document.getElementById("modal")
+    .style.display = "none";
+
+    carregarCliente();
+
+    let scroll = document.querySelector(
+        "#checkoutModal .modal-scroll"
+    );
+
+    if(scroll){
+        scroll.scrollTop = 0;
+    }
+}
+
+function fecharCheckout(){
+
+    document.getElementById("checkoutModal")
+    .style.display = "none";
+
+    document.getElementById("modal")
+    .style.display = "block";
+}
+
+function salvarEndereco(){
+
+    // CHECKBOX
+    if(
+        !document.getElementById("salvarEndereco")
+        .checked
+    ){
+        return;
+    }
+
+    let endereco = {
+
+        endereco:
+        document.getElementById("endereco").value,
+
+        numero:
+        document.getElementById("numero").value,
+
+        bairro:
+        document.getElementById("bairro").value,
+
+        cidade:
+        document.getElementById("cidade").value,
+
+        uf:
+        document.getElementById("uf").value,
+
+        complemento:
+        document.getElementById("complemento").value,
+
+        referencia:
+        document.getElementById("referencia").value
+    };
+
+    let lista =
+    JSON.parse(
+        localStorage.getItem("enderecos")
+    ) || [];
+
+    // REMOVE DUPLICADO
+    lista = lista.filter(
+        e =>
+        e.endereco !== endereco.endereco
+    );
+
+    // ADICIONA NO TOPO
+    lista.unshift(endereco);
+
+    // LIMITE 3
+    lista = lista.slice(0,3);
+
+    localStorage.setItem(
+        "enderecos",
+        JSON.stringify(lista)
+    );
+}
+
+function carregarEnderecos(){
+
+    let box =
+    document.getElementById(
+        "enderecosSalvos"
+    );
+
+    if(!box) return;
+
+    let lista =
+    JSON.parse(
+        localStorage.getItem("enderecos")
+    ) || [];
+
+    if(lista.length === 0){
+
+        box.innerHTML = "";
+
+        return;
+    }
+
+    box.innerHTML = `
+        <div class="cart-item" style="
+            font-size:13px;
+            color:#666;
+            margin-bottom:10px;
+            font-weight:600;
+        ">
+            Endereços salvos
+        </div>
+    `;
+
+    lista.forEach((e,idx)=>{
+
+        box.innerHTML += `
+
+        <div
+            class="address-card"
+            onclick="selecionarEndereco(${idx})"
+            >
+
+            <div class="address-top">
+                <input
+                type="radio"
+                name="enderecoSalvo">
+            <div>
+
+            <div class="address-name">
+                ${e.endereco}, ${e.numero}
+            </div>
+
+            <div class="address-sub">
+                ${e.bairro} - ${e.cidade}/${e.uf}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+`;
+    });
+}
+
+function selecionarEndereco(idx){
+
+    let lista =
+    JSON.parse(
+        localStorage.getItem("enderecos")
+    ) || [];
+
+    let e = lista[idx];
+
+    abrirCheckout();
+
+    setTimeout(() => {
+
+        document.getElementById("endereco").value =
+        e.endereco || "";
+
+        document.getElementById("numero").value =
+        e.numero || "";
+
+        document.getElementById("bairro").value =
+        e.bairro || "";
+
+        document.getElementById("cidade").value =
+        e.cidade || "";
+
+        document.getElementById("uf").value =
+        e.uf || "";
+
+        document.getElementById("complemento").value =
+        e.complemento || "";
+
+        document.getElementById("referencia").value =
+        e.referencia || "";
+
+        document.getElementById("cepModal")
+        .style.display = "none";
+
+    },100);
+}
 
 atualizar();
 
