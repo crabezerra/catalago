@@ -1836,11 +1836,9 @@ function enviarPedidoWhats(){
 
     let msg = linhas.join("\n");
 
-    window.open(
+    window.location.href =
         "https://wa.me/5521999884039?text=" +
-        encodeURIComponent(msg),
-        "_blank"
-    );
+        encodeURIComponent(msg);
 
     // LIMPA TUDO
     carrinho = [];
@@ -2105,10 +2103,7 @@ function fecharCEP(){
 
 async function validarCEP(){
 
-    // FECHA TECLADO MOBILE
     document.activeElement.blur();
-
-    await new Promise(r => setTimeout(r, 200));
 
     let cep = document
     .getElementById("cep")
@@ -2120,49 +2115,60 @@ async function validarCEP(){
 
     msg.innerHTML = "";
 
-    // VALIDA REGIÃO
-    let req = await fetch(
-        `/validar_cep?cep=${cep}`
-    );
+    // CEP inválido
+    if(cep.length !== 8){
 
-    let validacao = await req.json();
-
-    // NÃO ATENDE
-    if(!validacao.ok){
-
-        msg.innerHTML =
-        "No momento não atendemos na sua região, obrigado pela preferência.";
+        msg.innerHTML = "Digite um CEP válido.";
 
         return;
     }
 
-    // CONSULTA VIACEP
-    let via = await fetch(
-        `https://viacep.com.br/ws/${cep}/json/`
-    );
+    try{
 
-    let dados = await via.json();
+        // VALIDA REGIÃO
+        let req = await fetch(
+            `/validar_cep?cep=${cep}`
+        );
 
-    // FECHA MODAL CEP
-    document.getElementById("cepModal")
-    .style.display = "none";
+        if(!req.ok){
+            throw new Error("Erro servidor");
+        }
 
-    // ESPERA O MOBILE RESPIRAR
-    requestAnimationFrame(() => {
+        let validacao = await req.json();
+
+        // NÃO ATENDE
+        if(!validacao.ok){
+
+            msg.innerHTML =
+            "No momento não atendemos sua região.";
+
+            return;
+        }
+
+        // CONSULTA VIA CEP
+        let via = await fetch(
+            `https://viacep.com.br/ws/${cep}/json/`
+        );
+
+        let dados = await via.json();
+
+        // VIA CEP ERRO
+        if(dados.erro){
+
+            msg.innerHTML =
+            "CEP não encontrado.";
+
+            return;
+        }
+
+        // FECHA MODAL CEP
+        document.getElementById("cepModal")
+        .style.display = "none";
+
+        abrirCheckout();
 
         setTimeout(() => {
-            abrirCheckout();
 
-            // GARANTE SCROLL NO TOPO
-            let modal = document.querySelector(
-                "#checkoutModal .modal-content"
-            );
-
-            if(modal){
-                modal.scrollTop = 0;
-            }
-
-            // PREENCHE CAMPOS
             document.getElementById("endereco").value =
             dados.logradouro || "";
 
@@ -2175,42 +2181,19 @@ async function validarCEP(){
             document.getElementById("uf").value =
             dados.uf || "";
 
-            // LIMPA ESTES
             document.getElementById("numero").value = "";
             document.getElementById("complemento").value = "";
             document.getElementById("referencia").value = "";
-        },300);
-    });
 
-   /* // FECHA MODAL CEP
-    document.getElementById("cepModal")
-    .style.display = "none";
+        },100);
 
-    // ABRE CHECKOUT PRIMEIRO
-    abrirCheckout();
+    }catch(err){
 
-    // PEQUENO DELAY
-    setTimeout(() => {
+        console.error(err);
 
-        // SOMENTE ESTES
-        document.getElementById("endereco").value =
-        dados.logradouro || "";
-
-        document.getElementById("bairro").value =
-        dados.bairro || "";
-
-        document.getElementById("cidade").value =
-        dados.localidade || "";
-
-        document.getElementById("uf").value =
-        dados.uf || "";
-
-        // LIMPA ESTES
-        document.getElementById("numero").value = "";
-        document.getElementById("complemento").value = "";
-        document.getElementById("referencia").value = "";
-
-    },100);*/
+        msg.innerHTML =
+        "Erro ao validar CEP. Tente novamente.";
+    }
 }
 
 function abrirCheckout(){

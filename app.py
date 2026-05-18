@@ -12,18 +12,22 @@ CSV_PATH = os.path.join(
 # =========================
 # VALIDAR CEP
 # =========================
+CEP_PATH = os.path.join(
+    os.path.dirname(__file__),
+    "CEP.txt"
+)
+
 @app.route("/validar_cep")
 def validar_cep():
 
     cep = request.args.get("cep", "")
 
-    # remove caracteres
     cep = cep.replace("-", "").strip()
 
     permitido = False
 
     with open(
-        r"D:\Projetos\Whats\catalago\CEP.txt",
+        CEP_PATH,
         encoding="utf-8"
     ) as f:
 
@@ -31,11 +35,9 @@ def validar_cep():
 
             prefixo = linha.strip()
 
-            # IGNORA LINHAS VAZIAS
             if not prefixo:
                 continue
 
-            # VALIDA PREFIXO
             if cep.startswith(prefixo):
 
                 permitido = True
