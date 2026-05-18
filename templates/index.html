@@ -868,42 +868,48 @@ header{
 
 @media(max-width:768px){
 
+    .modal{
+
+        display:flex;
+        align-items:flex-end;
+
+        overflow:hidden;
+    }
+
     .modal-content{
 
         width:100%;
         max-width:none;
 
+        position:relative;
+
         height:auto;
-        max-height:85dvh;
+        max-height:88%;
 
         margin:0;
-
-        position:fixed;
-
-        left:0;
-        right:0;
-        bottom:0;
 
         border-radius:24px 24px 0 0;
 
         display:flex;
         flex-direction:column;
 
-        padding-bottom:env(safe-area-inset-bottom);
+        overflow:hidden;
+
+        transform:none !important;
     }
 
     .modal-scroll,
     #lista{
+
+        flex:1;
 
         overflow-y:auto;
 
         -webkit-overflow-scrolling:touch;
 
         padding-bottom:120px;
-    }
 
-    .modal-content h3{
-        font-size:17px;
+        overscroll-behavior:contain;
     }
 
     .actions-bar{
@@ -913,12 +919,17 @@ header{
 
         background:#fff;
 
-        padding:
-        16px
-        16px
-        calc(16px + env(safe-area-inset-bottom));
+        z-index:20;
 
-        border-top:1px solid #eee;
+        padding-bottom:
+        calc(16px + env(safe-area-inset-bottom));
+    }
+
+    input,
+    textarea,
+    select{
+
+        font-size:16px !important;
     }
 }
 
