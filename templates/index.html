@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Catálogo</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -869,18 +869,37 @@ header{
 @media(max-width:768px){
 
     .modal-content{
+
         width:100%;
         max-width:none;
 
-        height:100vh;
-        max-height:100vh;
+        height:auto;
+        max-height:85dvh;
 
         margin:0;
 
+        position:fixed;
+
+        left:0;
+        right:0;
+        bottom:0;
+
         border-radius:24px 24px 0 0;
 
-        position:fixed;
-        bottom:0;
+        display:flex;
+        flex-direction:column;
+
+        padding-bottom:env(safe-area-inset-bottom);
+    }
+
+    .modal-scroll,
+    #lista{
+
+        overflow-y:auto;
+
+        -webkit-overflow-scrolling:touch;
+
+        padding-bottom:120px;
     }
 
     .modal-content h3{
@@ -888,7 +907,18 @@ header{
     }
 
     .actions-bar{
-        padding-bottom:calc(18px + env(safe-area-inset-bottom));
+
+        position:sticky;
+        bottom:0;
+
+        background:#fff;
+
+        padding:
+        16px
+        16px
+        calc(16px + env(safe-area-inset-bottom));
+
+        border-top:1px solid #eee;
     }
 }
 
