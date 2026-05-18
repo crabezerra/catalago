@@ -2105,6 +2105,11 @@ function fecharCEP(){
 
 async function validarCEP(){
 
+    // FECHA TECLADO MOBILE
+    document.activeElement.blur();
+
+    await new Promise(r => setTimeout(r, 200));
+
     let cep = document
     .getElementById("cep")
     .value
@@ -2142,6 +2147,45 @@ async function validarCEP(){
     document.getElementById("cepModal")
     .style.display = "none";
 
+    // ESPERA O MOBILE RESPIRAR
+    requestAnimationFrame(() => {
+
+        setTimeout(() => {
+            abrirCheckout();
+
+            // GARANTE SCROLL NO TOPO
+            let modal = document.querySelector(
+                "#checkoutModal .modal-content"
+            );
+
+            if(modal){
+                modal.scrollTop = 0;
+            }
+
+            // PREENCHE CAMPOS
+            document.getElementById("endereco").value =
+            dados.logradouro || "";
+
+            document.getElementById("bairro").value =
+            dados.bairro || "";
+
+            document.getElementById("cidade").value =
+            dados.localidade || "";
+
+            document.getElementById("uf").value =
+            dados.uf || "";
+
+            // LIMPA ESTES
+            document.getElementById("numero").value = "";
+            document.getElementById("complemento").value = "";
+            document.getElementById("referencia").value = "";
+        },300);
+    });
+
+   /* // FECHA MODAL CEP
+    document.getElementById("cepModal")
+    .style.display = "none";
+
     // ABRE CHECKOUT PRIMEIRO
     abrirCheckout();
 
@@ -2166,7 +2210,7 @@ async function validarCEP(){
         document.getElementById("complemento").value = "";
         document.getElementById("referencia").value = "";
 
-    },100);
+    },100);*/
 }
 
 function abrirCheckout(){
