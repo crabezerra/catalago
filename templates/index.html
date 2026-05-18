@@ -869,10 +869,7 @@ header{
 @media(max-width:768px){
 
     .modal{
-
-        display:flex;
         align-items:flex-end;
-
         overflow:hidden;
     }
 
@@ -1759,7 +1756,7 @@ function abrirCarrinho(){
     document.body.style.overflow = "hidden";
 
     document.getElementById("modal")
-    .style.display = "block";
+    .style.display = "flex";
 
     document.getElementById("lista").scrollTop = 0;
 
@@ -2125,7 +2122,7 @@ window.addEventListener("load", ()=>{
 function abrirCEP(){
 
     document.getElementById("cepModal")
-    .style.display = "block";
+    .style.display = "flex";
 
     document.getElementById("modal")
     .style.display = "none";
@@ -2240,7 +2237,7 @@ async function validarCEP(){
 function abrirCheckout(){
 
     document.getElementById("checkoutModal")
-    .style.display = "block";
+    .style.display = "flex";
 
     document.getElementById("modal")
     .style.display = "none";
