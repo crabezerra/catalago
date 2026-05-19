@@ -1270,6 +1270,178 @@ button:active{
     }
 }
 
+/* =========================================================
+   TABELA CARRINHO
+========================================================= */
+
+.cart-table-header{
+
+    display:grid;
+
+    grid-template-columns:
+    2fr 1.2fr 1fr 1fr;
+
+    gap:12px;
+
+    padding:12px 16px;
+
+    background:#f3f4f6;
+
+    border-radius:14px;
+
+    margin-bottom:12px;
+
+    font-size:12px;
+    font-weight:700;
+    color:#374151;
+}
+
+.cart-row{
+
+    display:grid;
+
+    grid-template-columns:
+    2fr 1.2fr 1fr 1fr;
+
+    gap:12px;
+
+    align-items:center;
+
+    background:#fff;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:16px;
+
+    padding:14px;
+
+    margin-bottom:12px;
+}
+
+.cart-product-box{
+
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.cart-thumb{
+    width:60px;
+    height:60px;
+
+    object-fit:contain;
+
+    background:#fff;
+
+    border:1px solid #eee;
+    border-radius:12px;
+
+    padding:4px;
+
+    flex-shrink:0;
+}
+
+.cart-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.cart-product-name{
+
+    font-size:13px;
+    font-weight:600;
+
+    line-height:1.4;
+}
+
+.cart-price-normal{
+
+    font-size:12px;
+
+    color:#6b7280;
+
+    text-decoration:line-through;
+}
+
+.cart-price-prom{
+
+    font-size:16px;
+    font-weight:800;
+
+    color:#16a34a;
+}
+
+.cart-discount{
+
+    font-size:11px;
+    font-weight:600;
+
+    color:#dc2626;
+}
+
+.cart-promo-min{
+
+    font-size:10px;
+    color:#6b7280;
+}
+
+.cart-total-price{
+
+    font-size:16px;
+    font-weight:800;
+
+    color:#111827;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .cart-table-header{
+        display:none;
+    }
+
+    .cart-row{
+
+        grid-template-columns:1fr;
+
+        gap:14px;
+    }
+
+    .cart-col-preco,
+    .cart-col-qtd,
+    .cart-col-total{
+
+        padding-left:68px;
+    }
+}
+
+.cart-row-wrapper{
+
+    border:1px solid #e5e7eb;
+
+    border-radius:16px;
+
+    background:#fff;
+
+    margin-bottom:16px;
+
+    overflow:hidden;
+}
+
+.cart-product-title{
+
+    padding:14px 16px;
+
+    font-size:14px;
+    font-weight:700;
+
+    border-bottom:1px solid #e5e7eb;
+
+    background:#fafafa;
+}
+
 /* FINAL DO CSS */
 
 </style>
@@ -1492,7 +1664,8 @@ button:active{
                 data-nome="{{ p.nome }}"
                 data-preco="{{ p.preco }}"
                 data-qnt-prom="{{ p.qnt_prom }}"
-                data-preco-prom="{{ p.preco_prom }}">
+                data-preco-prom="{{ p.preco_prom }}"
+                data-imagem="{{ p.imagem }}">
                 
                 <button
                     class="cart-add"
@@ -1752,12 +1925,12 @@ function limparCarrinho(){
     }
 }
 
-function addCarrinho(nome, preco, precoProm, qntProm){
+function addCarrinho(nome, preco, precoProm, qntProm, imagem){
 
     let item = carrinho.find(p => p.nome === nome);
 
     if(item) item.qtd++;
-    else carrinho.push({nome, preco, precoProm, qntProm, qtd:1});
+    else carrinho.push({nome, preco, precoProm, qntProm, imagem, qtd:1});
 
     salvar();
     atualizar();
@@ -1840,101 +2013,158 @@ function renderModalCarrinho(){
                 Seu carrinho está vazio
             </div>
 
-            <div style="
-                font-size:13px;
-                color:#6b7280;
-                margin-top:6px;
-            ">
-                Adicione produtos para continuar
-            </div>
-
         </div>
         `;
 
         document.getElementById("total").innerHTML =
-            `R$ 0,00`;
+        `R$ 0,00`;
 
         return;
     }
 
-    box.innerHTML = "";
+    // CABEÇALHO
+    box.innerHTML = `
+
+    <div class="cart-table-header">
+
+        <div class="cart-col-produto">
+            Produto
+        </div>
+
+        <div class="cart-col-preco">
+            Preço
+        </div>
+
+        <div class="cart-col-qtd">
+            Quantidade
+        </div>
+
+        <div class="cart-col-total">
+            Total
+        </div>
+
+    </div>
+    `;
 
     carrinho.forEach((i,idx)=>{
 
+        let precoNormal =
+        parsePreco(i.preco);
+
+        let precoProm =
+        parsePreco(i.precoProm || 0);
+
+        let qtdProm =
+        Number(i.qntProm || 0);
+
+        let precoUnitario =
+        precoItem(i);
+
         let subtotal =
-            precoItem(i) * i.qtd;
+        precoUnitario * i.qtd;
+
+        let desconto =
+        precoNormal - precoProm;
+
+        let htmlPreco = "";
+
+        // TEM PROMOÇÃO
+        if(
+            qtdProm > 0 &&
+            precoProm > 0
+        ){
+
+            htmlPreco = `
+
+                <div class="cart-price-normal">
+                    ${moeda(precoNormal)}
+                </div>
+
+                <div class="cart-price-prom">
+                    ${moeda(precoProm)}
+                </div>
+
+                <div class="cart-discount">
+                    Desconto ${moeda(desconto)}
+                </div>
+
+                <div class="cart-promo-min">
+                    acima de ${qtdProm} un.
+                </div>
+            `;
+
+        }else{
+
+            htmlPreco = `
+
+                <div class="cart-price-prom">
+                    ${moeda(precoNormal)}
+                </div>
+            `;
+        }
 
         box.innerHTML += `
 
-        <div class="cart-item">
+        <div class="cart-row-wrapper">
 
-            <div class="cart-product">
-
-                <div>
-
-                    <div class="cart-product-name">
-                        ${i.nome}
-                    </div>
-
-                    <div class="cart-product-price">
-                        Unitário: ${moeda(precoItem(i))}
-                    </div>
-
-                </div>
-
-                <div class="cart-product-price">
-                    ${moeda(subtotal)}
-                </div>
-
+            <!-- NOME PRODUTO -->
+            <div class="cart-product-title">
+                ${i.nome}
             </div>
 
-            <div class="cart-actions">
+            <!-- LINHA -->
+            <div class="cart-row">
+                
+                <!-- FOTO -->
+                <div class="cart-col-produto">
 
-                <div class="qty-control">
-
-                    <button
-                        class="qty-btn"
-                        onclick="add(${idx},-1)">
-
-                        −
-
-                    </button>
-
-                    <div class="qty-value">
-                        ${i.qtd}
-                    </div>
-
-                    <button
-                        class="qty-btn"
-                        onclick="add(${idx},1)">
-
-                        +
-
-                    </button>
+                    <img
+                        src="${i.imagem}"
+                        class="cart-thumb">
 
                 </div>
 
-                <button
-                    class="remove-btn"
-                    onclick="del(${idx})">
+                <!-- PREÇO -->
+                <div class="cart-col-preco">
+                    ${htmlPreco}
+                </div>
 
-                    🗑
+                <!-- QUANTIDADE -->
+                <div class="cart-col-qtd">
+                    <div class="qty-control">
+                        <button
+                            class="qty-btn"
+                            onclick="add(${idx},-1)">
+                            −
+                        </button>
 
-                </button>
+                        <div class="qty-value">
+                            ${i.qtd}
+                        </div>
 
+                        <button
+                            class="qty-btn"
+                            onclick="add(${idx},1)">
+                            +
+                        </button>
+                    </div>
+                </div>
+                <!-- TOTAL -->
+                <div class="cart-col-total">
+                    <div class="cart-total-price">
+                        ${moeda(subtotal)}
+                    </div>
+                </div>
             </div>
-
         </div>
         `;
     });
 
+
     let total = calcularTotal();
 
     document.getElementById("total").innerHTML =
-        `${moeda(total)}`;
-
-    document.getElementById("btnWhats").style.display =
-        temItensValidos() ? "block" : "none";
+    `${moeda(total)}`;
 }
 
 function abrirCarrinho(){
@@ -2166,11 +2396,14 @@ function iniciarCarrinho(id){
 
     let qntProm = Number(box.dataset.qntProm);
 
+    let imagem = box.dataset.imagem;
+
     addCarrinho(
         nome,
         preco,
         precoProm,
-        qntProm
+        qntProm,
+        imagem
     );
 
     renderCarrinhoBotao(id);
