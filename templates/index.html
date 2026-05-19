@@ -7,7 +7,6 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-/CSS COMPLETO AQUI */
 <style>
 
 /* CSS COMPLETO AQUI */
@@ -579,11 +578,14 @@ header{
 }
 
 .qty-number{
-    flex:1;
+
+    min-width:32px;
 
     text-align:center;
 
     font-weight:700;
+
+    outline:none;
 }
 
 /* =========================================================
@@ -707,13 +709,17 @@ header{
 
 .qty-control{
     display:flex;
+    
     align-items:center;
-    gap:10px;
+    
+    justify-content:center;
+    
+    gap:4px;
 }
 
 .qty-btn{
-    width:30px;
-    height:30px;
+    width:24px;
+    height:24px;
 
     border:none;
 
@@ -721,7 +727,7 @@ header{
 
     background:#f3f4f6;
 
-    font-size:16px;
+    font-size:14px;
     font-weight:700;
 
     cursor:pointer;
@@ -734,13 +740,42 @@ header{
     color:#fff;
 }
 
-.qty-value{
-    min-width:18px;
+.qty-inline-input{
+
+    width:100%;
+
+    border:none;
+
+    background:transparent;
 
     text-align:center;
 
     font-size:14px;
     font-weight:700;
+
+    outline:none;
+
+    padding:0;
+
+    margin:0;
+
+    line-height:1;
+
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:textfield;
+}
+
+.qty-value{
+
+    min-width:44px;
+
+    text-align:center;
+
+    font-size:14px;
+    font-weight:700;
+
+    overflow:visible;
 }
 
 .remove-btn{
@@ -1308,9 +1343,9 @@ button:active{
     display:grid;
 
     grid-template-columns:
-    2fr 1.2fr 1fr 1fr;
+    52px 1fr 78px 78px;
 
-    gap:12px;
+    gap:6px;
 
     align-items:center;
 
@@ -1325,6 +1360,9 @@ button:active{
     padding:14px;
 
     margin-bottom:12px;
+
+    min-height:92px;
+
 }
 
 .cart-product-box{
@@ -1335,8 +1373,8 @@ button:active{
 }
 
 .cart-thumb{
-    width:60px;
-    height:60px;
+    width:52px;
+    height:52px;
 
     object-fit:contain;
 
@@ -1345,7 +1383,7 @@ button:active{
     border:1px solid #eee;
     border-radius:12px;
 
-    padding:4px;
+    padding:2px;
 
     flex-shrink:0;
 }
@@ -1389,7 +1427,12 @@ button:active{
     color:#dc2626;
 }
 
+.cart-price-normal,
+.cart-price-prom,
+.cart-discount,
 .cart-promo-min{
+
+    line-height:1.2;
 
     font-size:10px;
     color:#6b7280;
@@ -1397,8 +1440,8 @@ button:active{
 
 .cart-total-price{
 
-    font-size:16px;
-    font-weight:800;
+    font-size:14px;
+    font-weight:700;
 
     color:#111827;
 }
@@ -1414,9 +1457,9 @@ button:active{
     .cart-row{
 
         grid-template-columns:
-        70px 1.2fr .9fr .9fr;
+        52px 1fr .85fr .85fr;
 
-        gap:10px;
+        gap:8px;
 
         align-items:center;
     }
@@ -1509,6 +1552,47 @@ button:active{
     /*cursor:pointer;*/
 
     /*flex-shrink:10;*/
+}
+
+.cart-price-highlight{
+
+    color:#16a34a;
+
+    font-weight:800;
+
+    font-size:18px;
+}
+
+.cart-price-highlight{
+
+    color:#16a34a;
+
+    font-weight:800;
+
+    font-size:18px;
+}
+
+.cart-price-faded{
+
+    opacity:.45;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+
+.cart-col-preco{
+
+    min-height:88px;
+
+    width:110px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
 }
 
 /* FINAL DO CSS */
@@ -2137,19 +2221,22 @@ function renderModalCarrinho(){
 
         let htmlPreco = "";
 
-        // TEM PROMOÇÃO
+        // ATINGIU PROMOÇÃO
         if(
             qtdProm > 0 &&
-            precoProm > 0
+            precoProm > 0 &&
+            i.qtd >= qtdProm
         ){
 
             htmlPreco = `
 
-                <div class="cart-price-normal">
+            
+
+                <div class="cart-price-normal cart-price-faded">
                     ${moeda(precoNormal)}
                 </div>
 
-                <div class="cart-price-prom">
+                <div class="cart-price-prom cart-price-highlight">
                     ${moeda(precoProm)}
                 </div>
 
@@ -2161,14 +2248,31 @@ function renderModalCarrinho(){
                     acima de ${qtdProm} un.
                 </div>
             `;
-
         }else{
 
             htmlPreco = `
 
-                <div class="cart-price-prom">
+                <div class="cart-price-prom cart-price-highlight">
                     ${moeda(precoNormal)}
                 </div>
+
+                ${
+
+                    qtdProm > 0 && precoProm > 0
+                    ?
+                    `
+
+                    <div class="cart-discount">
+                        Desconto ${moeda(desconto)}
+                    </div>
+
+                    <div class="cart-promo-min">
+                        acima de ${qtdProm} un.
+                    </div>
+                    `
+                    :
+                    ""
+                }
             `;
         }
 
@@ -2215,7 +2319,10 @@ function renderModalCarrinho(){
                             −
                         </button>
 
-                        <div class="qty-value">
+                        <div class="qty-value"
+                            contenteditable="true"
+                            onblur="salvarQtdDigitada(${idx}, this)"
+                            onkeypress="return somenteNumero(event)">
                             ${i.qtd}
                         </div>
 
@@ -2242,6 +2349,121 @@ function renderModalCarrinho(){
 
     document.getElementById("total").innerHTML =
     `${moeda(total)}`;
+}
+
+function somenteNumero(e){
+
+    // ENTER
+    if(e.key === "Enter"){
+
+        e.preventDefault();
+
+        e.target.blur();
+
+        return false;
+    }
+
+    // BACKSPACE / DELETE / SETAS
+    if(
+        [
+            "Backspace",
+            "Delete",
+            "ArrowLeft",
+            "ArrowRight",
+            "Tab"
+        ].includes(e.key)
+    ){
+        return true;
+    }
+
+    // SOMENTE NÚMEROS
+    if(!/[0-9]/.test(e.key)){
+
+        e.preventDefault();
+
+        return false;
+    }
+}
+
+function salvarQtdDigitada(idx, el){
+
+    let valor = parseInt(el.innerText.trim());
+
+    if(isNaN(valor) || valor < 1){
+        valor = 1;
+    }
+
+    carrinho[idx].qtd = valor;
+
+    salvar();
+
+    atualizar();
+
+    renderModalCarrinho();
+
+    atualizarBotoesCards();
+}
+
+function editarQtd(idx){
+
+    let atual = carrinho[idx].qtd;
+
+    let novo = window.prompt(
+        "Digite a quantidade",
+        atual
+    );
+
+    if(novo === null) return;
+
+    novo = parseInt(novo);
+
+    if(isNaN(novo) || novo < 1){
+        return;
+    }
+
+    carrinho[idx].qtd = novo;
+
+    salvar();
+
+    atualizar();
+
+    renderModalCarrinho();
+}
+
+function editarQtd(idx, el){
+
+    let atual = carrinho[idx].qtd;
+
+    el.innerHTML = `
+        <input
+            type="text"
+            value="${atual}"
+            min="1"
+            class="qty-inline-input"
+            onblur="salvarQtdEditada(${idx}, this)"
+            onkeydown="if(event.key==='Enter'){this.blur()}"
+            autofocus
+        >
+    `;
+
+    let input = el.querySelector("input");
+
+    input.select();
+}
+
+function salvarQtdEditada(idx, input){
+
+    let valor = parseInt(input.value);
+
+    if(isNaN(valor) || valor < 1){
+        valor = 1;
+    }
+
+    carrinho[idx].qtd = valor;
+
+    salvar();
+    atualizar();
+    renderModalCarrinho();
 }
 
 function abrirCarrinho(){
@@ -2546,7 +2768,10 @@ function renderCarrinhoBotao(id){
                 −
             </button>
 
-            <div class="qty-number">
+            <div class="qty-number"
+                contenteditable="true"
+                onblur="salvarQtdCard(${id}, this)"
+                onkeydown="somenteNumero(event)">
                 ${item.qtd}
             </div>
 
@@ -2556,6 +2781,35 @@ function renderCarrinhoBotao(id){
 
         </div>
     `;
+}
+
+function salvarQtdCard(id, el){
+
+    let valor = parseInt(el.innerText.trim());
+
+    if(isNaN(valor) || valor < 1){
+        valor = 1;
+    }
+
+    let box = document.getElementById(`cart-${id}`);
+
+    let nome = box.dataset.nome;
+
+    let item = carrinho.find(
+        p => p.nome === nome
+    );
+
+    if(!item) return;
+
+    item.qtd = valor;
+
+    salvar();
+
+    atualizar();
+
+    atualizarBotoesCards();
+
+    renderModalCarrinho();
 }
 
 function atualizarBotoesCards(){
