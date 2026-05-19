@@ -1277,7 +1277,7 @@ button:active{
 
 .cart-table-header{
 
-    display:grid;
+    display:none;
 
     grid-template-columns:
     2fr 1.2fr 1fr 1fr;
@@ -1298,7 +1298,7 @@ button:active{
 
     z-index:30;
 
-    /*border-bottom:1px solid #e5e7eb;*/
+    border-bottom:1px solid #e5e7eb;
 
     box-shadow:0 2px 6px rgba(0,0,0,.04);
 }
@@ -1313,6 +1313,8 @@ button:active{
     gap:12px;
 
     align-items:center;
+
+    padding-top:10px;
 
     background:#fff;
 
@@ -1411,16 +1413,38 @@ button:active{
 
     .cart-row{
 
-        grid-template-columns:1fr;
+        grid-template-columns:
+        70px 1.2fr .9fr .9fr;
 
-        gap:14px;
+        gap:10px;
+
+        align-items:center;
     }
 
+    .cart-col-produto,
     .cart-col-preco,
     .cart-col-qtd,
     .cart-col-total{
 
-        padding-left:68px;
+        padding-left:0;
+    }
+
+    .cart-thumb{
+        width:55px;
+        height:55px;
+    }
+
+    .cart-price-prom{
+        font-size:14px;
+    }
+
+    .cart-total-price{
+        font-size:14px;
+    }
+
+    .qty-btn{
+        width:26px;
+        height:26px;
     }
 }
 
@@ -1430,9 +1454,11 @@ button:active{
 
     border-radius:16px;
 
+    padding:14px;
+
     background:#fff;
 
-    margin-bottom:16px;
+    margin-bottom:12px;
 
     margin:16px;
 
@@ -1445,10 +1471,44 @@ button:active{
 
     font-size:14px;
     font-weight:700;
+    line-height:1.4;
+    color:#111827;
+    flex:1;
 
     border-bottom:1px solid #e5e7eb;
 
     background:#fafafa;
+}
+
+.cart-product-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:10px;
+}
+
+.remove-btn-header{
+
+    /*width:22px;
+    height:22px;*/
+
+    border:none;
+
+    /*border-radius:5px;*/
+
+    /*background:#fee2e2;*/
+
+    /*color:#dc2626;*/
+
+    /*cursor:pointer;*/
+
+    /*flex-shrink:10;*/
 }
 
 /* FINAL DO CSS */
@@ -1976,7 +2036,7 @@ function precoItem(item){
         return precoPromocional;
     }
 
-    // PREÇO NORMAL
+    // PREÇO
     return precoNormal;
 }
 
@@ -2033,7 +2093,7 @@ function renderModalCarrinho(){
 
     // CABEÇALHO
     box.innerHTML = `
-
+         
     <div class="cart-table-header">
 
         <div class="cart-col-produto">
@@ -2117,8 +2177,16 @@ function renderModalCarrinho(){
         <div class="cart-row-wrapper">
 
             <!-- NOME PRODUTO -->
-            <div class="cart-product-title">
-                ${i.nome}
+            <div class="cart-product-header">
+                <div class="cart-product-title">
+                    ${i.nome}
+                </div>
+
+                <button
+                    class="remove-btn-header"
+                    onclick="del(${idx})">
+                    🗑️
+                </button>
             </div>
 
             <!-- LINHA -->
