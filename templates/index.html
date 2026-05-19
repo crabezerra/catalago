@@ -2319,10 +2319,10 @@ function renderModalCarrinho(){
                             −
                         </button>
 
-                        <div class="qty-value"
+                        <div class="qty-number"
                             contenteditable="true"
                             onblur="salvarQtdDigitada(${idx}, this)"
-                            onkeypress="return somenteNumero(event)">
+                            onkeydown="return somenteNumero(event)">
                             ${i.qtd}
                         </div>
 
@@ -2363,7 +2363,7 @@ function somenteNumero(e){
         return false;
     }
 
-    // BACKSPACE / DELETE / SETAS
+    // TECLAS LIBERADAS
     if(
         [
             "Backspace",
@@ -2383,6 +2383,8 @@ function somenteNumero(e){
 
         return false;
     }
+
+    return true;
 }
 
 function salvarQtdDigitada(idx, el){
@@ -2637,7 +2639,7 @@ function toggleBusca(){
 
     }else{
 
-        bar.style.display = "block";
+        bar.style.display = "flex";
 
         btn.innerHTML = "✕";
 
@@ -2898,7 +2900,7 @@ function fecharCEP(){
     .style.display = "none";
 
     document.getElementById("modal")
-    .style.display = "block";
+    .style.display = "flex";
 }
 
 async function validarCEP(){
@@ -3021,7 +3023,7 @@ function fecharCheckout(){
     .style.display = "none";
 
     document.getElementById("modal")
-    .style.display = "block";
+    .style.display = "flex";
 }
 
 function salvarEndereco(){
