@@ -74,21 +74,42 @@ def home():
 
             if row.get("ativo", "").strip() == "1":
 
-                preco = row["PcoVen"].replace(",", ".")
+                preco_venda = float(
+                     row["PcoVen"]
+                     .replace(".", "")
+                     .replace(",", ".")
+                )
+
+                qnt_prom = int(
+                    row.get("QntProm", "0") or 0
+                )
+
+                pco_prom_str = row.get("PcoProm", "0")
+
+                pco_prom = float(
+                    pco_prom_str
+                    .replace(".", "")
+                    .replace(",", ".")
+                ) if pco_prom_str else 0
+
                 categoria = row["DesGru"]
 
+                # CALCULA DESCONTO
+
+                percentual = 0
+                if qnt_prom > 0 and pco_prom > 0:
+                    percentual = round(
+                        ((preco_venda - pco_prom) / preco_venda) * 100
+                    )              
+
                 produtos.append({
-
                     "nome": row["DesPro"],
-
                     "categoria": categoria,
-
-                    "preco":
-                    f"R$ {float(preco):.2f}"
-                    .replace(".", ","),
-
-                    "imagem":
-                    f"/static/imagens/{row['produto_id']}.jpg"
+                    "preco": f"R$ {preco_venda:.2f}".replace(".", ","),
+                    "preco_prom": f"R$ {pco_prom:.2f}".replace(".", ",") if pco_prom > 0 else "",
+                    "qnt_prom": qnt_prom,
+                    "desconto": percentual,
+                    "imagem": f"/static/imagens/{row['produto_id']}.jpg"
                 })
 
                 categorias_set.add(categoria)

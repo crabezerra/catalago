@@ -7,6 +7,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+/CSS COMPLETO AQUI */
 <style>
 
 /* CSS COMPLETO AQUI */
@@ -375,6 +376,95 @@ header{
     transform:translateY(-3px);
 
     box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.promo-box{
+    margin:2px 0;
+}
+
+.promo-qtd{
+    font-size:9px;
+    font-weight:600;
+    color:#16a34a;
+
+    margin-bottom:6px;
+}
+
+.promo-price-line{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:6px;
+
+    flex-wrap:nowrap;
+
+    width:100%;
+}
+
+.promo-price-wrap{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.promo-badge{
+    background:#dc2626;
+    color:#fff;
+
+    padding:4px 8px;
+
+    border-radius:999px;
+
+    font-size:11px;
+    font-weight:700;
+}
+
+.old-price{
+    font-size:14px;
+    color:#6b7280;
+    font-weight:600;
+    /*text-decoration:line-through;*/
+}
+
+.new-price{
+    font-size:22px;
+    font-weight:800;
+    color:#16a34a;
+}
+
+.price-unit{
+    font-size:9px;
+    color:#6b7280;
+
+    margin-top:2px;
+}
+
+.ou-text{
+    font-size:9px;
+    color:#6b7280;
+    font-weight:600;
+}
+
+.old-line{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    margin-top:4px;
+}
+
+.sem-promocao{
+
+    justify-content:center;
+}
+
+.fake-line{
+
+    visibility:hidden;
 }
 
 .img{
@@ -1323,9 +1413,63 @@ button:active{
 
     <div class="info">
         <div class="name">{{ p.nome }}</div>
-        <div class="price">{{ p.preco }}</div>
 
-        <!--<div class="actions">
+        <div class="promo-box">
+
+            {% if p.qnt_prom > 0 %}
+
+                <div class="promo-qtd">
+                    A partir de {{ p.qnt_prom }} unid.
+                </div>
+
+                <div class="promo-price-line">
+
+                    <div class="new-price">
+                        {{ p.preco_prom }}
+                    </div>
+
+                    <div class="promo-badge">
+                        -{{ p.desconto }}%
+                    </div>
+                </div>
+                <div class="old-line">
+
+                    <div class="ou-text">
+                        ou
+                    </div>
+
+                    <div class="old-price">
+                        {{ p.preco }}
+                    </div>
+
+                    <div class="price-unit">
+                        / cada
+                    </div>
+
+                </div>
+
+            {% else %}
+
+                <!-- ESPAÇO FIXO -->
+                <div class="promo-qtd fake-line">
+                    &nbsp;
+                </div>
+
+                <div class="promo-price-line sem-promocao">
+                    <div class="new-price">
+                        {{ p.preco }}
+                    </div>
+                </div>
+                
+                <div class="old-line fake-line">
+                    &nbsp;
+                </div>
+
+            {% endif %}
+        
+        </div>
+
+            <!--<div class="actions">
 
             <button class="buy"
             onclick="window.open('https://wa.me/5521999884039?text=Tenho interesse em {{ p.nome }}')">
@@ -1346,8 +1490,10 @@ button:active{
                 id="cart-{{ loop.index }}"
 
                 data-nome="{{ p.nome }}"
-                data-preco="{{ p.preco }}">
-
+                data-preco="{{ p.preco }}"
+                data-qnt-prom="{{ p.qnt_prom }}"
+                data-preco-prom="{{ p.preco_prom }}">
+                
                 <button
                     class="cart-add"
                     onclick="iniciarCarrinho({{ loop.index }})">
@@ -1606,12 +1752,12 @@ function limparCarrinho(){
     }
 }
 
-function addCarrinho(nome, preco){
+function addCarrinho(nome, preco, precoProm, qntProm){
 
     let item = carrinho.find(p => p.nome === nome);
 
     if(item) item.qtd++;
-    else carrinho.push({nome, preco, qtd:1});
+    else carrinho.push({nome, preco, precoProm, qntProm, qtd:1});
 
     salvar();
     atualizar();
@@ -1621,6 +1767,35 @@ function addCarrinho(nome, preco){
 
 function temItensValidos(){
 return carrinho.some(item => item.qtd >= 1);
+}
+
+function precoItem(item){
+
+    let precoNormal =
+    parsePreco(item.preco);
+
+    let precoPromocional =
+    parsePreco(item.precoProm || 0);
+
+    let qtdProm =
+    Number(item.qntProm || 0);
+
+    // TEM PROMOÇÃO
+    if(
+
+        qtdProm > 0 &&
+
+        item.qtd >= qtdProm &&
+
+        precoPromocional > 0
+
+    ){
+
+        return precoPromocional;
+    }
+
+    // PREÇO NORMAL
+    return precoNormal;
 }
 
 function atualizar(){
@@ -1687,7 +1862,7 @@ function renderModalCarrinho(){
     carrinho.forEach((i,idx)=>{
 
         let subtotal =
-            parsePreco(i.preco) * i.qtd;
+            precoItem(i) * i.qtd;
 
         box.innerHTML += `
 
@@ -1702,7 +1877,7 @@ function renderModalCarrinho(){
                     </div>
 
                     <div class="cart-product-price">
-                        Unitário: R$ ${parsePreco(i.preco).toFixed(2)}
+                        Unitário: ${moeda(precoItem(i))}
                     </div>
 
                 </div>
@@ -1787,7 +1962,7 @@ function calcularTotal(){
         if(item.qtd <= 0) return total;
 
         return total +
-        (parsePreco(item.preco) * item.qtd);
+        (precoItem(item) * item.qtd);
 
     }, 0);
 }
@@ -1984,9 +2159,19 @@ function iniciarCarrinho(id){
     let box = document.getElementById(`cart-${id}`);
 
     let nome = box.dataset.nome;
+
     let preco = box.dataset.preco;
 
-    addCarrinho(nome, preco);
+    let precoProm = box.dataset.precoProm;
+
+    let qntProm = Number(box.dataset.qntProm);
+
+    addCarrinho(
+        nome,
+        preco,
+        precoProm,
+        qntProm
+    );
 
     renderCarrinhoBotao(id);
 }
