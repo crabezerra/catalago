@@ -177,12 +177,16 @@ header{
 ========================================================= */
 
 .cat-btn,
-.buy,
 .cart,
 .cart-add{
     border:none;
     cursor:pointer;
     font-weight:600;
+}
+
+.cat-btn.active {
+    background: #16a34a;
+    color: #fff;
 }
 
 .cat-btn{
@@ -202,17 +206,12 @@ header{
     color:#fff;
 }
 
-.checkout-box input{
-    width:100%;
-}
-
 .cart-btn,
 .cart{
     background:#111;
     color:#fff;
 }
 
-.buy,
 .cart{
     flex:1;
 
@@ -223,7 +222,6 @@ header{
     text-align:center;
 }
 
-.buy,
 .cart-add{
     background:#16a34a;
     color:#fff;
@@ -249,8 +247,8 @@ header{
     flex:1;
 }
 
-/*.search input,
-.search-bar input, */
+.search input,
+.search-bar input,
 .modal-content input{
     width:100%;
     height:42px;
@@ -273,6 +271,9 @@ header{
     background:#fff;
 
     border-top:1px solid #eee;
+
+    width: 100%;
+
 }
 
 .search-bar input{
@@ -681,13 +682,6 @@ header{
     display:flex;
     justify-content:space-between;
     gap:10px;
-}
-
-.cart-product-name{
-    font-size:14px;
-    font-weight:600;
-    line-height:1.4;
-    color:#111827;
 }
 
 .cart-product-price{
@@ -1394,14 +1388,6 @@ button:active{
     gap:12px;
 }
 
-.cart-product-name{
-
-    font-size:13px;
-    font-weight:600;
-
-    line-height:1.4;
-}
-
 .cart-price-normal{
 
     font-size:12px;
@@ -1457,9 +1443,11 @@ button:active{
     .cart-row{
 
         grid-template-columns:
-        52px 1fr .85fr .85fr;
+        46px 1fr 60px 82px;
 
-        gap:8px;
+        gap:4px;
+
+        padding:10px 6px;
 
         align-items:center;
     }
@@ -1472,40 +1460,37 @@ button:active{
         padding-left:0;
     }
 
+    .cart-col-produto{
+        margin-left:-4px;
+    }
+
+    .cart-col-total{
+        display:flex;
+        justify-content:flex-end;
+    }
+
     .cart-thumb{
-        width:55px;
-        height:55px;
+        width:46px;
+        height:46px;
     }
 
     .cart-price-prom{
-        font-size:14px;
+        font-size:13px;
     }
 
     .cart-total-price{
-        font-size:14px;
+        font-size:13px;
+        white-space:nowrap;
     }
 
     .qty-btn{
-        width:26px;
-        height:26px;
+        width:24px;
+        height:24px;
     }
 }
 
 .cart-row-wrapper{
-
-    border:1px solid #e5e7eb;
-
-    border-radius:16px;
-
-    padding:14px;
-
-    background:#fff;
-
-    margin-bottom:12px;
-
-    margin:16px;
-
-    overflow:hidden;
+    margin:10px;
 }
 
 .cart-product-title{
@@ -1552,15 +1537,6 @@ button:active{
     /*cursor:pointer;*/
 
     /*flex-shrink:10;*/
-}
-
-.cart-price-highlight{
-
-    color:#16a34a;
-
-    font-weight:800;
-
-    font-size:18px;
 }
 
 .cart-price-highlight{
@@ -1661,16 +1637,16 @@ button:active{
 
         <!-- CATEGORIAS -->
         <div class="mobile-categorias">
-            <button onclick="filtrarCategoria('TODOS'); fecharMenuMobile();">
+            <button onclick="filtrarCategoria('TODOS', this); fecharMenuMobile();">
                 TODOS
             </button>
 
-            <button onclick="filtrarCategoria('PROMOÇÕES'); fecharMenuMobile();">
+            <button onclick="filtrarCategoria('PROMOÇÕES', this); fecharMenuMobile();">
                 PROMOÇÕES
             </button>
 
             {% for c in categorias %}
-            <button onclick="filtrarCategoria('{{ c }}'); fecharMenuMobile();">
+            <button onclick="filtrarCategoria('{{ c }}', this); fecharMenuMobile();">
                 {{ c }}
             </button>
             {% endfor %}
@@ -1680,17 +1656,17 @@ button:active{
 <!-- MENU -->
 <div class="menu">
     <div class="menu-inner">
-        <button class="cat-btn" onclick="filtrarCategoria('TODOS')">TODOS</button>
+        <button class="cat-btn active" onclick="filtrarCategoria('TODOS', this)">TODOS</button>
 
-        <button class="cat-btn" onclick="filtrarCategoria('PROMOÇÕES')">PROMOÇÕES</button>
+        <button class="cat-btn" onclick="filtrarCategoria('PROMOÇÕES', this)">PROMOÇÕES</button>
 
-        {% for c in categorias[:6] %}
-        <button class="cat-btn" onclick="filtrarCategoria('{{ c }}')">
+        {% for c in categorias[:6] %}   
+        <button class="cat-btn" onclick="filtrarCategoria('{{ c }}', this)">
             {{ c }}
         </button>
 
         {% endfor %}
-        <button class="cat-btn" onclick="toggleMenu(this)">
+        <button class="cat-btn" onclick="toggleMenu(this); setActiveCategory(this)">
             MAIS CATEGORIAS ▾
         </button>
         
@@ -1719,7 +1695,7 @@ button:active{
     </div>
 
     {% for c in categorias %}
-    <button onclick="filtrarCategoria('{{ c }}'); toggleMenu();">
+    <button onclick="filtrarCategoria('{{ c }}', this); toggleMenu();">
         {{ c }}
     </button>
     {% endfor %}
@@ -1822,7 +1798,7 @@ button:active{
                 
                 <button
                     class="cart-add"
-                    onclick="iniciarCarrinho({{ loop.index }})">
+                    onclick="iniciarCarrinho('{{ loop.index }}')">
 
                     Carrinho
                 </button>
@@ -1868,7 +1844,8 @@ button:active{
         <input
             type="text"
             id="cep"
-            placeholder="Digite seu CEP">
+            placeholder="Digite seu CEP"
+            onkeydown="if(event.key==='Enter'){ validarCEP(); return false; }"> 
 
         <!-- MENSAGEM -->
         <div
@@ -2008,14 +1985,45 @@ function filtrar(){
     }
 }
 
-function filtrarCategoria(cat){
+/*function setActiveCategory(btn){
+    document.querySelectorAll(".cat-btn").forEach(b => {
+        b.classList.remove("active");
+    });
+
+    if(btn){
+        btn.classList.add("active");
+    }
+}*/
+
+function setActiveCategory(cat){
+
+    // remove todos
+    document.querySelectorAll(".cat-btn, .mobile-categorias button, .dropdown-content button")
+    .forEach(b => b.classList.remove("active"));
+
+    // tenta achar botão correspondente
+    document.querySelectorAll(".cat-btn, .mobile-categorias button, .dropdown-content button")
+    .forEach(b => {
+
+        if(b.innerText.trim() === cat){
+            b.classList.add("active");
+        }
+    });
+}
+
+function filtrarCategoria(cat, btn){
+
     let itens = document.getElementsByClassName("produto");
 
     for(let i=0;i<itens.length;i++){
-        let c = itens[i].dataset.cat;
+
+        let cats = itens[i].dataset.cat.split(",");
+
         itens[i].style.display =
-        (cat === "TODOS" || c === cat) ? "" : "none";
+        (cat === "TODOS" || cats.includes(cat)) ? "" : "none";
     }
+
+    setActiveCategory(cat);
 }
 
 /* DROPDOWN */
@@ -2639,7 +2647,7 @@ function toggleBusca(){
 
     }else{
 
-        bar.style.display = "flex";
+        bar.style.display = "block";
 
         btn.innerHTML = "✕";
 

@@ -53,6 +53,8 @@ def validar_cep():
 @app.route("/")
 def home():
 
+    categoria_selecionada = request.args.get("categoria", "TODOS")
+
     produtos = []
     categorias_set = set()
 
@@ -80,9 +82,7 @@ def home():
                      .replace(",", ".")
                 )
 
-                qnt_prom = int(
-                    row.get("QntProm", "0") or 0
-                )
+                qnt_prom = int(row.get("QntProm", "0") or 0)
 
                 pco_prom_str = row.get("PcoProm", "0")
 
@@ -94,25 +94,36 @@ def home():
 
                 categoria = row["DesGru"]
 
-                # CALCULA DESCONTO
+                categorias_produto = [categoria]
 
-                percentual = 0
+                # VERIFICA SE TEM PROMOÇÃO
+                if qnt_prom > 0:
+                    categorias_produto.append("PROMOÇÕES")
+
+                percentual  = 0
                 if qnt_prom > 0 and pco_prom > 0:
                     percentual = round(
                         ((preco_venda - pco_prom) / preco_venda) * 100
-                    )              
-
+                    )
+                    
                 produtos.append({
                     "nome": row["DesPro"],
-                    "categoria": categoria,
+                    "categoria": ",".join(categorias_produto),
                     "preco": f"R$ {preco_venda:.2f}".replace(".", ","),
                     "preco_prom": f"R$ {pco_prom:.2f}".replace(".", ",") if pco_prom > 0 else "",
                     "qnt_prom": qnt_prom,
                     "desconto": percentual,
                     "imagem": f"/static/imagens/{row['produto_id']}.jpg"
                 })
+        
+                for c in categorias_produto:
+                    categorias_set.add(c)
 
-                categorias_set.add(categoria)
+        if categoria_selecionada != "TODOS":
+            produtos = [
+                p for p in produtos
+                if categoria_selecionada in p["categoria"].split(",")
+            ]
 
     categorias = sorted(list(categorias_set))
 
