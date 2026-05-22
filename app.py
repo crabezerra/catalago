@@ -130,7 +130,8 @@ def home():
     return render_template(
         "index.html",
         produtos=produtos,
-        categorias=categorias
+        categorias=categorias,
+        catalogo_versao="1.0"
     )
 
 # =========================

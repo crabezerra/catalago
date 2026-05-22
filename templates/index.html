@@ -580,11 +580,15 @@ header{
 
 .qty-number{
 
-    min-width:32px;
+    min-width:44px;
 
     text-align:center;
 
+    font-size:14px;
     font-weight:700;
+
+    white-space:nowrap;
+    overflow:hidden;
 
     outline:none;
 }
@@ -2086,6 +2090,25 @@ function limparCarrinho(){
     }
 }
 
+const CATALOGO_VERSAO = "{{ catalogo_versao }}";
+
+let versaoSalva =
+localStorage.getItem("catalogo_versao");
+
+if(versaoSalva !== CATALOGO_VERSAO){
+
+    localStorage.removeItem("carrinho");
+
+    localStorage.setItem(
+        "catalogo_versao",
+        CATALOGO_VERSAO
+    );
+
+    carrinho = [];
+}
+
+atualizar();
+
 function addCarrinho(nome, preco, precoProm, qntProm, imagem){
 
     let item = carrinho.find(p => p.nome === nome);
@@ -2253,6 +2276,10 @@ function renderModalCarrinho(){
                 </div>
 
                 <div class="cart-promo-min">
+                    por unidade
+                </div>
+
+                <div class="cart-promo-min">
                     acima de ${qtdProm} un.
                 </div>
             `;
@@ -2272,6 +2299,10 @@ function renderModalCarrinho(){
 
                     <div class="cart-discount">
                         Desconto ${moeda(desconto)}
+                    </div>
+
+                    <div class="cart-promo-min">
+                        por unidade
                     </div>
 
                     <div class="cart-promo-min">
