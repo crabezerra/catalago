@@ -1,119 +1,125 @@
-from flask import Flask, render_template, request, jsonify
-import os
+import csv
+from flask import Flask, render_template
 import pymysql
 
 app = Flask(__name__)
 
 db = pymysql.connect(
-    host=os.getenv("DB_HOST"),
-    port=3306,
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    database=os.getenv("DB_NAME"),
+    host="SERVIDOR",
+    user="root",
+    password="123456",
+    database="sysloja",
     cursorclass=pymysql.cursors.DictCursor
 )
 
-# =========================
-# VALIDAR CEP
-# =========================
-CEP_PATH = os.path.join(
-    os.path.dirname(__file__),
-    "CEP.txt"
-)
+CSV_PATH = "catalogo.csv"
 
-@app.route("/validar_cep")
-def validar_cep():
 
-    cep = request.args.get("cep", "")
+def ler_catalogo():
+    ativos = set()
 
-    cep = cep.replace("-", "").strip()
+    with open(CSV_PATH, newline="", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f, delimiter=";")
 
-    permitido = False
+        for row in reader:
+            if row.get("ativo", "").strip() == "1":
+                try:
+                    ativos.add(int(row["CodPro"]))
+                except:
+                    pass
 
-    with open(
-        CEP_PATH,
-        encoding="utf-8"
-    ) as f:
+    return ativos
 
-        for linha in f:
 
-            prefixo = linha.strip()
-
-            if not prefixo:
-                continue
-
-            if cep.startswith(prefixo):
-
-                permitido = True
-                break
-
-    return jsonify({
-        "ok": permitido
-    })
-
-# =========================
-# HOME
-# =========================
 @app.route("/")
 def home():
 
-    categoria_selecionada = request.args.get("categoria", "TODOS")
+    ativos = ler_catalogo()
 
-    conn = db
-    cursor = conn.cursor()
+    # =========================
+    # GRUPOS (CATEGORIAS)
+    # =========================
+    with db.cursor() as cursor:
+        cursor.execute("SELECT CodGru, DesGru FROM cdgrupos")
+        grupos = {
+            g["CodGru"]: g["DesGru"]
+            for g in cursor.fetchall()
+        }
 
-    cursor.execute("""
-        SELECT
-            p.CodPro,
-            p.DesPro,
-            p.PcoVen,
-            p.PcoProm,
-            p.QntProm,
-            p.Inativo,
-            g.DesGru
-        FROM produtos p
-        LEFT JOIN cdgrupos g ON g.CodGru = p.CodGru
-        WHERE p.Inativo = 0
-    """)
-
-    rows = cursor.fetchall()
+    # =========================
+    # PRODUTOS
+    # =========================
+    with db.cursor() as cursor:
+        cursor.execute("SELECT * FROM produtos")
+        rows = cursor.fetchall()
 
     produtos = []
     categorias_set = set()
 
-    for row in rows:
+    for p in rows:
+        try:
+            cod = int(p["CodPro"])
 
-        preco_venda = float(row["PcoVen"] or 0)
+            if cod not in ativos:
+                continue
 
-        qnt_prom = row["QntProm"] or 0
+            # =========================
+            # PREÇOS (NUMÉRICO LIMPO)
+            # =========================
+            def parse_price(v):
+                if v is None:
+                    return 0.0
+                return float(
+                    str(v)
+                    .replace(".", "")
+                    .replace(",", ".")
+                )
 
-        pco_prom = float(row["PcoProm"] or 0)
+            preco = parse_price(p.get("PcoVen", 0))
+            preco_prom = parse_price(p.get("PcoProm", 0))
+            qnt_prom = int(p.get("QntProm") or 0)
 
-        categoria = row["DesGru"] or "SEM CATEGORIA"
+            # =========================
+            # CATEGORIA
+            # =========================
+            codgru = p.get("CodGru")
+            nome_categoria = grupos.get(codgru, "SEM CATEGORIA")
 
-        categorias_produto = [categoria]
+            categorias_produto = [nome_categoria]
 
-        if qnt_prom > 0:
-            categorias_produto.append("PROMOÇÕES")
+            if qnt_prom > 0:
+                categorias_produto.append("PROMOÇÕES")
 
-        percentual = 0
-        if qnt_prom > 0 and pco_prom > 0:
-            percentual = round(((preco_venda - pco_prom) / preco_venda) * 100)
+            # =========================
+            # DESCONTO
+            # =========================
+            desconto = 0
+            if qnt_prom > 0 and preco > 0 and preco_prom > 0:
+                desconto = round(((preco - preco_prom) / preco) * 100)
 
-        produtos.append({
-            "nome": row["DesPro"],
-            "categoria": ",".join(categorias_produto),
-            "preco": f"R$ {preco_venda:.2f}".replace(".", ","),
-            "preco_prom": f"R$ {pco_prom:.2f}".replace(".", ",") if pco_prom > 0 else "",
-            "qnt_prom": qnt_prom,
-            "desconto": percentual,
-            "imagem": f"/static/imagens/{row['CodPro']}.jpg"
-        })
+            # =========================
+            # MONTA PRODUTO FINAL
+            # =========================
+            produtos.append({
+                "CodPro": cod,
+                "nome": p.get("DesPro", ""),
 
-        for c in categorias_produto:
-            categorias_set.add(c)
+                "preco": preco,
+                "preco_prom": preco_prom,
+                "qnt_prom": qnt_prom,
+                "desconto": desconto,
 
-    categorias = sorted(list(categorias_set))
+                "categoria": ",".join(categorias_produto),
+                "imagem": f"/static/imagens/{cod}.jpg"
+            })
+
+            for c in categorias_produto:
+                categorias_set.add(c)
+
+        except:
+            pass
+
+    categorias = ["TODOS"] + sorted(categorias_set)
 
     return render_template(
         "index.html",
@@ -122,9 +128,6 @@ def home():
         catalogo_versao="1.0"
     )
 
-# =========================
-# START
-# =========================
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     app.run(debug=True)
