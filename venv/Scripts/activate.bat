@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=D:\Projetos\Whats\venv
+set VIRTUAL_ENV=D:\Projetos\Whats\catalago\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
