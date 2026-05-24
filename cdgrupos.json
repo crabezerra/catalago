@@ -1,0 +1,190 @@
+[
+  {
+    "CodGru": 2,
+    "DesGru": "MASSAS, MOLHOS E CONDIMENTOS"
+  },
+  {
+    "CodGru": 3,
+    "DesGru": "LATICINIOS"
+  },
+  {
+    "CodGru": 4,
+    "DesGru": "PET"
+  },
+  {
+    "CodGru": 41,
+    "DesGru": "CAFE E CIA"
+  },
+  {
+    "CodGru": 6,
+    "DesGru": "BOMBONIERE"
+  },
+  {
+    "CodGru": 7,
+    "DesGru": "UTILIDADES"
+  },
+  {
+    "CodGru": 8,
+    "DesGru": "LIMPEZA"
+  },
+  {
+    "CodGru": 10,
+    "DesGru": "PERFUMARIA"
+  },
+  {
+    "CodGru": 50,
+    "DesGru": "SALGADOS"
+  },
+  {
+    "CodGru": 12,
+    "DesGru": "HORT"
+  },
+  {
+    "CodGru": 13,
+    "DesGru": "PADARIA"
+  },
+  {
+    "CodGru": 14,
+    "DesGru": "IOGURTES"
+  },
+  {
+    "CodGru": 15,
+    "DesGru": "CEREAIS "
+  },
+  {
+    "CodGru": 16,
+    "DesGru": "MERCEARIA"
+  },
+  {
+    "CodGru": 51,
+    "DesGru": "HORT UND"
+  },
+  {
+    "CodGru": 18,
+    "DesGru": "HIGIENE PESSOAL"
+  },
+  {
+    "CodGru": 19,
+    "DesGru": "FARMACIA "
+  },
+  {
+    "CodGru": 20,
+    "DesGru": "BEBIDAS"
+  },
+  {
+    "CodGru": 21,
+    "DesGru": "CONGELADOS"
+  },
+  {
+    "CodGru": 22,
+    "DesGru": "AÇOUGUE"
+  },
+  {
+    "CodGru": 23,
+    "DesGru": "FRANGO ASSADO"
+  },
+  {
+    "CodGru": 24,
+    "DesGru": "ZERO E NATURAL"
+  },
+  {
+    "CodGru": 25,
+    "DesGru": "TEMPEROS"
+  },
+  {
+    "CodGru": 26,
+    "DesGru": "DESCARTAVEL"
+  },
+  {
+    "CodGru": 27,
+    "DesGru": "CALCADO"
+  },
+  {
+    "CodGru": 28,
+    "DesGru": "PAPELARIA"
+  },
+  {
+    "CodGru": 29,
+    "DesGru": "BISCOITO"
+  },
+  {
+    "CodGru": 30,
+    "DesGru": "EQUIPAMENTOS E UTENSILIOS"
+  },
+  {
+    "CodGru": 32,
+    "DesGru": "EMBALAGEM"
+  },
+  {
+    "CodGru": 33,
+    "DesGru": "EPI"
+  },
+  {
+    "CodGru": 34,
+    "DesGru": "COMBUSTIVEL"
+  },
+  {
+    "CodGru": 35,
+    "DesGru": "EMBUTIDOS"
+  },
+  {
+    "CodGru": 36,
+    "DesGru": "SOL E NEVE"
+  },
+  {
+    "CodGru": 37,
+    "DesGru": "SUCOS/REFRESCOS"
+  },
+  {
+    "CodGru": 38,
+    "DesGru": "PAES E CIA"
+  },
+  {
+    "CodGru": 40,
+    "DesGru": "PATRIMONIO"
+  },
+  {
+    "CodGru": 42,
+    "DesGru": "CHAS"
+  },
+  {
+    "CodGru": 49,
+    "DesGru": "PRODUÇÃO"
+  },
+  {
+    "CodGru": 44,
+    "DesGru": "OLEOS E CIA"
+  },
+  {
+    "CodGru": 45,
+    "DesGru": "ELMACHIPS"
+  },
+  {
+    "CodGru": 46,
+    "DesGru": "Z"
+  },
+  {
+    "CodGru": 47,
+    "DesGru": "BEBES"
+  },
+  {
+    "CodGru": 48,
+    "DesGru": "BLOQUEADO"
+  },
+  {
+    "CodGru": 52,
+    "DesGru": "MOTO EXPRESS"
+  },
+  {
+    "CodGru": 53,
+    "DesGru": "SABOR"
+  },
+  {
+    "CodGru": 54,
+    "DesGru": "STAR TOYS"
+  },
+  {
+    "CodGru": 55,
+    "DesGru": "DOACAO"
+  }
+]
