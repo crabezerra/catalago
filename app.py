@@ -80,13 +80,30 @@ def home():
 
         produtos.append({
             "nome": row.get("DesPro"),
+            "codpro": row.get("CodPro"),
+            "dtvencimento": row.get("dtvencimento") or "",
+            "estatu": row.get("EstAtu") or 0,
+
             "categoria": ",".join(categorias_produto),
+
             "preco": f"R$ {preco_venda:.2f}".replace(".", ","),
-            "preco_prom": f"R$ {pco_prom:.2f}".replace(".", ",") if pco_prom > 0 else "",
+            "preco_prom": f"R$ {pco_prom:.2f}".replace(".", ","),
+    
             "qnt_prom": qnt_prom,
             "desconto": percentual,
+
             "imagem": f"/static/imagens/{row.get('CodPro')}.jpg"
         })
+        
+        # produtos.append({
+        #     "nome": row.get("DesPro"),
+        #     "categoria": ",".join(categorias_produto),
+        #     "preco": f"R$ {preco_venda:.2f}".replace(".", ","),
+        #     "preco_prom": f"R$ {pco_prom:.2f}".replace(".", ",") if pco_prom > 0 else "",
+        #     "qnt_prom": qnt_prom,
+        #     "desconto": percentual,
+        #     "imagem": f"/static/imagens/{row.get('CodPro')}.jpg"
+        # })
 
         for c in categorias_produto:
             categorias_set.add(c)

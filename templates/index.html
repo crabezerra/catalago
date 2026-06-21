@@ -1717,7 +1717,28 @@ button:active{
     </div>
 
     <div class="info">
-        <div class="name">{{ p.nome }}</div>
+
+    <div style="
+        font-size:11px;
+        color:#64748b;
+        font-weight:600;
+        margin-bottom:4px;
+    ">
+        Código: {{ p.codpro }}
+
+        {% if p.dtvencimento %}
+            | Validade: {{ p.dtvencimento }}
+        {% endif %}
+
+    </div>
+
+
+    <div class="name">
+        {{ p.nome }}
+    </div>
+        
+    <!-- <div class="info">
+        <div class="name">{{ p.nome }}</div> -->
 
         <div class="promo-box">
 
@@ -1795,10 +1816,20 @@ button:active{
                 id="cart-{{ loop.index }}"
 
                 data-nome="{{ p.nome }}"
+                data-codpro="{{ p.codpro }}"
+                data-dtvencimento="{{ p.dtvencimento }}"
+                data-estatu="{{ p.estatu }}"
                 data-preco="{{ p.preco }}"
                 data-qnt-prom="{{ p.qnt_prom }}"
                 data-preco-prom="{{ p.preco_prom }}"
                 data-imagem="{{ p.imagem }}">
+
+
+                <!-- data-nome="{{ p.nome }}"
+                data-preco="{{ p.preco }}"
+                data-qnt-prom="{{ p.qnt_prom }}"
+                data-preco-prom="{{ p.preco_prom }}"
+                data-imagem="{{ p.imagem }}"> -->
                 
                 <button
                     class="cart-add"
@@ -2109,12 +2140,58 @@ if(versaoSalva !== CATALOGO_VERSAO){
 
 atualizar();
 
-function addCarrinho(nome, preco, precoProm, qntProm, imagem){
+function addCarrinho(
+    nome,
+    preco,
+    precoProm,
+    qntProm,
+    imagem,
+    codpro,
+    dtvencimento,
+    estatu
+){
 
     let item = carrinho.find(p => p.nome === nome);
 
-    if(item) item.qtd++;
-    else carrinho.push({nome, preco, precoProm, qntProm, imagem, qtd:1});
+
+    if(item){
+
+        if(item.estatu > 1 && item.qtd >= item.estatu){
+
+            alert(
+                `Quantidade máxima disponível: ${item.estatu}`
+            );
+
+            return;
+        }
+
+        item.qtd++;
+
+    }else{
+        
+        carrinho.push({
+
+            nome,
+
+            codpro,
+
+            dtvencimento,
+
+            estatu,
+
+            preco,
+
+            precoProm,
+
+            qntProm,
+
+            imagem,
+
+            qtd:1
+
+        });
+
+    }
 
     salvar();
     atualizar();
@@ -2322,7 +2399,24 @@ function renderModalCarrinho(){
             <!-- NOME PRODUTO -->
             <div class="cart-product-header">
                 <div class="cart-product-title">
+
                     ${i.nome}
+
+                    ${
+                        i.estatu > 0
+                        ?
+                        `<div style="
+                            margin-top:5px;
+                            font-size:12px;
+                            color:#16a34a;
+                            font-weight:700;
+                        ">
+                            Estoque: ${i.estatu}
+                        </div>`
+                        :
+                        ""
+                    }
+
                 </div>
 
                 <button
@@ -2434,6 +2528,18 @@ function salvarQtdDigitada(idx, el){
         valor = 1;
     }
 
+    if(
+       carrinho[idx].estatu > 1 &&
+        valor > carrinho[idx].estatu
+    ){
+
+        valor = carrinho[idx].estatu;
+
+        alert(
+            `Quantidade ajustada ao estoque disponível: ${valor}`
+        );
+    }
+
     carrinho[idx].qtd = valor;
 
     salvar();
@@ -2539,7 +2645,26 @@ function calcularTotal(){
 
 function add(i,v){
 
-    carrinho[i].qtd += v;
+    let item = carrinho[i];
+
+
+    // AUMENTAR QUANTIDADE
+    if(v > 0){
+
+        if(
+            item.estatu > 1 &&
+            item.qtd >= item.estatu
+        ){
+
+            alert(
+                `Quantidade máxima disponível: ${item.estatu}`
+            );
+
+            return;
+        }
+    }
+
+    item.qtd += v;
 
     // NÃO PERMITE NEGATIVO
     if(carrinho[i].qtd < 0){
@@ -2730,6 +2855,12 @@ function iniciarCarrinho(id){
 
     let nome = box.dataset.nome;
 
+    let codpro = box.dataset.codpro;
+
+    let dtvencimento = box.dataset.dtvencimento;
+
+    let estatu = Number(box.dataset.estatu);
+
     let preco = box.dataset.preco;
 
     let precoProm = box.dataset.precoProm;
@@ -2737,13 +2868,16 @@ function iniciarCarrinho(id){
     let qntProm = Number(box.dataset.qntProm);
 
     let imagem = box.dataset.imagem;
-
+    
     addCarrinho(
         nome,
         preco,
         precoProm,
         qntProm,
-        imagem
+        imagem,
+        codpro,
+        dtvencimento,
+        estatu
     );
 
     renderCarrinhoBotao(id);
@@ -2766,7 +2900,26 @@ function alterarQtd(id, valor){
 
     if(!item) return;
 
+
+    // BLOQUEIA PASSAR DO ESTOQUE
+    if(valor > 0){
+
+        if(
+            item.estatu > 1 &&
+            item.qtd >= item.estatu
+        ){
+
+            alert(
+                `Quantidade máxima disponível: ${item.estatu}`
+            );
+
+            return;
+        }
+    }
+
+
     item.qtd += valor;
+
 
     if(item.qtd <= 0){
 
@@ -2779,6 +2932,7 @@ function alterarQtd(id, valor){
 
         return;
     }
+
 
     salvar();
     atualizar();
@@ -2816,7 +2970,9 @@ function renderCarrinhoBotao(id){
                 ${item.qtd}
             </div>
 
-            <button onclick="alterarQtd(${id},1)">
+            <button 
+            onclick="alterarQtd(${id},1)"
+            ${item.estatu > 1 && item.qtd >= item.estatu ? "disabled" : ""}>
                 +
             </button>
 
@@ -2832,17 +2988,35 @@ function salvarQtdCard(id, el){
         valor = 1;
     }
 
+
     let box = document.getElementById(`cart-${id}`);
 
     let nome = box.dataset.nome;
+
 
     let item = carrinho.find(
         p => p.nome === nome
     );
 
+
     if(!item) return;
 
+
+    if(
+        item.estatu > 1 &&
+        valor > item.estatu
+    ){
+
+        valor = item.estatu;
+
+        alert(
+            `Quantidade ajustada ao estoque disponível: ${valor}`
+        );
+    }
+
+
     item.qtd = valor;
+
 
     salvar();
 
