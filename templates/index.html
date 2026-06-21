@@ -210,20 +210,18 @@ header{
     color:#fff;
 }
 
-.cart-btn,
-.cart{
+.cart-btn{
     background:#111;
     color:#fff;
 }
 
 .cart{
     flex:1;
-
     padding:10px;
-
     border-radius:10px;
-
     text-align:center;
+    background:#111827;
+    color:#fff;
 }
 
 .cart-add{
@@ -560,7 +558,6 @@ header{
 }
 
 .qty-number{
-
     min-width:20px;
     text-align:center;
     font-size:14px;
@@ -712,15 +709,6 @@ header{
     -moz-appearance:textfield;
 }
 
-.qty-value,
-.qty-number{
-    min-width:20px;
-    text-align:center;
-    font-size:14px;
-    font-weight:700;
-    overflow:visible;
-}
-
 .remove-btn{
     border:none;
     background:#fee2e2;
@@ -779,15 +767,6 @@ header{
     filter:brightness(.95);
 }
 
-.cart{
-    background:#111827;
-    color:#fff;
-}
-
-.danger{
-    background:#ef4444;
-}
-
 /* CHECKOUT */
 
 .checkout-box{
@@ -831,18 +810,6 @@ header{
     height:18px;
     font-size:15px;
     line-height:18px;
-    font-weight:500;
-    color:#111827;
-}
-
-.payment-option input{
-    width:18px;
-    height:18px;
-    margin:0;
-}
-
-.payment-option span{
-    font-size:15px;
     font-weight:500;
     color:#111827;
 }
@@ -1360,7 +1327,6 @@ button:active{
 }
 
 .cart-price-normal,
-.cart-price-prom,
 .cart-discount,
 .cart-promo-min{
 
@@ -1382,10 +1348,6 @@ button:active{
 
 @media(max-width:768px){
 
-    .cart-table-header{
-        display:none;
-    }
-
     .cart-row{
 
         grid-template-columns:
@@ -1398,22 +1360,22 @@ button:active{
         align-items:center;
     }
 
-    .cart-col-produto,
     .cart-col-preco,
-    .cart-col-qtd,
-    .cart-col-total{
+    .cart-col-qtd{
 
         padding-left:10;
     }
 
     .cart-col-produto{
         margin-left:-4px;
+        padding-left:10;
     }
 
     .cart-col-total{
         display:flex;
         justify-content:flex-end;
         min-width:90px;
+        padding-left:10;
     }
 
     .cart-thumb{
