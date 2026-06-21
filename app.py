@@ -23,6 +23,45 @@ GRUPO_MAP = {g["CodGru"]: g["DesGru"] for g in GRUPOS}
 # =========================
 CEP_PATH = os.path.join(BASE_DIR, "CEP.txt")
 
+@app.route("/produto/<codpro>")
+def produto(codpro):
+
+    produto_encontrado = None
+
+    for row in PRODUTOS:
+
+        if str(row.get("CodPro")) == str(codpro):
+
+            produto_encontrado = row
+            break
+
+
+    if produto_encontrado is None:
+
+        return "Produto não encontrado", 404
+
+
+    preco_venda = float(produto_encontrado.get("PcoVen") or 0)
+
+
+    produto_view = {
+
+        "nome": produto_encontrado.get("DesPro"),
+
+        "codpro": produto_encontrado.get("CodPro"),
+
+        "preco": f"R$ {preco_venda:.2f}".replace(".", ","),
+
+        "imagem": f"/static/imagens/{produto_encontrado.get('CodPro')}.jpg"
+
+    }
+
+
+    return render_template(
+        "produto.html",
+        p=produto_view
+    )
+
 @app.route("/validar_cep")
 def validar_cep():
 

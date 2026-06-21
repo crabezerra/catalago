@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>{{ p.nome }}</title>
+
+
+<meta property="og:title"
+content="{{ p.nome }}">
+
+
+<meta property="og:description"
+content="Preço: {{ p.preco }}">
+
+
+<meta property="og:image"
+content="https://catalago-q6s5.onrender.com{{ p.imagem }}">
+
+
+<meta property="og:url"
+content="https://catalago-q6s5.onrender.com/produto/{{ p.codpro }}">
+
+
+<meta property="og:type"
+content="product">
+
+
+</head>
+
+
+<body>
+
+
+<h2>{{ p.nome }}</h2>
+
+
+<img 
+src="{{ p.imagem }}"
+style="max-width:300px">
+
+
+<h3>
+{{ p.preco }}
+</h3>
+
+
+<a href="/">
+Voltar ao catálogo
+</a>
+
+
+</body>
+
+</html>

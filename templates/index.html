@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<link rel="icon" type="image/x-icon"
+      href="{{ url_for('static', filename='icon/icon2.ico') }}?v=999">
+
 <title>Catálogo</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -344,6 +348,7 @@ header{
 }
 
 .card{
+    position: relative;
     width:100%;
     max-width:220px;
     overflow:hidden;
@@ -357,6 +362,35 @@ header{
 .card:hover{
     transform:translateY(-3px);
     box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.share-card{
+    position:absolute;
+    top:8px;
+    left:8px;
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.95);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+    cursor:pointer;
+    z-index:20;
+}
+
+.share-card img{
+    width:18px;
+    height:18px;
+    display:block;
+    object-fit:contain;
+}
+
+.share-card:hover{
+    background:#16a34a;
+    color:#fff;
 }
 
 .promo-box{
@@ -1621,6 +1655,14 @@ button:active{
 {% for p in produtos %}
 <div class="card produto" data-cat="{{ p.categoria }}">
 
+    <button
+    class="share-card"
+    onclick="compartilharProduto('{{ p.codpro }}')">
+    
+    <img src="{{ url_for('static', filename='icon/icon1.ico') }}">
+
+</button>
+
     <div class="img">
         <img src="{{ p.imagem }}" loading="lazy">
     </div>
@@ -2002,6 +2044,33 @@ button:active{
 
 <script>
 
+function compartilharProduto(codpro){
+
+    let link =
+    "https://catalago-q6s5.onrender.com/produto/" + codpro;
+
+
+    if(navigator.share){
+
+        navigator.share({
+
+            title:"Produto",
+
+            url:link
+
+        })
+        .catch(err => console.log(err));
+
+    }else{
+
+        navigator.clipboard.writeText(link);
+
+        alert("Link copiado!");
+
+    }
+
+}
+
 /* FILTRO FUNCIONANDO */
 function filtrar(){
     let v = document.getElementById("busca").value.toLowerCase();
@@ -2146,7 +2215,6 @@ function addCarrinho(
 
     let item = carrinho.find(p => p.nome === nome);
 
-
     if(item){
 
         if(item.estatu > 1 && item.qtd >= item.estatu){
@@ -2163,25 +2231,15 @@ function addCarrinho(
     }else{
         
         carrinho.push({
-
             nome,
-
             codpro,
-
             dtvencimento,
-
             estatu,
-
             preco,
-
             precoProm,
-
             qntProm,
-
             imagem,
-
             qtd:1
-
         });
 
     }
@@ -2211,9 +2269,7 @@ function precoItem(item){
     if(
 
         qtdProm > 0 &&
-
         item.qtd >= qtdProm &&
-
         precoPromocional > 0
 
     ){
