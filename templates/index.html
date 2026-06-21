@@ -249,17 +249,13 @@ header{
 
 .search input,
 .search-bar input,
-.modal-content input{
+.modal-content input:not([type="radio"]){
     width:100%;
     height:42px;
-
     padding:0 14px;
-
     border:1px solid #ddd;
     border-radius:10px;
-
     font-size:16px;
-
     outline:none;
 }
 
@@ -318,15 +314,10 @@ header{
 
 .dropdown-content button{
     width:100%;
-
     padding:10px;
-
     border:none;
-
     background:none;
-
     text-align:left;
-
     cursor:pointer;
 }
 
@@ -340,41 +331,31 @@ header{
 
 .container{
     max-width:1200px;
-
     margin:30px auto;
     padding:0 20px;
 }
 
 .grid{
     display:grid;
-
     grid-template-columns:
     repeat(auto-fill,minmax(185px,1fr));
-
     gap:12px;
-
     justify-items:start;
 }
 
 .card{
     width:100%;
     max-width:220px;
-
     overflow:hidden;
-
     background:#fff;
-
     border:1px solid #eee;
     border-radius:14px;
-
     box-shadow:0 2px 10px rgba(0,0,0,.05);
-
     transition:.2s;
 }
 
 .card:hover{
     transform:translateY(-3px);
-
     box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
@@ -386,22 +367,16 @@ header{
     font-size:9px;
     font-weight:600;
     color:#16a34a;
-
     margin-bottom:6px;
 }
 
 .promo-price-line{
 
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
     gap:6px;
-
     flex-wrap:nowrap;
-
     width:100%;
 }
 
@@ -415,11 +390,8 @@ header{
 .promo-badge{
     background:#dc2626;
     color:#fff;
-
     padding:4px 8px;
-
     border-radius:999px;
-
     font-size:11px;
     font-weight:700;
 }
@@ -440,7 +412,6 @@ header{
 .price-unit{
     font-size:9px;
     color:#6b7280;
-
     margin-top:2px;
 }
 
@@ -469,7 +440,6 @@ header{
 
 .img{
     height:200px;
-
     display:flex;
     align-items:center;
     justify-content:center;
@@ -478,7 +448,6 @@ header{
 .img img{
     width:100%;
     height:100%;
-
     object-fit:contain;
 }
 
@@ -488,31 +457,22 @@ header{
 
 .name{
     min-height:34px;
-
     overflow:hidden;
-
     display:-webkit-box;
-
     -webkit-box-orient:vertical;
     -webkit-line-clamp:2;
-
     line-clamp:2;
-
     font-size:12px;
     font-weight:600;
 }
 
 .price{
     margin:10px 0;
-
     overflow:hidden;
-
     text-overflow:ellipsis;
     white-space:nowrap;
-
     font-size:16px;
     font-weight:700;
-
     color:#16a34a;
 }
 
@@ -528,16 +488,11 @@ header{
 .actions button{
     flex:1;
     min-width:0;
-
     padding:8px 4px;
-
     border:none;
     border-radius:8px;
-
     text-align:center;
-
     white-space:nowrap;
-
     font-size:12px;
 }
 
@@ -552,15 +507,11 @@ header{
 .qty-box{
     width:100%;
     height:42px;
-
     overflow:hidden;
-
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     background:#fff;
-
     border:1px solid #111;
     border-radius:10px;
 }
@@ -568,28 +519,20 @@ header{
 .qty-box button{
     width:42px;
     height:42px;
-
     border:none;
-
     background:#fff;
-
     font-size:20px;
-
     cursor:pointer;
 }
 
 .qty-number{
 
     min-width:44px;
-
     text-align:center;
-
     font-size:14px;
     font-weight:700;
-
     white-space:nowrap;
     overflow:hidden;
-
     outline:none;
 }
 
@@ -619,19 +562,13 @@ header{
     height:auto;
     max-height:88vh;
     margin:25px auto;
-
     display:flex;
     flex-direction:column;
-
     background:#fff;
-
     border-radius:24px;
-
     overflow:hidden;
-
     box-shadow:
     0 10px 40px rgba(0,0,0,.18);
-
     animation:modalUp .22s ease;
 }
 
@@ -649,10 +586,8 @@ header{
 .modal-content h3{
     padding:22px 22px 16px;
     margin:0;
-
     font-size:18px;
     font-weight:700;
-
     border-bottom:1px solid #f1f5f9;
 }
 
@@ -668,15 +603,10 @@ header{
 
 .cart-item{
     background:#fff;
-
     border:1px solid #e5e7eb;
-
     border-radius:18px;
-
     padding:14px;
-
     margin-bottom:12px;
-
     box-shadow:0 2px 10px rgba(0,0,0,.03);
 }
 
@@ -690,7 +620,6 @@ header{
 
 .cart-product-price{
     margin-top:4px;
-
     font-size:13px;
     color:#6b7280;
 }
@@ -699,7 +628,6 @@ header{
 
 .cart-actions{
     margin-top:14px;
-
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -707,29 +635,20 @@ header{
 
 .qty-control{
     display:flex;
-    
     align-items:center;
-    
     justify-content:center;
-    
     gap:4px;
 }
 
 .qty-btn{
     width:24px;
     height:24px;
-
     border:none;
-
     border-radius:999px;
-
     background:#f3f4f6;
-
     font-size:14px;
     font-weight:700;
-
     cursor:pointer;
-
     transition:.2s;
 }
 
@@ -741,24 +660,15 @@ header{
 .qty-inline-input{
 
     width:100%;
-
     border:none;
-
     background:transparent;
-
     text-align:center;
-
     font-size:14px;
     font-weight:700;
-
     outline:none;
-
     padding:0;
-
     margin:0;
-
     line-height:1;
-
     appearance:none;
     -webkit-appearance:none;
     -moz-appearance:textfield;
@@ -767,12 +677,9 @@ header{
 .qty-value{
 
     min-width:44px;
-
     text-align:center;
-
     font-size:14px;
     font-weight:700;
-
     overflow:visible;
 }
 
@@ -780,12 +687,9 @@ header{
     border:none;
     background:#fee2e2;
     color:#dc2626;
-
     width:34px;
     height:34px;
-
     border-radius:10px;
-
     cursor:pointer;
 }
 
@@ -793,15 +697,10 @@ header{
 
 .total-box{
     margin:0 18px 16px;
-
     padding:16px;
-
     background:#f8fafc;
-
     border:1px solid #e5e7eb;
-
     border-radius:16px;
-
     text-align:center;
 }
 
@@ -817,26 +716,19 @@ header{
     display:flex;
     flex-direction:column;
     gap:10px;
-
     padding:18px;
-
     border-top:1px solid #f1f5f9;
-
     background:#fff;
 }
 
 .actions-bar button{
     width:100%;
     height:46px;
-
     border:none;
     border-radius:14px;
-
     font-size:14px;
     font-weight:600;
-
     cursor:pointer;
-
     transition:.2s;
 }
 
@@ -864,29 +756,82 @@ header{
     background:#f8fafc;
     border:1px solid #e5e7eb;
     border-radius:12px;
-
-    padding:18px;
+    padding:16px;
     margin-top:10px;
-
     display:flex;
     flex-direction:column;
     gap:12px;
 }
 
-.checkout-box input{
-    width:100%;
-    height:44px;
+.payment-option{
+    display:flex;
+    align-items:center;
+    gap:10px;
 
-    border:1px solid #dbe2ea;
+    min-height:44px;
 
+    padding:10px 12px;
+
+    border:1px solid #e5e7eb;
     border-radius:12px;
 
+    background:#fff;
+}
+
+
+.payment-option input[type="radio"]{
+    width:18px;
+    height:18px;
+    margin:0;
+    flex:none;
+    accent-color:#16a34a;
+}
+
+.payment-option span{
+    display:flex;
+    align-items:center;
+    height:18px;
+    font-size:15px;
+    line-height:18px;
+    font-weight:500;
+    color:#111827;
+}
+
+.payment-option input{
+    width:18px;
+    height:18px;
+    margin:0;
+}
+
+.payment-option span{
+    font-size:15px;
+    font-weight:500;
+    color:#111827;
+}
+
+.payment-option:hover{
+    border-color:#16a34a;
+}
+
+.payment-note{
+    margin-top:10px;
+    padding:12px;
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    border-radius:12px;
+    font-size:13px;
+    line-height:1.5;
+    color:#9a3412;
+}
+
+.checkout-box input:not([type="radio"]){
+    width:100%;
+    height:44px;
+    border:1px solid #dbe2ea;
+    border-radius:12px;
     padding:0 14px;
-
     font-size:16px;
-
     transition:.2s;
-
     background:#fff;
 }
 
@@ -901,7 +846,7 @@ header{
     font-size:12px;
     font-weight:600;
     color:#64748b;
-    margin-bottom:-4px;
+    margin-bottom:6px;
 }
 
 /* CHECKBOX MODERNO */
@@ -910,17 +855,14 @@ header{
     display:flex;
     align-items:center;
     gap:10px;
-
     font-size:13px;
     color:#374151;
-
     margin-top:4px;
 }
 
 .check-modern input{
     width:18px;
     height:18px;
-
     accent-color:#16a34a;
 }
 
@@ -929,13 +871,9 @@ header{
 .address-card{
     border:1px solid #e5e7eb;
     border-radius:16px;
-
     padding:14px;
-
     cursor:pointer;
-
     transition:.2s;
-
     background:#fff;
 }
 
@@ -968,7 +906,6 @@ header{
 
 .address-sub{
     margin-top:4px;
-
     font-size:12px;
     color:#6b7280;
 }
@@ -977,14 +914,10 @@ header{
 
 .section-divider{
     margin:4px 18px;
-
     font-size:11px;
     font-weight:700;
-
     color:#94a3b8;
-
     text-transform:uppercase;
-
     letter-spacing:.08em;
 }
 
@@ -995,12 +928,9 @@ header{
     .modal{
 
         display:none;
-
         align-items:center;
         justify-content:center;
-
         padding:12px;
-
         overflow:hidden;
     }
 
@@ -1008,21 +938,14 @@ header{
         
         width:100%;
         max-width:500px;
-
         position:relative;
-
         height:calc(100dvh - 24px);
         max-height:calc(100dvh - 24px);
-
         min-height:0;
-
         border-radius:22px;
-
         display:flex;
         flex-direction:column;
-
         overflow:hidden;
-
         background:#fff;
     }
 
@@ -1030,13 +953,9 @@ header{
     #lista{
 
         flex:1;
-
         overflow-y:auto;
-
         -webkit-overflow-scrolling:touch;
-
         overscroll-behavior:contain;
-
         padding-bottom:20px;
     }
 
@@ -1044,13 +963,9 @@ header{
 
         position:sticky;
         bottom:0;
-
         background:#fff;
-
         z-index:10;
-
         border-top:1px solid #eee;
-
         padding:
         16px
         16px
@@ -1073,25 +988,16 @@ header{
     position:fixed;
     top:0;
     left:-100%;
-
     width:85%;
     max-width:340px;
-
     height:calc(100vh - env(safe-area-inset-bottom));
-
     display:flex;
     flex-direction:column;
-
     background:#fff;
-
     box-shadow:0 0 30px rgba(0,0,0,.2);
-
     transition:.3s;
-
     z-index:999999;
-
     overscroll-behavior:contain;
-
     padding-bottom:90px;
 }
 
@@ -1103,9 +1009,7 @@ header{
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     padding:20px;
-
     border-bottom:1px solid #eee;
 }
 
@@ -1959,12 +1863,96 @@ button:active{
 
         <div class="actions-bar">
 
-            <button class="buy" onclick="enviarPedidoWhats()">
-                Enviar pedido (WhatsApp)
+            <button class="buy" onclick="abrirPagamento()">
+                Forma de pagamento
             </button>
 
             <button class="cart" onclick="fecharCheckout()">
                 Voltar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- PAGAMENTO -->
+<div class="modal" id="pagamentoModal">
+
+    <div class="modal-content">
+
+        <div class="modal-scroll">
+
+            <div class="checkout-box">
+
+                <div class="checkout-label">
+                    Forma de pagamento
+                </div>
+
+                <label class="payment-option">
+                    <input
+                        type="radio"
+                        name="pagamento"
+                        value="Dinheiro"
+                        checked>
+
+                    <span>Dinheiro</span>
+                </label>
+
+                <label class="payment-option">
+                    <input
+                        type="radio"
+                        name="pagamento"
+                        value="PIX">
+
+                    <span>PIX</span>
+                </label>
+
+                <label class="payment-option">
+                    <input
+                        type="radio"
+                        name="pagamento"
+                        value="Cartão">
+
+                    <span>Cartão</span>
+                </label>
+
+                <div id="trocoBox">
+
+                    <div class="checkout-label">
+                        Troco para
+                    </div>
+
+                    <input
+                        id="troco"
+                        placeholder="Ex: R$ 100,00">
+                    
+                </div>
+
+                <div class="payment-note">
+                    * Para pagamento no cartão a taxa da administradora será repassada ao comprador.
+                </div>
+
+            </div>
+
+        </div>
+        <div class="actions-bar">
+
+            <button
+                class="buy"
+                 onclick="enviarPedidoWhats()">
+
+                Enviar pedido (WhatsApp)
+
+            </button>
+
+            <button
+                class="cart"
+                onclick="voltarCheckout()">
+
+                Voltar
+
             </button>
 
         </div>
@@ -2722,6 +2710,14 @@ function enviarPedidoWhats(){
     let complemento = document.getElementById("complemento").value;
     let referencia = document.getElementById("referencia").value;
 
+    let pagamento =
+    document.querySelector(
+    'input[name="pagamento"]:checked'
+    )?.value || "";
+
+    let troco =
+    document.getElementById("troco").value;
+
     let linhas = [];
 
     linhas.push("🛒 NOVO PEDIDO");
@@ -2731,9 +2727,18 @@ function enviarPedidoWhats(){
     linhas.push(`Endereço: ${endereco}, ${numero}`);
     linhas.push(`Bairro: ${bairro}`);
     linhas.push(`Cidade: ${cidade}`);
-    linhas.push(`UF: ${uf}`);   
+    linhas.push(`UF: ${uf}`);
     linhas.push(`Complemento: ${complemento}`);
     linhas.push(`Referência: ${referencia}`);
+
+    linhas.push(`Pagamento: ${pagamento}`);
+
+    if(pagamento === "Dinheiro"){
+
+        linhas.push(
+            `Troco para: ${troco || "Sem troco"}`
+        );
+    }
 
     linhas.push("======================");
 
@@ -2771,6 +2776,9 @@ function enviarPedidoWhats(){
     document.getElementById("checkoutModal")
     .style.display = "none";
 
+    document.getElementById("pagamentoModal")
+    .style.display = "none";
+    
     document.body.style.overflow = "auto";
 }
 
@@ -3239,6 +3247,24 @@ function fecharCheckout(){
     .style.display = "flex";
 }
 
+function abrirPagamento(){
+
+    document.getElementById("checkoutModal")
+    .style.display = "none";
+
+    document.getElementById("pagamentoModal")
+    .style.display = "flex";
+}
+
+function voltarCheckout(){
+
+    document.getElementById("pagamentoModal")
+    .style.display = "none";
+
+    document.getElementById("checkoutModal")
+    .style.display = "block";
+}
+
 function salvarEndereco(){
 
     // CHECKBOX
@@ -3399,6 +3425,23 @@ function selecionarEndereco(idx){
 
     },100);
 }
+
+document.addEventListener("change", function(e){
+
+    if(e.target.name !== "pagamento") return;
+
+    let trocoBox =
+    document.getElementById("trocoBox");
+
+    if(e.target.value === "Dinheiro"){
+
+        trocoBox.style.display = "block";
+
+    }else{
+
+        trocoBox.style.display = "none";
+    }
+});
 
 atualizar();
 
