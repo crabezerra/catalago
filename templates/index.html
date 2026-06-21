@@ -1656,12 +1656,18 @@ button:active{
 <div class="card produto" data-cat="{{ p.categoria }}">
 
     <button
-    class="share-card"
-    onclick="compartilharProduto('{{ p.codpro }}')">
-    
-    <img src="{{ url_for('static', filename='icon/icon1.ico') }}">
+        class="share-card"
+        onclick="compartilharProduto(
+            '{{ p.nome }}',
+            '{{ p.preco }}',
+            '{{ p.imagem }}'
+        )">
 
-</button>
+        <img 
+            src="{{ url_for('static', filename='icon/icon1.ico') }}"
+            alt="Compartilhar">
+
+    </button>
 
     <div class="img">
         <img src="{{ p.imagem }}" loading="lazy">
@@ -2044,30 +2050,47 @@ button:active{
 
 <script>
 
-function compartilharProduto(codpro){
+async function compartilharProduto(nome, preco, imagem){
 
-    let link =
-    "https://catalago-q6s5.onrender.com/produto/" + codpro;
+    let linkProduto = 
+    "https://catalago-q6s5.onrender.com/";
 
+    let mensagem =
+`🛒 ${nome}
+
+💰 Preço: ${preco}
+
+Confira o produto:`;
 
     if(navigator.share){
 
-        navigator.share({
+        try{
 
-            title:"Produto",
+            await navigator.share({
 
-            url:link
+                title: nome,
 
-        })
-        .catch(err => console.log(err));
+                text: mensagem,
 
-    }else{
+                url: linkProduto
 
-        navigator.clipboard.writeText(link);
+            });
 
-        alert("Link copiado!");
+            return;
+
+        }catch(err){
+
+            console.log(err);
+
+        }
 
     }
+
+    navigator.clipboard.writeText(
+        mensagem + "\n" + linkProduto
+    );
+
+    alert("Link copiado!");
 
 }
 
