@@ -527,7 +527,7 @@ header{
 
 .qty-number{
 
-    min-width:44px;
+    min-width:20px;
     text-align:center;
     font-size:14px;
     font-weight:700;
@@ -634,22 +634,26 @@ header{
 }
 
 .qty-control{
+    width: 86px;
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:4px;
+    gap:3px;
 }
 
 .qty-btn{
-    width:24px;
-    height:24px;
+    width:28px;
+    height:28px;
     border:none;
-    border-radius:999px;
+    border-radius:50%;
     background:#f3f4f6;
-    font-size:14px;
+    font-size:18px;
     font-weight:700;
     cursor:pointer;
-    transition:.2s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
 }
 
 .qty-btn:hover{
@@ -674,9 +678,9 @@ header{
     -moz-appearance:textfield;
 }
 
-.qty-value{
-
-    min-width:44px;
+.qty-value,
+.qty-number{
+    min-width:20px;
     text-align:center;
     font-size:14px;
     font-weight:700;
@@ -1245,7 +1249,7 @@ button:active{
     display:grid;
 
     grid-template-columns:
-    52px 1fr 78px 78px;
+    49px 1fr 108px 78px;
 
     gap:6px;
 
@@ -1334,7 +1338,7 @@ button:active{
 
 .cart-total-price{
 
-    font-size:14px;
+    font-size:18px;
     font-weight:700;
 
     color:#111827;
@@ -1351,9 +1355,9 @@ button:active{
     .cart-row{
 
         grid-template-columns:
-        46px 1fr 60px 82px;
+        49px 1fr 108px 78px;
 
-        gap:4px;
+        gap:6px;
 
         padding:10px 6px;
 
@@ -1375,6 +1379,7 @@ button:active{
     .cart-col-total{
         display:flex;
         justify-content:flex-end;
+        min-width:90px;
     }
 
     .cart-thumb{
@@ -1392,8 +1397,8 @@ button:active{
     }
 
     .qty-btn{
-        width:24px;
-        height:24px;
+        width:28px;
+        height:28px;
     }
 }
 
