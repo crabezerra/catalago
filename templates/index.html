@@ -579,6 +579,7 @@ header{
     backdrop-filter:blur(4px);
     z-index:99999;
     animation:fade .18s ease;
+    overscroll-behavior:none;
 }
 
 @keyframes fade{
@@ -778,6 +779,7 @@ header{
     display:flex;
     flex-direction:column;
     gap:12px;
+    overscroll-behavior:none;
 }
 
 .payment-option{
@@ -1363,19 +1365,19 @@ button:active{
     .cart-col-preco,
     .cart-col-qtd{
 
-        padding-left:10;
+        padding-left:10px;
     }
 
     .cart-col-produto{
         margin-left:-4px;
-        padding-left:10;
+        padding-left:10px;
     }
 
     .cart-col-total{
         display:flex;
         justify-content:flex-end;
         min-width:90px;
-        padding-left:10;
+        padding-left:10px;
     }
 
     .cart-thumb{
